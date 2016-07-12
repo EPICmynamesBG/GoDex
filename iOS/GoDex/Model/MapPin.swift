@@ -26,9 +26,9 @@ class MapPin: NSObject, MKAnnotation {
         let view = MKAnnotationView(annotation: self, reuseIdentifier: "MapPin")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.enabled = true
-        view.canShowCallout = true
-        view.image = UIImage(named: "location-4")
-        view.rightCalloutAccessoryView = UIButton(type: UIButtonType.Custom)
+//        view.canShowCallout = true
+//        view.image = UIImage(named: "location-4")
+//        view.rightCalloutAccessoryView = UIButton(type: UIButtonType.Custom)
         view.centerOffset = CGPointMake(0, -32)
         return view
     }
