@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.roughike.bottombar.OnTabClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +51,20 @@ public class MainActivity extends AppCompatActivity {
                 new BottomBarTab(android.R.drawable.arrow_down_float, "Fuck you"),
                 new BottomBarTab(android.R.drawable.arrow_up_float, "Brandon")
         );
+        // Listen for tab changes
+        mBottomBar.setOnTabClickListener(new OnTabClickListener() {
+            @Override
+            public void onTabSelected(int position) {
+                // The user selected a tab at the specified position
+
+            }
+
+            @Override
+            public void onTabReSelected(int position) {
+                // The user reselected a tab at the specified position!
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
