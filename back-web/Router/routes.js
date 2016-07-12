@@ -8,7 +8,7 @@ module.exports = function(app, express) {
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
-    console.log("Middleware Firing");
+    //console.log("Middleware Firing");
     next();
   });
 
@@ -17,6 +17,14 @@ module.exports = function(app, express) {
   });
 
   router.route('/AllPokemon')
+  .get(function(req, res) {
+    Pokemon.find(function(err, pokemon) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(pokemon);
+      }
+    });
   //POST pokemon to supported pokemon store (Developer use only)
   /*
     .post(function(req, res) {
@@ -34,14 +42,6 @@ module.exports = function(app, express) {
     })
   */
     //GETS all pokemon supported
-    .get(function(req, res) {
-      Pokemon.find(function(err, pokemon) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.json(pokemon);
-        }
-      });
     });
 
   router.route('/AllPokemon/FindById/:pokemon_id')
@@ -133,5 +133,4 @@ module.exports = function(app, express) {
   app.use('/api', router);
   var server = http.createServer(app);
   server.listen(port);
-  console.log(mongoose.connection.readyState);
 }
