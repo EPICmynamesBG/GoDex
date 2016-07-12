@@ -17,4 +17,6 @@ struct Pokemon {
     
     var imageUrl:String
     
+    static var Pokedex: Array<Pokemon>? = nil
+    
 }
