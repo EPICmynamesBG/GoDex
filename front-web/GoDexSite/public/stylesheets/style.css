@@ -1,0 +1,36 @@
+html body {
+  width: 100%;
+  height: 100%; }
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  body header {
+    width: 100%;
+    height: auto;
+    background: purple; }
+    body header ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100%; }
+      body header ul li {
+        background: red;
+        height: 100%; }
+        body header ul li h1 {
+          font-size: 1.75em;
+          margin: 0;
+          padding: 10% 5%; }
+  body nav ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0; }
+    body nav ul li {
+      padding: 2.5% 0;
+      background: green; }
+
+a {
+  color: #00B7FF; }
+
+/*# sourceMappingURL=style.css.map */

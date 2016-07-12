@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build-css": "node-sass --include-path scss ./public/stylesheets/style.sass   ./public/stylesheets/style.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "dependencies": {
     "body-parser": "~1.13.2",
