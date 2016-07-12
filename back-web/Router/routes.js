@@ -1,5 +1,8 @@
 module.exports = function(app, express) {
   var router = express.Router();
+  var http = require('http');
+  var mongoose = require('mongoose');
+  mongoose.connect('mongodb://172.31.59.160:27017/');
 
   router.use(function(req, res, next) {
     console.log("Middleware Firing");
@@ -51,6 +54,7 @@ module.exports = function(app, express) {
   var port = process.env.PORT | 8080;
 
   app.use('/api', router);
-  app.listen(port);
+  var server = http.createServer(app);
+  server.listen(port);
   console.log("Cool Stuff Here: " + port);
 }
