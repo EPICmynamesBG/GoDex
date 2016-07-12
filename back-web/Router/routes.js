@@ -8,41 +8,20 @@ module.exports = function(app, express) {
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
-    console.log("Middleware Firing");
+    //console.log("Middleware Firing");
     next();
   });
 
-  router.get('/', function(req, res) {
-    res.json({ message: 'Testing API!'});
-  });
-
   router.route('/AllPokemon')
-  //POST pokemon to supported pokemon store (Developer use only)
-  /*
-    .post(function(req, res) {
-      var pokemon = new Pokemon();
-      pokemon.pid = 1;
-      pokemon.name = "bulbasaur";
-      pokemon.image = "http://pokeapi.co/media/sprites/pokemon/1.png ";
-      pokemon.save(function(err, poke) {
-        if (err) {
-          return console.log(err);
-        } else {
-          res.json(pokemon);
-        }
-      });
-    })
-  */
-    //GETS all pokemon supported
-    .get(function(req, res) {
-      Pokemon.find(function(err, pokemon) {
-        if (err) {
-          res.send(err);
-        } else {
-          res.json(pokemon);
-        }
-      });
+  .get(function(req, res) {
+    Pokemon.find(function(err, pokemon) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.json(pokemon);
+      }
     });
+  });
 
   router.route('/AllPokemon/FindById/:pokemon_id')
     //GETS pokemon based on id, from all pokemon supported store
@@ -133,5 +112,4 @@ module.exports = function(app, express) {
   app.use('/api', router);
   var server = http.createServer(app);
   server.listen(port);
-  console.log(mongoose.connection.readyState);
 }
