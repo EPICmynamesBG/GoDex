@@ -127,3 +127,19 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+### SublimeText template
+# cache files for sublime text
+
+# workspace files are user-specific
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# sftp configuration file
+
+# Package control specific files
+
+# Sublime-github package stores a github token in this file
+# https://packagecontrol.io/packages/sublime-github
+### VisualStudioCode template
