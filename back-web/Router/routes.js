@@ -18,6 +18,7 @@ module.exports = function(app, express) {
 
   router.route('/AllPokemon')
   //POST pokemon to supported pokemon store (Developer use only)
+  /*
     .post(function(req, res) {
       var pokemon = new Pokemon();
       pokemon.pid = 1;
@@ -31,6 +32,7 @@ module.exports = function(app, express) {
         }
       });
     })
+  */
     //GETS all pokemon supported
     .get(function(req, res) {
       Pokemon.find(function(err, pokemon) {
