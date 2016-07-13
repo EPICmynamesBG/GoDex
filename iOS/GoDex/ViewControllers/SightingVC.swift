@@ -18,6 +18,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var autoCompleteTableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var pokemonImageView: UIImageView!
+    @IBOutlet weak var notificationLabel: PokeLabel!
     
     private var networkRequest: RequestManager!
     
@@ -34,6 +36,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         self.networkRequest = RequestManager()
         self.networkRequest.delegate = self
+        
+        self.autoCompleteTableView.backgroundColor = ColorPalette.DropdownBackground
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,10 +86,61 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
-    
+    /**
+     Action event fired by the Submit Button. Fires 
+     LocationManager to get location
+     
+     - parameter sender: event sender, submit button
+     */
     @IBAction func submitTap(sender: UIButton) {
         LocationManager.sharedInstance().delegate = self
         LocationManager.sharedInstance().getCurrentLocation()
+    }
+    
+    /**
+     Fade in show animation and fade out the submit button. Shows
+     notification for 4 seconds
+     
+     - parameter message:  notification text
+     - parameter complete: optional actions to run on fade completion
+     */
+    private func showNotification(message: String, onComplete complete: (() -> Void)?) {
+        NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(self.timerDismissNotification), userInfo: nil, repeats: false)
+        self.notificationLabel.alpha = 0.0
+        self.notificationLabel.hidden = false
+        self.notificationLabel.text = message
+        self.submitButton.enabled = false
+        
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { 
+            self.notificationLabel.alpha = 1.0
+            self.submitButton.alpha = 0.0
+        }) { (completed: Bool) in
+            self.submitButton.hidden = true
+            complete?()
+        }
+    }
+    
+    /**
+     Fade out animation dismiss the notification label, fade in show the submit Button
+     
+     - parameter onComplete: optional actions to run on fade completion
+     */
+    private func dismissNotification(onComplete: (() -> Void)?) {
+        self.submitButton.alpha = 0.0
+        self.submitButton.hidden = false
+        
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: {
+            self.notificationLabel.alpha = 0.0
+            self.submitButton.alpha = 1.0
+        }) { (completed: Bool) in
+            self.notificationLabel.hidden = true
+            self.submitButton.enabled = true
+            onComplete?()
+        }
+    }
+    
+    @objc private func timerDismissNotification() {
+        self.dismissNotification(nil)
     }
     
 
@@ -119,8 +174,9 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     /* ---- Text Field Delegate ---- */
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 20.0)
-        self.scrollView.setContentOffset(bottom, animated: true)
+//        let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 20.0)
+//        self.scrollView.setContentOffset(bottom, animated: true)
+        self.scrollView.scrollEnabled = false
         self.showDropdown()
     }
     
@@ -131,7 +187,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
-        self.scrollView.setContentOffset(CGPointZero, animated: true)
+//        self.scrollView.setContentOffset(CGPointZero, animated: true)
+        self.scrollView.scrollEnabled = false
         textField.resignFirstResponder()
         return true
     }
@@ -146,14 +203,15 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     /* ---- Scroll View Delegate ---- */
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        self.searchTextField.resignFirstResponder()
-    }
+//    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+//        self.searchTextField.resignFirstResponder()
+//    }
     
     /* ---- Gesture Recognizer Delegate - user to ensure the tableview recieves it's taps */
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        if (touch.view!.isDescendantOfView(self.autoCompleteTableView)) {
+        if (touch.view!.isDescendantOfView(self.autoCompleteTableView) ||
+            touch.view!.isDescendantOfView(self.submitButton)) {
             return false
         }
         return true
@@ -164,7 +222,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
         print(coordinates)
         LocationManager.sharedInstance().delegate = nil
-        
+        self.showNotification("Location recieved", onComplete: nil)
         //continue with the request submission
     }
     

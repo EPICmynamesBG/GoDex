@@ -17,7 +17,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         
         for item in self.tabBar.items! {
             item.image = nil
-            item.setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(20.0)], forState: .Normal)
+            item.setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(24.0)], forState: .Normal)
             item.titlePositionAdjustment = UIOffsetMake(0, -10)
         }
         

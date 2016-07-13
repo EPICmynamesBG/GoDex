@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC1E65DB1D35A5C1005865C5 /* PokeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1E65DA1D35A5C1005865C5 /* PokeLabel.swift */; };
 		BCABC8191D3472BE0098D493 /* SearchPokemonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8171D3472BE0098D493 /* SearchPokemonVC.swift */; };
 		BCABC81A1D3472BE0098D493 /* SightingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8181D3472BE0098D493 /* SightingVC.swift */; };
 		BCABC8221D34916D0098D493 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCABC8211D34916D0098D493 /* MapKit.framework */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC1E65DA1D35A5C1005865C5 /* PokeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokeLabel.swift; sourceTree = "<group>"; };
 		BCABC8171D3472BE0098D493 /* SearchPokemonVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPokemonVC.swift; path = ViewControllers/SearchPokemonVC.swift; sourceTree = "<group>"; };
 		BCABC8181D3472BE0098D493 /* SightingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SightingVC.swift; path = ViewControllers/SightingVC.swift; sourceTree = "<group>"; };
 		BCABC8211D34916D0098D493 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -61,6 +63,7 @@
 			children = (
 				BCABC83B1D34C8080098D493 /* PokemonTableViewCell.swift */,
 				BCABC8251D349FC00098D493 /* CustomTabBarController.swift */,
+				BC1E65DA1D35A5C1005865C5 /* PokeLabel.swift */,
 			);
 			name = UIComponents;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				BCABC83A1D34C7F70098D493 /* RequestManager.swift in Sources */,
 				BCABC8191D3472BE0098D493 /* SearchPokemonVC.swift in Sources */,
 				BCC392411D346AB300D889F6 /* AppDelegate.swift in Sources */,
+				BC1E65DB1D35A5C1005865C5 /* PokeLabel.swift in Sources */,
 				BCABC8381D34C7F70098D493 /* LocationManager.swift in Sources */,
 				BCABC83C1D34C8080098D493 /* PokemonTableViewCell.swift in Sources */,
 			);

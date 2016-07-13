@@ -14,4 +14,20 @@ class PokemonTableViewCell: UITableViewCell {
     
     var pokemon: Pokemon? = nil
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.setup()
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.setup()
+    }
+    
+    private func setup() {
+        self.backgroundColor = UIColor.clearColor()
+        self.textLabel?.textColor = ColorPalette.DropdownTextColor
+        self.textLabel?.font = UIFont(name: "Helvetica", size: 16.0)
+    }
+    
 }
