@@ -23,7 +23,7 @@ class RequestManager {
     
     var delegate: RequestManagerDelegate?
     
-    private var BASE_URL: String = ""
+    private var BASE_URL: String = "http://api.godex.io:8080/api"
     
     private let DEFAULT_TIMEOUT = 5.0
     
@@ -51,17 +51,20 @@ class RequestManager {
      Send a GET request to get the array of all pokemon
      */
     func getPokemonList() {
-        let url = NSURL(string: BASE_URL + "/{endpoint}")!
+        let url = NSURL(string: BASE_URL + "/AllPokemon")!
         if self.currentDatatask != nil {
             self.currentDatatask?.cancel()
         }
+        
         self.currentDatatask = session.dataTaskWithURL(url) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
-                //process the request, fire appropriate delegate
+                let json = self.dataToJson(data)
+                let pokeArr = Pokemon.arrayFromJsonData(json)
+                self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
             } else {
                 self.throwError(error, withMessage: "Unable to fetch the pokemon list")
             }
-            self.currentDatatask = nil
+            self.requestComplete()
         }
         self.startTheRequest()
     }
@@ -73,30 +76,11 @@ class RequestManager {
      - parameter coordinates: the user's current location
      */
     func submitACatch(pokemon: Pokemon, coordinates: CLLocationCoordinate2D) {
-        let url = NSURL(string: BASE_URL + "/{endpoint}")!
+        
+        let concatStringUrl = BASE_URL + "/CaughtPokemon/\(pokemon.id)/\(coordinates.latitude)/\(coordinates.longitude)"
+        let url = NSURL(string: concatStringUrl)!
         let request = NSMutableURLRequest(URL: url)
-        
-        let json: [String: AnyObject] = [
-            "pokemon_id": pokemon.id,
-            "geo_lat" : coordinates.latitude,
-            "geo_long" : coordinates.longitude
-        ]
-        
-        var jsonData: NSData? = nil
-        do {
-            jsonData = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions.PrettyPrinted)
-            // here "jsonData" is the dictionary encoded in JSON data
-        } catch let error as NSError {
-            print(error)
-        }
-        if (jsonData == nil) {
-            self.delegate?.RequestManagerError(nil, withMessage: "Unable to parse Dictionary to JSON")
-            return
-        }
-        
-        request.HTTPBody = jsonData
         request.HTTPMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         if self.currentDatatask != nil {
             self.currentDatatask?.cancel()
@@ -104,10 +88,15 @@ class RequestManager {
         self.currentDatatask = session.dataTaskWithRequest(request) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
                 //success
+//                let json = self.dataToJson(data)
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                    self.delegate?.RequestManagerCatchSubmitted()
+                })
             } else {
                 self.throwError(error, withMessage: "An error occured submitting your catch")
             }
-            self.currentDatatask = nil
+            self.requestComplete()
         }
         self.startTheRequest()
     }
@@ -117,15 +106,28 @@ class RequestManager {
      
      - parameter pokemon: the query pokemon
      */
-    func pokemonLookup(pokemon: Pokemon) {
-        let url = NSURL(string: BASE_URL + "/\(pokemon.id)")!
+    func pokemonPinsLookup(pokemon: Pokemon) {
+        //GET
+        let url = NSURL(string: BASE_URL + "/CaughtPokemon/\(pokemon.id)")!
         self.currentDatatask = session.dataTaskWithURL(url) { (data: NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
-                //success, process
+                let json = self.dataToJson(data)
+                var coorArray = [CLLocationCoordinate2D]()
+
+                for dict in json {
+                    let lat = dict["geo_lat"] as! Double
+                    let lon = dict["geo_long"] as! Double
+                    let coor = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                    coorArray.append(coor)
+                }
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                    self.delegate?.RequestManagerLookupResults(coorArray)
+                })
             } else {
                 self.throwError(error, withMessage: "An error occured fetching location results for \(pokemon.name)")
             }
-            self.currentDatatask = nil
+            self.requestComplete()
         }
         self.startTheRequest()
     }
@@ -134,6 +136,7 @@ class RequestManager {
      Start the datatask with a custom timeout timer
      */
     private func startTheRequest() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if (self.timeoutTimer !== nil) {
             self.timeoutTimer?.fire()
             self.timeoutTimer?.invalidate()
@@ -143,13 +146,43 @@ class RequestManager {
     }
     
     /**
+     Clear the datatask and stop the activity indicator
+     */
+    private func requestComplete() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.currentDatatask = nil
+    }
+    
+    /**
      Fired by the custom timeout timer
      */
     @objc private func requestTimeout() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.currentDatatask?.cancel()
         self.currentDatatask = nil
         self.timeoutTimer?.invalidate()
         self.timeoutTimer = nil
+    }
+    
+    /**
+     Parse url response NSData to a json styled object
+     
+     - parameter data: network NSData?
+     
+     - returns: a json Dictionary
+     */
+    private func dataToJson(data: NSData?) -> Array<Dictionary<String, AnyObject>> {
+        var json: Array<Dictionary<String, AnyObject>> = Array<Dictionary<String, AnyObject>>()
+        if (data == nil){
+            return json
+        }
+        
+        do {
+            json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! Array<Dictionary<String, AnyObject>>
+        } catch {
+            self.throwError(nil, withMessage: "Error parsing data to JSON")
+        }
+        return json
     }
     
 }
