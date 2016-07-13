@@ -95,18 +95,21 @@ module.exports = function(app, express) {
           caughtPokemon.geo_long = req.params.geo_long;
           caughtPokemon.time = Date.now();
 
+          //Creating array for JSON to stay consitent with other return values
+          var caughtPokemonArr = [];
           caughtPokemon.save(function(err, poke) {
             if (err) {
               return console.log(err);
             } else {
-              res.json(caughtPokemon);
+              caughtPokemonArr.push(poke);
+              res.json(caughtPokemonArr);
             }
           });
         } else {
           res.json({error: "Pokemon ID does not exist"})
         }
+      });
     });
-  });
 
   var port = 8080;
   app.use('/api', router);
