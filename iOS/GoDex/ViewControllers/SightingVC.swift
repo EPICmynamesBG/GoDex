@@ -20,8 +20,17 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var pokemonImageView: UIImageView!
     @IBOutlet weak var notificationLabel: PokeLabel!
+    @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var embeddedInfoView: UIView!
+    
     
     private var networkRequest: RequestManager!
+    
+    private var selectedPokemon: Pokemon?
+    
+    private var defaultPokemonImage: UIImage!
+    
+    private var filteredArray:[Pokemon] = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +47,24 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.networkRequest.delegate = self
         
         self.autoCompleteTableView.backgroundColor = ColorPalette.DropdownBackground
+        self.defaultPokemonImage = UIImage(named: "largepokeball")!.scaleToFit(self.pokemonImageView.frame)
+        self.pokemonImageView.image = self.defaultPokemonImage
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if (Pokemon.Pokedex == nil){
+            self.networkRequest.getPokemonList()
+        } else {
+            self.filteredArray = Pokemon.Pokedex!
+            self.autoCompleteTableView.reloadData()
+        }
+        self.disableSubmitButton()
     }
     
     /**
@@ -58,7 +80,6 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      Animate showing the search dropdown
      */
     private func showDropdown() {
-        print("Show dropdown")
         self.animateDropDownToHeight(200, completion: nil)
     }
     
@@ -66,7 +87,6 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      Animate hiding the search dropdown
      */
     private func hideDropdown() {
-        print("Hide dropdown")
         self.animateDropDownToHeight(0, completion: nil)
     }
     
@@ -95,7 +115,32 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBAction func submitTap(sender: UIButton) {
         LocationManager.sharedInstance().delegate = self
         LocationManager.sharedInstance().getCurrentLocation()
+        self.showNotification("Submitting...", onComplete: nil)
     }
+    
+    @IBAction func infoButtonTap(sender: UIButton) {
+        print("Info tap")
+        self.embeddedInfoView.hidden = false
+    }
+    
+    func showInfoView() {
+        self.embeddedInfoView.alpha = 0.0
+        self.embeddedInfoView.hidden = false
+        UIView.animateWithDuration(0.4, animations: { 
+            self.embeddedInfoView.alpha = 1.0
+            }) { (Bool) in
+                //nothing for now
+        }
+    }
+    
+    func hideInfoView() {
+        UIView.animateWithDuration(0.4, animations: {
+            self.embeddedInfoView.alpha = 0.0
+        }) { (Bool) in
+            self.embeddedInfoView.hidden = true
+        }
+    }
+    
     
     /**
      Fade in show animation and fade out the submit button. Shows
@@ -139,33 +184,68 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    /**
+     Dismiss notification fired by the timer
+     */
     @objc private func timerDismissNotification() {
         self.dismissNotification(nil)
+    }
+    
+    private func userSelectedPokemon(pokemon: Pokemon) {
+        self.selectedPokemon = pokemon
+        AsyncImageLoader.LoadImage(self.selectedPokemon!.imageUrl, onComplete: { (image:UIImage) in
+            self.pokemonImageView.image = image.scaleToFit(self.pokemonImageView.frame)
+        }) { (error:NSError?, message:String?) in
+            self.showNotification(message!, onComplete: nil)
+        }
+    }
+    
+    /**
+     Animated enable of submit button
+     */
+    private func enableSubmitButton() {
+        UIView.animateWithDuration(0.2, animations: { 
+            self.submitButton.backgroundColor = ColorPalette.SubmitBackground
+            }) { (Bool) in
+            self.submitButton.enabled = true
+        }
+    }
+    
+    /**
+     Animated disable of submit button
+     */
+    private func disableSubmitButton() {
+        self.submitButton.enabled = false
+        self.selectedPokemon = nil
+        UIView.animateWithDuration(0.2) { 
+            self.submitButton.backgroundColor = ColorPalette.LabelBorderGray
+        }
     }
     
 
     /* ---- Table View Delegate ---- */
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("Selected \(indexPath.row)")
+        
         let tappedCell = tableView.cellForRowAtIndexPath(indexPath)
         if (tappedCell != nil) {
-            print("tapped cell it not nil")
-            self.searchTextField.text = tappedCell?.textLabel?.text
+            let pokeCell = tappedCell as! PokemonTableViewCell
+            self.searchTextField.text = pokeCell.textLabel?.text
+            self.userSelectedPokemon(pokeCell.pokemon!)
         }
         self.searchTextField.resignFirstResponder()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Pokemon.Pokedex != nil ? Pokemon.Pokedex!.count : 0
+        return self.filteredArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: indexPath) as! PokemonTableViewCell
 
         if (Pokemon.Pokedex != nil) {
-            cell.textLabel?.text = Pokemon.Pokedex![indexPath.row].name
-            cell.pokemon = Pokemon.Pokedex![indexPath.row]
+            cell.textLabel?.text = self.filteredArray[indexPath.row].name
+            cell.pokemon = self.filteredArray[indexPath.row]
         }
         
         return cell
@@ -174,9 +254,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     /* ---- Text Field Delegate ---- */
     
     func textFieldDidBeginEditing(textField: UITextField) {
-//        let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 20.0)
-//        self.scrollView.setContentOffset(bottom, animated: true)
-        self.scrollView.scrollEnabled = false
+        let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 40.0)
+        self.scrollView.setContentOffset(bottom, animated: true)
         self.showDropdown()
     }
     
@@ -187,18 +266,32 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
-//        self.scrollView.setContentOffset(CGPointZero, animated: true)
-        self.scrollView.scrollEnabled = false
+        self.scrollView.setContentOffset(CGPointZero, animated: true)
+        if (textField.text?.characters.count > 1) {
+            self.enableSubmitButton()
+        } else {
+            self.disableSubmitButton()
+        }
         textField.resignFirstResponder()
         return true
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
+        if (self.searchTextField.text == "" &&
+            self.pokemonImageView.image != nil) {
+            //reset it
+            self.pokemonImageView.image = self.defaultPokemonImage
+        }
     }
     
     @IBAction func textDidChange(sender: UITextField) {
-        print("Text changed to \(sender.text)")
+        if (sender.text?.characters.count >= 1){
+            self.filteredArray = Pokemon.filter(sender.text!)
+        } else {
+            self.filteredArray = Pokemon.Pokedex!
+        }
+        self.autoCompleteTableView.reloadData()
     }
     
     /* ---- Scroll View Delegate ---- */
@@ -211,7 +304,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         if (touch.view!.isDescendantOfView(self.autoCompleteTableView) ||
-            touch.view!.isDescendantOfView(self.submitButton)) {
+            touch.view!.isDescendantOfView(self.submitButton) ||
+            touch.view!.isDescendantOfView(self.infoButton)) {
             return false
         }
         return true
@@ -220,39 +314,57 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     /* ---- Location Manager Delegate ---- */
     
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
-        print(coordinates)
         LocationManager.sharedInstance().delegate = nil
         self.showNotification("Location recieved", onComplete: nil)
         //continue with the request submission
+        self.networkRequest.submitACatch(self.selectedPokemon!, coordinates: coordinates)
     }
     
     func locationManagerUpdateError(error: NSError?, message: String?) {
-        let alert = UIAlertController(title: "Geolocation Error", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        if (message != nil){
+            self.showNotification("Geolocation Error\n\(message!)", onComplete: nil)
+        } else {
+            self.showNotification("Geolocation Error", onComplete: nil)
+        }
     }
     
     /* ----- Request Manager Delegate ---- */
     
     func RequestManagerError(error: NSError?, withMessage message: String?) {
-        let alert = UIAlertController(title: "Network Error", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        if (message != nil) {
+            self.showNotification("Network Error\n\(message!)", onComplete: nil)
+        } else {
+            self.showNotification("Network Error", onComplete: nil)
+        }
+        
     }
     
     func RequestManagerCatchSubmitted() {
-        //TODO
+        self.showNotification("Pokemon successfully recorded! ", onComplete: nil)
+        self.selectedPokemon = nil
+        self.searchTextField.text = ""
+        self.pokemonImageView.image = self.defaultPokemonImage
+        self.filteredArray = Pokemon.Pokedex!
+        self.autoCompleteTableView.reloadData()
+        self.disableSubmitButton()
     }
     
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
         Pokemon.Pokedex = pokemonArray
+        self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
     }
     
     func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
         //Not applicable in this view
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "embeddedInfoView") {
+            let destVC = segue.destinationViewController as! InfoViewController
+            destVC.parent = self
+        }
     }
     
 }

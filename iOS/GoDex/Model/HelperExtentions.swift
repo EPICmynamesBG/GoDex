@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 public extension UIColor {
     
@@ -95,6 +96,22 @@ public extension UIView {
         set {
             layer.borderColor = newValue?.CGColor
         }
+    }
+    
+}
+
+public extension UIImage {
+    
+    func scaleToFit(frame: CGRect) -> UIImage {
+        
+        let scale = frame.width / self.size.width
+        let newHeight = self.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(frame.width, newHeight))
+        self.drawInRect(CGRectMake(0, 0, frame.width, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
 }

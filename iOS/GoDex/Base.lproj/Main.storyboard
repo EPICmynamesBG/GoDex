@@ -19,10 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVu-PJ-ts2" userLabel="Info Button">
-                                <rect key="frame" x="558" y="28" width="22" height="22"/>
-                            </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUU-CN-pWj">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUU-CN-pWj">
                                 <rect key="frame" x="0.0" y="20" width="600" height="531"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GoDex" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fhy-XJ-75m">
@@ -37,6 +34,13 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q86-L5-SmN" userLabel="Pokemon Image">
+                                        <rect key="frame" x="200" y="282" width="200" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="250" constant="200" id="Zds-RE-8YS"/>
+                                            <constraint firstAttribute="width" secondItem="q86-L5-SmN" secondAttribute="height" multiplier="1:1" id="fVH-5r-XWi"/>
+                                        </constraints>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zpb-h5-ek2">
                                         <rect key="frame" x="200" y="498" width="200" height="47"/>
                                         <color key="backgroundColor" red="0.20392156862745098" green="0.60784313725490191" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -115,13 +119,6 @@
                                             <outlet property="delegate" destination="9pv-A4-QxB" id="BTQ-RM-P6I"/>
                                         </connections>
                                     </textField>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q86-L5-SmN" userLabel="Pokemon Image">
-                                        <rect key="frame" x="200" y="282" width="200" height="200"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" priority="250" constant="200" id="Zds-RE-8YS"/>
-                                            <constraint firstAttribute="width" secondItem="q86-L5-SmN" secondAttribute="height" multiplier="1:1" id="fVH-5r-XWi"/>
-                                        </constraints>
-                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbB-En-g63" customClass="PokeLabel" customModule="GoDex" customModuleProvider="target">
                                         <rect key="frame" x="28" y="65" width="544" height="96"/>
                                         <string key="text">Oh my! You found a Pokemon!
@@ -139,18 +136,26 @@ to inform other trainers!</string>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVu-PJ-ts2" userLabel="Info Button">
+                                        <rect key="frame" x="570" y="19" width="22" height="22"/>
+                                        <connections>
+                                            <action selector="infoButtonTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="HPQ-Cu-ofV"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rbB-En-g63" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="0O3-dJ-x6H"/>
                                     <constraint firstItem="3jf-V3-wkk" firstAttribute="width" secondItem="IN8-3h-wyL" secondAttribute="width" id="1e6-N9-nmL"/>
                                     <constraint firstItem="3jf-V3-wkk" firstAttribute="top" secondItem="IN8-3h-wyL" secondAttribute="bottom" constant="-2" id="1ku-0X-Bfs"/>
                                     <constraint firstItem="Fhy-XJ-75m" firstAttribute="top" secondItem="gUU-CN-pWj" secondAttribute="top" constant="10" id="3VZ-iC-T4C"/>
+                                    <constraint firstItem="OVu-PJ-ts2" firstAttribute="centerY" secondItem="Fhy-XJ-75m" secondAttribute="centerY" id="8YZ-lp-1dg"/>
                                     <constraint firstItem="hkc-1Q-BRr" firstAttribute="top" secondItem="rbB-En-g63" secondAttribute="bottom" constant="36" id="GcD-Cq-nRV"/>
                                     <constraint firstItem="IN8-3h-wyL" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" priority="750" constant="28" id="Geq-Lh-KwT"/>
                                     <constraint firstItem="q86-L5-SmN" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="IUi-wO-gaA"/>
                                     <constraint firstItem="rbB-En-g63" firstAttribute="top" secondItem="Fhy-XJ-75m" secondAttribute="bottom" constant="16" id="Kqa-zW-i9O"/>
                                     <constraint firstItem="Fhy-XJ-75m" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="LHu-fR-meD"/>
                                     <constraint firstItem="Zpb-h5-ek2" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="LPl-rX-QAO"/>
+                                    <constraint firstItem="OVu-PJ-ts2" firstAttribute="trailing" secondItem="gUU-CN-pWj" secondAttribute="trailingMargin" id="Pab-H4-D3e"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bpM-wj-xPC" secondAttribute="trailing" priority="750" constant="28" id="Qfp-H5-CdY"/>
                                     <constraint firstItem="hkc-1Q-BRr" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="RwH-fv-Ihb"/>
                                     <constraint firstItem="IN8-3h-wyL" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="WHb-me-h15"/>
@@ -167,27 +172,53 @@ to inform other trainers!</string>
                                     <constraint firstItem="q86-L5-SmN" firstAttribute="top" secondItem="IN8-3h-wyL" secondAttribute="bottom" constant="20" id="ukZ-gS-Dgk"/>
                                     <constraint firstItem="IN8-3h-wyL" firstAttribute="top" secondItem="hkc-1Q-BRr" secondAttribute="bottom" constant="16" id="wku-NR-1uv"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="d8G-O7-nJW"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="delegate" destination="9pv-A4-QxB" id="YeH-tr-mto"/>
                                 </connections>
                             </scrollView>
+                            <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CMb-yR-tYE">
+                                <rect key="frame" x="0.0" y="0.0" width="605" height="551"/>
+                                <connections>
+                                    <segue destination="Y2F-4Q-pMe" kind="embed" identifier="embeddedInfoView" id="wAE-0i-2Dm"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.93333333730697632" green="0.93333333730697632" blue="0.93333333730697632" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="OVu-PJ-ts2" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" id="Kfp-OA-2aI"/>
+                            <constraint firstItem="gUU-CN-pWj" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="4fp-RW-rap"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="CMb-yR-tYE" secondAttribute="bottom" id="7WF-Yc-KTN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gUU-CN-pWj" secondAttribute="trailing" constant="-20" id="QLc-AN-pZe"/>
+                            <constraint firstAttribute="trailing" secondItem="gUU-CN-pWj" secondAttribute="trailing" id="R1V-zN-jSA"/>
                             <constraint firstItem="gUU-CN-pWj" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="Upv-tb-7Mu"/>
-                            <constraint firstItem="OVu-PJ-ts2" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="XqS-Bc-8cd"/>
+                            <constraint firstItem="CMb-yR-tYE" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="topMargin" id="YQ1-tr-cf8"/>
                             <constraint firstItem="gUU-CN-pWj" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-20" id="ajv-jn-Enk"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="gUU-CN-pWj" secondAttribute="bottom" id="cpc-Ti-Ruh"/>
+                            <constraint firstItem="CMb-yR-tYE" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="-20" id="drN-me-maH"/>
+                            <constraint firstItem="CMb-yR-tYE" firstAttribute="bottom" secondItem="tsR-hK-woN" secondAttribute="bottomMargin" id="eXp-le-124"/>
                             <constraint firstItem="gUU-CN-pWj" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="rP9-im-2Dl"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="bpM-wj-xPC" secondAttribute="bottom" constant="15" id="rZ8-Iz-YOo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CMb-yR-tYE" secondAttribute="trailing" constant="-25" id="zja-TU-G4V"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="eXp-le-124"/>
+                                <exclude reference="QLc-AN-pZe"/>
+                                <exclude reference="ajv-jn-Enk"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Sighting" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Sighting" image="tabpokeball" id="acW-dT-cKf"/>
                     <connections>
                         <outlet property="autoCompleteTableView" destination="3jf-V3-wkk" id="qxM-Ik-Jcq"/>
                         <outlet property="autoCompleteTableViewHeight" destination="noZ-B3-x8t" id="PfD-lq-OfO"/>
+                        <outlet property="embeddedInfoView" destination="CMb-yR-tYE" id="g7d-OY-Uxh"/>
+                        <outlet property="infoButton" destination="OVu-PJ-ts2" id="4gr-m9-L1u"/>
                         <outlet property="notificationLabel" destination="bpM-wj-xPC" id="aPA-rg-aCh"/>
                         <outlet property="pokemonImageView" destination="q86-L5-SmN" id="Tnh-2K-gdp"/>
                         <outlet property="scrollView" destination="gUU-CN-pWj" id="vF8-hc-E94"/>
@@ -229,7 +260,7 @@ to inform other trainers!</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="35" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kFi-pv-BxB">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="35" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kFi-pv-BxB">
                                 <rect key="frame" x="52" y="138" width="496" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -240,11 +271,11 @@ to inform other trainers!</string>
                                         <rect key="frame" x="0.0" y="28" width="496" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v5W-PJ-fRk" id="IDV-e1-X1F">
-                                            <rect key="frame" x="0.0" y="0.0" width="496" height="34"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="496" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sKv-16-Cai">
-                                                    <rect key="frame" x="15" y="0.0" width="466" height="34"/>
+                                                    <rect key="frame" x="15" y="0.0" width="466" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -254,6 +285,11 @@ to inform other trainers!</string>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="8rJ-Kc-sve" id="1K5-AK-XYH"/>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="vhj-BX-arh"/>
@@ -299,7 +335,7 @@ to inform other trainers!</string>
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="tabpokeball" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="autoCompleteTableView" destination="kFi-pv-BxB" id="X9M-Pz-6Ej"/>
                         <outlet property="autoCompleteTableViewHeight" destination="MAZ-sp-jQQ" id="bPa-L5-JUj"/>
@@ -330,9 +366,22 @@ to inform other trainers!</string>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
+        <!--Info View Controller-->
+        <scene sceneID="OUJ-oL-kMa">
+            <objects>
+                <viewController id="Y2F-4Q-pMe" customClass="InfoViewController" customModule="GoDex" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YlP-qf-dpi">
+                        <rect key="frame" x="0.0" y="0.0" width="605" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RMH-f8-fOy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1480.5" y="-312"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="tabpokeball" width="83" height="83"/>
     </resources>
 </document>
