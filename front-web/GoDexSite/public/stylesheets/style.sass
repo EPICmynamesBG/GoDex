@@ -1,42 +1,67 @@
-html body
+@import "./importer/importer.sass"
+
+html
   width: 100%
   height: 100%
 
 body
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
+  +font-fam
+  color: $grey
+  width: 100%
+  height: 100%
 
+  .spacer
+    width: auto
+    height: 35%
 
-  header
+  #nav-container
+    position: fixed
     width: 100%
     height: auto
-    background: purple
+    background: $red
+    z-index: 100
 
-    ul
-      list-style: none
-      text-align: center
-      margin: 0
-      padding: 0
-      height: 100%
+    header
+      width: 100%
+      height: auto
 
-      li
-        background: red
+
+      ul
+        list-style: none
+        text-align: center
+        margin: 0
+        padding: 0
         height: 100%
 
-        h1
-          font-size: 1.75em;
-          margin: 0
-          padding: 10% 5%
+        li
 
-  nav
+          h1
+            font-size: 1.75em
+            margin: 0
+            padding: 10% 5%
 
-    ul
-      list-style: none
-      text-align: center
-      margin: 0
-      padding: 0
+    nav
 
-      li
-        padding: 2.5% 0
-        background: green
-a
-  color: #00B7FF
+      ul
+        list-style: none
+        text-align: center
+        margin: 0
+        padding: 0
+
+        li
+          padding: 2.5% 0
+          background: rgba($grey, .75)
+
+          a
+            color: white
+            text-decoration: none
+
+            &:hover
+              color: $red
+              text-decoration: inherit
+
+  .contentContainers
+    height: 100%
+
+    &:nth-child(odd)
+      background: green

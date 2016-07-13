@@ -8,20 +8,23 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <header class="">
-      <ul class="row">
-        <li class="col-lg-4 col-sm-4 col-xs-12"><h1>GoDex</h1></li>
-        <li class="col-lg-4 col-sm-4 col-xs-12">img goes here</li>
-        <li class="col-lg-4 col-sm-4 col-xs-12"><h1>PokemonGO PokeDex</h1></li>
-      </ul>
-    </header>
-    <nav class="nav-bar">
-      <ul class="row">
-        <li class="col-lg-4 col-xs-4">Download</li>
-        <li class="col-lg-4 col-xs-4">About</li>
-        <li class="col-lg-4 col-xs-4">Contact</li>
-      </ul>
-    </nav>
+    <div id="nav-container">
+      <header class="">
+        <ul class="row">
+          <li class="col-lg-4 col-sm-4 col-xs-12"><h1>GoDex</h1></li>
+          <li class="col-lg-4 col-sm-4 col-xs-12">img goes here</li>
+          <li class="col-lg-4 col-sm-4 col-xs-12 hidden-xs"><h1>Global PokeDex</h1></li>
+        </ul>
+      </header>
+      <nav class="nav-bar">
+        <ul class="row">
+          <li class="col-lg-4 col-xs-4"><a href="#">Download</a></li>
+          <li class="col-lg-4 col-xs-4"><a href="#">About</a></li>
+          <li class="col-lg-4 col-xs-4"><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="spacer"></div>
     {{{body}}}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>

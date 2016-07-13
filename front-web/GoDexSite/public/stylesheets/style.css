@@ -1,36 +1,52 @@
-html body {
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+html {
   width: 100%;
   height: 100%; }
 
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
-  body header {
+  font-family: "Montserrat", sans-serif;
+  color: #555555;
+  width: 100%;
+  height: 100%; }
+  body .spacer {
+    width: auto;
+    height: 35%; }
+  body #nav-container {
+    position: fixed;
     width: 100%;
     height: auto;
-    background: purple; }
-    body header ul {
-      list-style: none;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      height: 100%; }
-      body header ul li {
-        background: red;
+    background: #DE4E4B;
+    z-index: 100; }
+    body #nav-container header {
+      width: 100%;
+      height: auto; }
+      body #nav-container header ul {
+        list-style: none;
+        text-align: center;
+        margin: 0;
+        padding: 0;
         height: 100%; }
-        body header ul li h1 {
+        body #nav-container header ul li h1 {
           font-size: 1.75em;
           margin: 0;
           padding: 10% 5%; }
-  body nav ul {
-    list-style: none;
-    text-align: center;
-    margin: 0;
-    padding: 0; }
-    body nav ul li {
-      padding: 2.5% 0;
+    body #nav-container nav ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0; }
+      body #nav-container nav ul li {
+        padding: 2.5% 0;
+        background: rgba(85, 85, 85, 0.75); }
+        body #nav-container nav ul li a {
+          color: white;
+          text-decoration: none; }
+          body #nav-container nav ul li a:hover {
+            color: #DE4E4B;
+            text-decoration: inherit; }
+  body .contentContainers {
+    height: 100%; }
+    body .contentContainers:nth-child(odd) {
       background: green; }
-
-a {
-  color: #00B7FF; }
 
 /*# sourceMappingURL=style.css.map */
