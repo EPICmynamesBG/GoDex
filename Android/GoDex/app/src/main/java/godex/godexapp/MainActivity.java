@@ -1,17 +1,9 @@
 package godex.godexapp;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -24,11 +16,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.lapism.searchview.SearchView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabClickListener;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,11 +38,17 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private BottomBar mBottomBar;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.activity_main);
+
+
+        //mSearchView = (SearchView) findViewById(R.id.searchView);
+
+
 
         mBottomBar = BottomBar.attach(this, savedInstanceState);
         mBottomBar.setItems(
@@ -61,30 +58,41 @@ public class MainActivity extends AppCompatActivity {
 
         final LayoutInflater inflater = this.getLayoutInflater();
 
+        PlaceholderFragment frag = new PlaceholderFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, frag).commit();
+
 
         // Listen for tab changes
         mBottomBar.setOnTabClickListener(new OnTabClickListener() {
             View view = inflater.inflate(R.layout.fragment_main, null, false);
 
+
+
             @Override
             public void onTabSelected(int position) {
                 // The user selected a tab at the specified position
-                TextView tex = (TextView) findViewById(R.id.section_label);
+  //              TextView tex = (TextView) findViewById(R.id.section_label);
+//                android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
                 if(position == 1) {
                     Log.d("Things", "tab 1");
 
-                    tex.setText("Changing");
+//                    tex.setText("");
                     //set the Fragment to page1.xml
                     PlaceholderFragment frag = new PlaceholderFragment();
+                    pageNum = 1;
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, frag).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag).commit();
 
                 }
                 else if(position == 0) {
                     Log.d("Things", "tab 2");
 
-                    tex.setText("Changing the things");
+                    pageNum = 0;
                     //set the Fragment to page2.xml
+                    PlaceholderFragment frag = new PlaceholderFragment();
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, frag).commit();
 
                 }
 
@@ -97,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+  //      setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
  //       mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -113,27 +121,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_info) {
+//            return true;
+//        }
+//        if(id == R.id.searchView) {
+//            mSearchView.animate(); // animate, ONLY FOR MENU ITEM
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
     static int pageNum;
 
     /**
@@ -171,13 +183,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            View rootView = null;
+
+            //page changing
+            if(pageNum == 0)
+                rootView= inflater.inflate(R.layout.page1, container, false);
+            else if (pageNum == 1) {
+                rootView= inflater.inflate(R.layout.page2, container, false);
+            }
 
             Log.d("Error", "Frag made "+pageNum);
-
-
-            textView.setText("This is page "+pageNum+" ");
 
             return rootView;
 
