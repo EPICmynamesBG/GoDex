@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <in.workarounds.typography.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="What Pokemon do you wish to see?"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:layout_marginTop="40dp"
+
+        app:font_name="Helvetica"
+        app:font_variant="Condensed"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <MultiAutoCompleteTextView
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:text="New MultiAutoCompleteTextView"
+        android:id="@+id/multiAutoCompleteTextView"
+        android:layout_marginStart="24dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
+        android:src="@mipmap/search" />
+
+</RelativeLayout>
