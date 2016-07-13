@@ -10,20 +10,22 @@ body
   width: 100%
   height: 100%
 
+
+
   .spacer
     width: auto
-    height: 35%
+    height: 28%
 
   #nav-container
     position: fixed
     width: 100%
     height: auto
-    background: $red
     z-index: 100
 
     header
       width: 100%
       height: auto
+      background: $red
 
 
       ul
@@ -34,11 +36,13 @@ body
         height: 100%
 
         li
+          padding: 0
+          margin: 0
 
           h1
             font-size: 1.75em
             margin: 0
-            padding: 10% 5%
+            padding: 7.5% 5%
 
     nav
 
@@ -62,6 +66,7 @@ body
 
   .contentContainers
     height: 100%
+    padding: 2.5% 2.5%
+    text-align: center
 
-    &:nth-child(odd)
-      background: green
+  @import "./partials/appIndexStyle.sass"
