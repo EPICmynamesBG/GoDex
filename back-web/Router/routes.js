@@ -8,20 +8,44 @@ module.exports = function(app, express) {
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
-    //console.log("Middleware Firing");
     next();
   });
 
   router.route('/AllPokemon')
-  .get(function(req, res) {
-    Pokemon.find(function(err, pokemon) {
-      if (err) {
-        res.send(err);
-      } else {
-        res.json(pokemon);
-      }
+    //GETS all pokemon from the supported pokemon store
+    .get(function(req, res) {
+      Pokemon.find(function(err, pokemon) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json(pokemon);
+        }
+      });
     });
-  });
+
+  router.route('/AllPokemon/Enabled')
+    //GETS all enabled pokemon from supported pokemon store
+    .get(function(req, res) {
+      Pokemon.find( {enabled: true}, function(err, pokemon) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json(pokemon);
+        }
+      });
+    });
+
+  router.route('/AllPokemon/Disabled')
+    //GETS all disabled pokemon from supported pokemon store
+    .get(function(req, res) {
+      Pokemon.find( {enabled: false}, function(err, pokemon) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json(pokemon);
+        }
+      });
+    });
 
   router.route('/AllPokemon/FindById/:pokemon_id')
     //GETS pokemon based on id, from all pokemon supported store
