@@ -17,8 +17,21 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     @IBOutlet weak var autoCompleteTableView: UITableView!
     @IBOutlet weak var autoCompleteTableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var notificationLabel: UILabel!
+    
+    static let DEFAULT_ZOOM = 0.05
+    static let MAX_ZOOM = 0.0005
+    static let FULL_ZOOM_OUT = 16.0
+    //Nintendo HQ, USA
+    static let DEFAULT_COORDINATE = CLLocationCoordinate2D(latitude: 47.6513757, longitude: -122.141262)
+    
+    private var filteredArray:[Pokemon] = [Pokemon]()
+    
+    private var selectedPokemon: Pokemon?
     
     private var networkRequest: RequestManager!
+    
+    private var notificationTimer: NSTimer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +46,33 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         
         self.networkRequest = RequestManager()
         self.networkRequest.delegate = self
+        
+        self.autoCompleteTableView.backgroundColor = ColorPalette.DropdownBackground
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if (Pokemon.Pokedex == nil){
+            self.networkRequest.getPokemonList()
+        } else {
+            self.filteredArray = Pokemon.Pokedex!
+            self.autoCompleteTableView.reloadData()
+        }
+        self.mapView.showsUserLocation = true
+        LocationManager.sharedInstance().delegate = self
+        LocationManager.sharedInstance().getCurrentLocation()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.mapView.showsUserLocation = true
+        LocationManager.sharedInstance().delegate = self
+        LocationManager.sharedInstance().getCurrentLocation()
     }
     
     /**
@@ -53,7 +88,6 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
      Animate showing the search dropdown
      */
     private func showDropdown() {
-        print("Show dropdown")
         self.animateDropDownToHeight(200, completion: nil)
     }
     
@@ -61,7 +95,6 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
      Animate hiding the search dropdown
      */
     private func hideDropdown() {
-        print("Hide dropdown")
         self.animateDropDownToHeight(0, completion: nil)
     }
     
@@ -84,82 +117,125 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     /* ---- Map Handling --- */
     
     
-    func dropPinOnLocation(coordinates: CLLocationCoordinate2D) {
-        let pin = MapPin(coordinate: coordinates, title: nil, subtitle: nil)
+    private func dropPinOnLocation(coordinates: CLLocationCoordinate2D) {
+        let pin: PokePin = PokePin(pokemon: self.selectedPokemon!)
+        pin.coordinate = coordinates
+        self.mapView.removeAnnotation(pin)
         self.mapView.addAnnotation(pin)
     }
     
-    func zoomOnLocation(coordinates: CLLocationCoordinate2D, withZoomRadius radius: Double) {
+    private func dropPinsOnLocations(coorArr: [CLLocationCoordinate2D]) {
+        //clear old set first
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        var pinArr = [MKPointAnnotation]()
+        for coor in coorArr {
+            let pin: PokePin = PokePin(pokemon: self.selectedPokemon!)
+            pin.coordinate = coor
+            pinArr.append(pin)
+        }
+        self.mapView.addAnnotations(pinArr)
         
+        if (LocationManager.sharedInstance().lastRecievedCoordinates != nil) {
+            let zoom = self.calculateZoomRadius(LocationManager.sharedInstance().lastRecievedCoordinates!, coordinateArray: coorArr)
+            self.zoomOnLocation(zoom.CenterPoint, withCoorSpan: zoom.ZoomSpan)
+        } else {
+            let zoom = self.calculateZoomRadius(SearchPokemonVC.DEFAULT_COORDINATE, coordinateArray: coorArr)
+            self.zoomOnLocation(zoom.NearestPin, withCoorSpan: zoom.ZoomSpan)
+        }
     }
     
-    func mapViewDidFinishLoadingMap(mapView: MKMapView) {
-        LocationManager.sharedInstance().delegate = self
-        LocationManager.sharedInstance().getCurrentLocation()
+    private func calculateZoomRadius(userCoor: CLLocationCoordinate2D, coordinateArray: [CLLocationCoordinate2D]) -> (CenterPoint: CLLocationCoordinate2D, ZoomSpan: MKCoordinateSpan, NearestPin: CLLocationCoordinate2D) {
+        var nearestCoor: CLLocationCoordinate2D? = nil
+        
+        for coor in coordinateArray {
+            let dist = userCoor.distanceTo(coor)
+            if (nearestCoor == nil){
+                nearestCoor = coor
+            } else if (dist < userCoor.distanceTo(nearestCoor!)) {
+                nearestCoor = coor
+            }
+        }
+        
+        let avgLat = (userCoor.latitude + nearestCoor!.latitude) / 2.0
+        let avgLon = (userCoor.longitude + nearestCoor!.longitude) / 2.0
+        let center = CLLocationCoordinate2D(latitude: avgLat, longitude: avgLon)
+
+        let latDelta = abs((userCoor.latitude - nearestCoor!.latitude))
+        let lonDelta = abs((userCoor.longitude - nearestCoor!.longitude))
+    
+        let span = MKCoordinateSpan(latitudeDelta: latDelta * 1.15, longitudeDelta: lonDelta * 1.15)
+        
+        return (center, span, nearestCoor!)
+    }
+    
+    func zoomOnLocation(coordinates: CLLocationCoordinate2D, withZoomRadius radius: Double) {
+        let span = MKCoordinateSpan(latitudeDelta: radius, longitudeDelta: radius)
+        let region: MKCoordinateRegion = MKCoordinateRegion(center: coordinates, span: span)
+        self.mapView.setRegion(region, animated: true)
+    }
+    
+    func zoomOnLocation(coordinates: CLLocationCoordinate2D, withCoorSpan span: MKCoordinateSpan) {
+        let region: MKCoordinateRegion = MKCoordinateRegion(center: coordinates, span: span)
+        self.mapView.setRegion(region, animated: true)
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if (annotation is MKUserLocation) {
+        if  annotation as? PokePin == nil{
             return nil
         }
         
-        if (annotation.isKindOfClass(MapPin)) {
-            let pin = annotation as! MapPin
-            //Maybe?
-            mapView.translatesAutoresizingMaskIntoConstraints = true
-            
-            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("MapPin") as MKAnnotationView!
-            if (annotationView == nil) {
-                annotationView = pin.annotationView()
-            } else {
-                annotationView.annotation = annotation;
-            }
-            self.addBounceAnimationToView(annotationView)
-            return annotationView
+        let reuseId = "test"
+        
+        var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
+        if anView == nil {
+            anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            anView?.canShowCallout = true
         }
         else {
-            return nil
+            anView?.annotation = annotation
         }
-    }
-    
-    private func addBounceAnimationToView(view: UIView) {
-        let bounceAnimation = CAKeyframeAnimation(keyPath: "transform.scale") as CAKeyframeAnimation
-        bounceAnimation.values = [ 0.05, 1.1, 0.9, 1]
         
-        let timingFunctions = NSMutableArray(capacity: bounceAnimation.values!.count)
+        //Set annotation-specific properties **AFTER**
+        //the view is dequeued or created...
         
-        for _ in 0 ..< bounceAnimation.values!.count {
-        timingFunctions.addObject(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        let cpa = annotation as! PokePin
+        AsyncImageLoader.LoadImage(cpa.pokemon!.imageUrl, onComplete: { (image: UIImage) in
+            anView?.image = image.scaleToFit(CGRect(x: 0, y: 0, width: 32, height: 32))
+        }) { (error:NSError?, message:String?) in
+                //stuff
         }
-        bounceAnimation.timingFunctions = timingFunctions as NSArray as? [CAMediaTimingFunction]
-        bounceAnimation.removedOnCompletion = false
         
-        view.layer.addAnimation(bounceAnimation, forKey: "bounce")
+        return anView
     }
     
     /* ---- Table View Delegate ---- */
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("Selected \(indexPath.row)")
         let tappedCell = tableView.cellForRowAtIndexPath(indexPath)
         if (tappedCell != nil) {
-            print("tapped cell it not nil")
-            self.searchTextField.text = tappedCell?.textLabel?.text
+            let pokeCell = tappedCell as! PokemonTableViewCell
+            self.searchTextField.text = pokeCell.textLabel?.text
+            self.userSelectedPokemon(pokeCell.pokemon!)
         }
         self.searchTextField.resignFirstResponder()
         //start the search!
     }
     
+    private func userSelectedPokemon(pokemon: Pokemon) {
+        self.selectedPokemon = pokemon
+        self.networkRequest.pokemonPinsLookup(self.selectedPokemon!)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Pokemon.Pokedex != nil ? Pokemon.Pokedex!.count : 0
+        return self.filteredArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: indexPath) as! PokemonTableViewCell
         
         if (Pokemon.Pokedex != nil) {
-            cell.textLabel?.text = Pokemon.Pokedex![indexPath.row].name
-            cell.pokemon = Pokemon.Pokedex![indexPath.row]
+            cell.textLabel?.text = self.filteredArray[indexPath.row].name
+            cell.pokemon = self.filteredArray[indexPath.row]
         }
         
         return cell
@@ -168,10 +244,18 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     /* ---- Text Field Delegate ---- */
     
     func textFieldDidBeginEditing(textField: UITextField) {
+        self.selectedPokemon = nil
+        if (Pokemon.Pokedex != nil){
+            self.filteredArray = Pokemon.Pokedex!
+            self.autoCompleteTableView.reloadData()
+        }
         self.showDropdown()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if (Pokemon.validate(self.searchTextField.text)){
+            self.userSelectedPokemon(Pokemon.byName(self.searchTextField.text!)!)
+        }
         textField.resignFirstResponder()
         return true
     }
@@ -188,7 +272,12 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     
     @IBAction func textDidChange(sender: UITextField) {
         //TODO: Filter results here
-        print("Text changed to \(sender.text)")
+        if (sender.text?.characters.count >= 1){
+            self.filteredArray = Pokemon.filter(sender.text!)
+        } else {
+            self.filteredArray = Pokemon.Pokedex!
+        }
+        self.autoCompleteTableView.reloadData()
     }
     
     /* ---- Gesture Recognizer Delegate - user to ensure the tableview recieves it's taps */
@@ -203,25 +292,26 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     /* ---- Location Manager Delegate ---- */
     
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
-        print(coordinates)
         LocationManager.sharedInstance().delegate = nil
-        self.dropPinOnLocation(coordinates)
+        self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
     }
     
     func locationManagerUpdateError(error: NSError?, message: String?) {
-        let alert = UIAlertController(title: "Geolocation Error", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        if (message != nil){
+            self.showNotification("Geolocation Error\n\(message!)", onComplete: nil)
+        } else {
+            self.showNotification("Geolocation Error", onComplete: nil)
+        }
     }
     
     /* ----- Request Manager Delegate ---- */
     
     func RequestManagerError(error: NSError?, withMessage message: String?) {
-        let alert = UIAlertController(title: "Network Error", message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        if (message != nil) {
+            self.showNotification("Network Error\n\(message!)", onComplete: nil)
+        } else {
+            self.showNotification("Network Error", onComplete: nil)
+        }
     }
     
     func RequestManagerCatchSubmitted() {
@@ -229,12 +319,68 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     }
     
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
-        Pokemon.Pokedex = pokemonArray
+        self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
     }
     
     func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
-        //TODO
+        if (results == nil ||
+            results?.count == 0) {
+            if (self.selectedPokemon != nil) {
+                self.showNotification("No data was found for \(self.selectedPokemon!.name)", onComplete: nil)
+            } else {
+                self.showNotification("No data was found", onComplete: nil)
+            }
+        } else {
+            self.dropPinsOnLocations(results!)
+        }
+    }
+    
+    /**
+     Fade in show animation and fade out the submit button. Shows
+     notification for 4 seconds
+     
+     - parameter message:  notification text
+     - parameter complete: optional actions to run on fade completion
+     */
+    private func showNotification(message: String, onComplete complete: (() -> Void)?) {
+        if (self.notificationTimer != nil){
+            self.notificationTimer?.invalidate()
+            self.notificationTimer = nil
+        }
+        
+        self.notificationTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(self.timerDismissNotification), userInfo: nil, repeats: false)
+        self.notificationLabel.alpha = 0.0
+        self.notificationLabel.hidden = false
+        self.notificationLabel.text = message
+        
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: {
+            self.notificationLabel.alpha = 1.0
+        }) { (completed: Bool) in
+            complete?()
+        }
+    }
+    
+    /**
+     Fade out animation dismiss the notification label, fade in show the submit Button
+     
+     - parameter onComplete: optional actions to run on fade completion
+     */
+    private func dismissNotification(onComplete: (() -> Void)?) {
+        
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: {
+            self.notificationLabel.alpha = 0.0
+        }) { (completed: Bool) in
+            self.notificationLabel.hidden = true
+            onComplete?()
+        }
+    }
+    
+    /**
+     Dismiss notification fired by the timer
+     */
+    @objc private func timerDismissNotification() {
+        self.dismissNotification(nil)
     }
 
 }

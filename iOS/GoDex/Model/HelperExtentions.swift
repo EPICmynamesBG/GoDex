@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+import CoreLocation
 
 public extension UIColor {
     
@@ -95,6 +97,39 @@ public extension UIView {
         set {
             layer.borderColor = newValue?.CGColor
         }
+    }
+    
+}
+
+public extension UIImage {
+    
+    func scaleToFit(frame: CGRect) -> UIImage {
+        
+        let scale = frame.width / self.size.width
+        let newHeight = self.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(frame.width, newHeight))
+        self.drawInRect(CGRectMake(0, 0, frame.width, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    
+    func clearImage(frame: CGRect) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
+        let blank = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return blank
+    }
+    
+}
+
+public extension CLLocationCoordinate2D {
+    
+    func distanceTo(otherCoordinate: CLLocationCoordinate2D) -> CLLocationDistance {
+        let location1 = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        let location2 = CLLocation(latitude: otherCoordinate.latitude, longitude: otherCoordinate.longitude)
+        return location1.distanceFromLocation(location2)
     }
     
 }

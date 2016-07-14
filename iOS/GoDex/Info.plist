@@ -51,12 +51,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Your location is used submit where a Pokemon was caught and to find nearby Pokemon</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is used submit where a Pokemon was caught and to find nearby Pokemon</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pokemon GB.ttf</string>
+	</array>
 </dict>
 </plist>
