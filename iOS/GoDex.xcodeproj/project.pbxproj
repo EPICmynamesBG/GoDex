@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC6941271D370C3C0009CABC /* Pokemon GB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC6941261D370C3C0009CABC /* Pokemon GB.ttf */; };
+		BC6941291D370C580009CABC /* AsyncImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6941281D370C580009CABC /* AsyncImageLoader.swift */; };
+		BC69412B1D370C680009CABC /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69412A1D370C680009CABC /* InfoViewController.swift */; };
+		BC69412D1D370C760009CABC /* PokeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC69412C1D370C760009CABC /* PokeLabel.swift */; };
+		BC6941321D3723400009CABC /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6941311D3723400009CABC /* PaddedLabel.swift */; };
 		BCABC8191D3472BE0098D493 /* SearchPokemonVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8171D3472BE0098D493 /* SearchPokemonVC.swift */; };
 		BCABC81A1D3472BE0098D493 /* SightingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8181D3472BE0098D493 /* SightingVC.swift */; };
 		BCABC8221D34916D0098D493 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCABC8211D34916D0098D493 /* MapKit.framework */; };
@@ -15,7 +20,7 @@
 		BCABC82B1D349FDB0098D493 /* HelperExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8281D349FDB0098D493 /* HelperExtentions.swift */; };
 		BCABC82C1D349FDB0098D493 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8291D349FDB0098D493 /* Pokemon.swift */; };
 		BCABC8381D34C7F70098D493 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8351D34C7F70098D493 /* LocationManager.swift */; };
-		BCABC8391D34C7F70098D493 /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8361D34C7F70098D493 /* MapPin.swift */; };
+		BCABC8391D34C7F70098D493 /* PokePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8361D34C7F70098D493 /* PokePin.swift */; };
 		BCABC83A1D34C7F70098D493 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC8371D34C7F70098D493 /* RequestManager.swift */; };
 		BCABC83C1D34C8080098D493 /* PokemonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCABC83B1D34C8080098D493 /* PokemonTableViewCell.swift */; };
 		BCC392411D346AB300D889F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC392401D346AB300D889F6 /* AppDelegate.swift */; };
@@ -25,6 +30,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC6941261D370C3C0009CABC /* Pokemon GB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pokemon GB.ttf"; path = "Resources/Pokemon GB.ttf"; sourceTree = "<group>"; };
+		BC6941281D370C580009CABC /* AsyncImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AsyncImageLoader.swift; path = Model/AsyncImageLoader.swift; sourceTree = "<group>"; };
+		BC69412A1D370C680009CABC /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoViewController.swift; path = ViewControllers/InfoViewController.swift; sourceTree = "<group>"; };
+		BC69412C1D370C760009CABC /* PokeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PokeLabel.swift; path = UIComponents/PokeLabel.swift; sourceTree = "<group>"; };
+		BC6941311D3723400009CABC /* PaddedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaddedLabel.swift; path = Resources/PaddedLabel.swift; sourceTree = "<group>"; };
 		BCABC8171D3472BE0098D493 /* SearchPokemonVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchPokemonVC.swift; path = ViewControllers/SearchPokemonVC.swift; sourceTree = "<group>"; };
 		BCABC8181D3472BE0098D493 /* SightingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SightingVC.swift; path = ViewControllers/SightingVC.swift; sourceTree = "<group>"; };
 		BCABC8211D34916D0098D493 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -33,7 +43,7 @@
 		BCABC8281D349FDB0098D493 /* HelperExtentions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelperExtentions.swift; path = Model/HelperExtentions.swift; sourceTree = "<group>"; };
 		BCABC8291D349FDB0098D493 /* Pokemon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pokemon.swift; path = Model/Pokemon.swift; sourceTree = "<group>"; };
 		BCABC8351D34C7F70098D493 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Model/LocationManager.swift; sourceTree = "<group>"; };
-		BCABC8361D34C7F70098D493 /* MapPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapPin.swift; path = Model/MapPin.swift; sourceTree = "<group>"; };
+		BCABC8361D34C7F70098D493 /* PokePin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PokePin.swift; path = Model/PokePin.swift; sourceTree = "<group>"; };
 		BCABC8371D34C7F70098D493 /* RequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestManager.swift; path = Model/RequestManager.swift; sourceTree = "<group>"; };
 		BCABC83B1D34C8080098D493 /* PokemonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PokemonTableViewCell.swift; path = UIComponents/PokemonTableViewCell.swift; sourceTree = "<group>"; };
 		BCC3923D1D346AB300D889F6 /* GoDex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,11 +66,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC6941251D370C0E0009CABC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BC6941261D370C3C0009CABC /* Pokemon GB.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		BCABC8141D34729B0098D493 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				BC69412C1D370C760009CABC /* PokeLabel.swift */,
 				BCABC83B1D34C8080098D493 /* PokemonTableViewCell.swift */,
 				BCABC8251D349FC00098D493 /* CustomTabBarController.swift */,
+				BC6941311D3723400009CABC /* PaddedLabel.swift */,
 			);
 			name = UIComponents;
 			sourceTree = "<group>";
@@ -68,8 +88,9 @@
 		BCABC8151D3472A20098D493 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BC6941281D370C580009CABC /* AsyncImageLoader.swift */,
 				BCABC8351D34C7F70098D493 /* LocationManager.swift */,
-				BCABC8361D34C7F70098D493 /* MapPin.swift */,
+				BCABC8361D34C7F70098D493 /* PokePin.swift */,
 				BCABC8371D34C7F70098D493 /* RequestManager.swift */,
 				BCABC8271D349FDB0098D493 /* ColorPalette.swift */,
 				BCABC8281D349FDB0098D493 /* HelperExtentions.swift */,
@@ -81,6 +102,7 @@
 		BCABC8161D3472A90098D493 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BC69412A1D370C680009CABC /* InfoViewController.swift */,
 				BCABC8171D3472BE0098D493 /* SearchPokemonVC.swift */,
 				BCABC8181D3472BE0098D493 /* SightingVC.swift */,
 			);
@@ -107,6 +129,7 @@
 		BCC3923F1D346AB300D889F6 /* GoDex */ = {
 			isa = PBXGroup;
 			children = (
+				BC6941251D370C0E0009CABC /* Resources */,
 				BCC392401D346AB300D889F6 /* AppDelegate.swift */,
 				BCABC8161D3472A90098D493 /* ViewControllers */,
 				BCABC8151D3472A20098D493 /* Model */,
@@ -151,6 +174,7 @@
 				TargetAttributes = {
 					BCC3923C1D346AB300D889F6 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = V3E7FWS3ZL;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -182,6 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC6941271D370C3C0009CABC /* Pokemon GB.ttf in Resources */,
 				BCC3924D1D346AB300D889F6 /* LaunchScreen.storyboard in Resources */,
 				BCC3924A1D346AB300D889F6 /* Assets.xcassets in Resources */,
 				BCC392481D346AB300D889F6 /* Main.storyboard in Resources */,
@@ -198,14 +223,18 @@
 				BCABC82C1D349FDB0098D493 /* Pokemon.swift in Sources */,
 				BCABC82A1D349FDB0098D493 /* ColorPalette.swift in Sources */,
 				BCABC81A1D3472BE0098D493 /* SightingVC.swift in Sources */,
+				BC6941321D3723400009CABC /* PaddedLabel.swift in Sources */,
 				BCABC82B1D349FDB0098D493 /* HelperExtentions.swift in Sources */,
 				BCABC8261D349FC00098D493 /* CustomTabBarController.swift in Sources */,
-				BCABC8391D34C7F70098D493 /* MapPin.swift in Sources */,
+				BCABC8391D34C7F70098D493 /* PokePin.swift in Sources */,
 				BCABC83A1D34C7F70098D493 /* RequestManager.swift in Sources */,
 				BCABC8191D3472BE0098D493 /* SearchPokemonVC.swift in Sources */,
 				BCC392411D346AB300D889F6 /* AppDelegate.swift in Sources */,
+				BC69412B1D370C680009CABC /* InfoViewController.swift in Sources */,
 				BCABC8381D34C7F70098D493 /* LocationManager.swift in Sources */,
 				BCABC83C1D34C8080098D493 /* PokemonTableViewCell.swift in Sources */,
+				BC6941291D370C580009CABC /* AsyncImageLoader.swift in Sources */,
+				BC69412D1D370C760009CABC /* PokeLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +297,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -308,7 +337,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -320,11 +349,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GoDex/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.godex.GoDex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -333,11 +365,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GoDex/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.godex.GoDex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
