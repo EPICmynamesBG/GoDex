@@ -6,13 +6,13 @@ module.exports = function(app, express) {
   var CaughtPokemon = require('../Model/caughtPokemon')(mongoose);
 
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
-  //52.7.61.252:27017
+
   router.use(function(req, res, next) {
-    //console.log("Middleware Firing");
     next();
   });
 
   router.route('/AllPokemon')
+    //GETS all pokemon from the supported pokemon store
     .get(function(req, res) {
       Pokemon.find(function(err, pokemon) {
         if (err) {
@@ -24,6 +24,7 @@ module.exports = function(app, express) {
     });
 
   router.route('/AllPokemon/Enabled')
+    //GETS all enabled pokemon from supported pokemon store
     .get(function(req, res) {
       Pokemon.find( {enabled: true}, function(err, pokemon) {
         if (err) {
@@ -35,6 +36,7 @@ module.exports = function(app, express) {
     });
 
   router.route('/AllPokemon/Disabled')
+    //GETS all disabled pokemon from supported pokemon store
     .get(function(req, res) {
       Pokemon.find( {enabled: false}, function(err, pokemon) {
         if (err) {
