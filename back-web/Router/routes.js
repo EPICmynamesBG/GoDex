@@ -117,16 +117,20 @@ module.exports = function(app, express) {
           var timeLimit = 5000; //5 seconds, until the user can make another post
           var timeStamp = Date.now();
 
-          //Distance is represented in meters
-          var distance = geolib.getDistance(
-            {'latitude': foundPost.geo_lat, 'longitude': foundPost.geo_long},
-            {'latitude': req.params.geo_lat, 'longitude': req.params.geo_long});
-          var distanceLimit = 5;
+          if (foundPost != null) {
+            //Distance is represented in meters
+            var distance = geolib.getDistance(
+              {'latitude': foundPost.geo_lat, 'longitude': foundPost.geo_long},
+              {'latitude': req.params.geo_lat, 'longitude': req.params.geo_long});
+            var distanceLimit = 5;
 
-          if (foundPost != null && foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit && distance <= distanceLimit) {
-            res.json({error: "Repeat sighting, please try again!"});
+            if (foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit && distance <= distanceLimit) {
+              res.json({error: "Repeat sighting. Please try again later!"});
+              return;
+            }
           }
-          else if (foundPokemon!= null) {
+
+          if (foundPokemon!= null) {
             var caughtPokemon = new CaughtPokemon();
             caughtPokemon.uuid = req.params.uuid;
             caughtPokemon.pid = req.params.pokemon_id;
