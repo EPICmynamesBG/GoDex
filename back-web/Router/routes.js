@@ -5,7 +5,7 @@ module.exports = function(app, express) {
   var Pokemon = require('../Model/pokemon.js')(mongoose);
   var CaughtPokemon = require('../Model/caughtPokemon')(mongoose);
 
-  mongoose.connect('mongodb://127.0.0.1/godex');
+  mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
     next();
