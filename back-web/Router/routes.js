@@ -4,6 +4,7 @@ module.exports = function(app, express) {
   var mongoose = require('mongoose');
   var Pokemon = require('../Model/pokemon.js')(mongoose);
   var CaughtPokemon = require('../Model/caughtPokemon')(mongoose);
+  var geolib = require('geolib');
 
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
@@ -115,10 +116,15 @@ module.exports = function(app, express) {
         CaughtPokemon.findOne({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
           var timeLimit = 5000; //5 seconds, until the user can make another post
           var timeStamp = Date.now();
-          console.log(foundPost.pid);
-          console.log(req.params.pokemon_id);
-          if (foundPost != null && foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit ) {
-            res.json({error: "Repeat sighting, please try again later!"});
+
+          //Distance is represented in meters
+          var distance = geolib.getDistance(
+            {'latitude': foundPost.geo_lat, 'longitude': foundPost.geo_long},
+            {'latitude': req.params.geo_lat, 'longitude': req.params.geo_long});
+          var distanceLimit = 5;
+
+          if (foundPost != null && foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit && distance <= distanceLimit) {
+            res.json({error: "Repeat sighting, please try again!"});
           }
           else if (foundPokemon!= null) {
             var caughtPokemon = new CaughtPokemon();
