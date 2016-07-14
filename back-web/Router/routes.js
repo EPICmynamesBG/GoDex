@@ -104,7 +104,7 @@ module.exports = function(app, express) {
       });
     });
 
-  router.route('/CaughtPokemon/:pokemon_id/:geo_lat/:geo_long')
+  router.route('/CaughtPokemon/:uuid/:pokemon_id/:geo_lat/:geo_long')
     //POST a captured pokemon
     .post(function(req, res) {
       Pokemon.findOne({'pid': req.params.pokemon_id}, function(err, foundPokemon) {
@@ -114,6 +114,7 @@ module.exports = function(app, express) {
 
         if (foundPokemon!= null) {
           var caughtPokemon = new CaughtPokemon();
+          caughtPokemon.uuid = req.params.uuid;
           caughtPokemon.pid = req.params.pokemon_id;
           caughtPokemon.geo_lat = req.params.geo_lat;
           caughtPokemon.geo_long = req.params.geo_long;
