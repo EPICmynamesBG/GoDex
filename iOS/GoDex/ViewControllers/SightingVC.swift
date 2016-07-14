@@ -32,6 +32,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     private var filteredArray:[Pokemon] = [Pokemon]()
     
+    private var notificationTimer: NSTimer? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //set the background
@@ -119,14 +121,13 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func infoButtonTap(sender: UIButton) {
-        print("Info tap")
-        self.embeddedInfoView.hidden = false
+        self.showInfoView()
     }
     
     func showInfoView() {
         self.embeddedInfoView.alpha = 0.0
         self.embeddedInfoView.hidden = false
-        UIView.animateWithDuration(0.4, animations: { 
+        UIView.animateWithDuration(0.7, animations: {
             self.embeddedInfoView.alpha = 1.0
             }) { (Bool) in
                 //nothing for now
@@ -134,7 +135,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func hideInfoView() {
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animateWithDuration(0.7, animations: {
             self.embeddedInfoView.alpha = 0.0
         }) { (Bool) in
             self.embeddedInfoView.hidden = true
@@ -150,7 +151,11 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      - parameter complete: optional actions to run on fade completion
      */
     private func showNotification(message: String, onComplete complete: (() -> Void)?) {
-        NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(self.timerDismissNotification), userInfo: nil, repeats: false)
+        if (self.notificationTimer != nil) {
+            self.notificationTimer?.invalidate()
+            self.notificationTimer = nil
+        }
+        self.notificationTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(self.timerDismissNotification), userInfo: nil, repeats: false)
         self.notificationLabel.alpha = 0.0
         self.notificationLabel.hidden = false
         self.notificationLabel.text = message
@@ -256,7 +261,10 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func textFieldDidBeginEditing(textField: UITextField) {
         let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 40.0)
         self.scrollView.setContentOffset(bottom, animated: true)
+        self.selectedPokemon = nil
+        self.pokemonImageView.image = self.defaultPokemonImage
         self.showDropdown()
+        self.disableSubmitButton()
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -267,7 +275,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
         self.scrollView.setContentOffset(CGPointZero, animated: true)
-        if (textField.text?.characters.count > 1) {
+        if (Pokemon.validate(textField.text)) {
+            self.userSelectedPokemon(Pokemon.byName(textField.text!)!)
             self.enableSubmitButton()
         } else {
             self.disableSubmitButton()
@@ -288,8 +297,18 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBAction func textDidChange(sender: UITextField) {
         if (sender.text?.characters.count >= 1){
             self.filteredArray = Pokemon.filter(sender.text!)
+            
         } else {
             self.filteredArray = Pokemon.Pokedex!
+        }
+        if (Pokemon.validate(sender.text)){
+            self.selectedPokemon = Pokemon.byName(sender.text!)
+            self.userSelectedPokemon(self.selectedPokemon!)
+            self.enableSubmitButton()
+        } else {
+            self.selectedPokemon = nil
+            self.pokemonImageView.image = self.defaultPokemonImage
+            self.disableSubmitButton()
         }
         self.autoCompleteTableView.reloadData()
     }
@@ -315,7 +334,6 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
         LocationManager.sharedInstance().delegate = nil
-        self.showNotification("Location recieved", onComplete: nil)
         //continue with the request submission
         self.networkRequest.submitACatch(self.selectedPokemon!, coordinates: coordinates)
     }
@@ -350,7 +368,6 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
-        Pokemon.Pokedex = pokemonArray
         self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
     }

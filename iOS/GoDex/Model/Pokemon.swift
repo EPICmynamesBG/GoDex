@@ -32,12 +32,38 @@ struct Pokemon {
     
     static func filter(str: String) -> [Pokemon] {
         var pokeArr: [Pokemon] = [Pokemon]()
+        if (Pokedex == nil) {
+            return pokeArr
+        }
         for pokemon in Pokedex! {
             if (pokemon.name.lowercaseString.containsString(str.lowercaseString)){
                 pokeArr.append(pokemon)
             }
         }
         return pokeArr
+    }
+    
+    static func validate(pokemonName: String?) -> Bool {
+        if (Pokedex == nil ||
+            pokemonName == nil) {
+            return false
+        }
+        for pokemon in Pokedex! {
+            if (pokemon.name.lowercaseString == pokemonName!.lowercaseString){
+                return true
+            }
+        }
+        //not found
+        return false
+    }
+    
+    static func byName(pokemonName: String) -> Pokemon? {
+        for pokemon in Pokedex! {
+            if (pokemon.name.lowercaseString == pokemonName.lowercaseString){
+                return pokemon
+            }
+        }
+        return nil
     }
     
 }

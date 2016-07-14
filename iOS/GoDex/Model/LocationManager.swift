@@ -44,7 +44,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if (CLLocationManager.locationServicesEnabled()) {
             self.clLocationManger.startUpdatingLocation()
         } else {
-            self.delegate?.locationManagerUpdateError(nil, message: "Location services are not enabled for GoDex")
+            self.delegate?.locationManagerUpdateError(nil, message: "Location services are disabled. Please enable them in your settings")
         }
     }
     
@@ -52,12 +52,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     {
         if status == .AuthorizedAlways || status == .AuthorizedWhenInUse {
             self.getCurrentLocation()
+        } else {
+            self.delegate?.locationManagerUpdateError(nil, message: "Location services are disabled. Please enable them in your settings")
         }
     }
 
     
     @objc func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        self.delegate?.locationManagerUpdateError(error, message: "Unable to acquire current location")
+        if error.code == CLError.Denied.rawValue {
+            self.delegate?.locationManagerUpdateError(nil, message: "Location services are disabled. Please enable them in your settings")
+        } else {
+            self.delegate?.locationManagerUpdateError(error, message: "Unable to acquire current location")
+        }
+        self.clLocationManger.stopUpdatingLocation()
     }
     
     @objc func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {

@@ -19,11 +19,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BAP-ro-EqH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch-background" translatesAutoresizingMaskIntoConstraints="NO" id="BAP-ro-EqH">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchText" translatesAutoresizingMaskIntoConstraints="NO" id="D81-hq-M7f">
-                                <rect key="frame" x="121" y="232" width="359" height="136"/>
+                                <rect key="frame" x="21" y="194" width="559" height="212"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="D81-hq-M7f" secondAttribute="height" multiplier="604:229" id="wKR-9D-fdf"/>
                                 </constraints>
@@ -33,7 +33,7 @@
                         <constraints>
                             <constraint firstItem="BAP-ro-EqH" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="HgX-eE-Mge"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="BAP-ro-EqH" secondAttribute="bottom" id="IV8-Sd-kLy"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="D81-hq-M7f" secondAttribute="trailing" constant="100" id="JGX-FA-gZo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="D81-hq-M7f" secondAttribute="trailing" id="JGX-FA-gZo"/>
                             <constraint firstItem="BAP-ro-EqH" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="N7m-2j-vbz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BAP-ro-EqH" secondAttribute="trailing" constant="-20" id="bX2-Gg-G88"/>
                             <constraint firstItem="D81-hq-M7f" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fTx-W1-tuE"/>
@@ -48,5 +48,6 @@
     </scenes>
     <resources>
         <image name="LaunchText" width="604" height="229"/>
+        <image name="launch-background" width="667" height="666"/>
     </resources>
 </document>
