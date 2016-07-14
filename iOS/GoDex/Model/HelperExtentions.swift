@@ -114,4 +114,11 @@ public extension UIImage {
         return newImage
     }
     
+    func clearImage(frame: CGRect) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
+        let blank = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return blank
+    }
+    
 }

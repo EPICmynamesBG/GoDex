@@ -31,6 +31,9 @@ class RequestManager {
     
     private var currentDatatask: NSURLSessionDataTask?
     
+    private let uuid = UIDevice.currentDevice().identifierForVendor?.UUIDString
+
+    
     init() {
         
     }
@@ -76,8 +79,12 @@ class RequestManager {
      - parameter coordinates: the user's current location
      */
     func submitACatch(pokemon: Pokemon, coordinates: CLLocationCoordinate2D) {
+        if (uuid == nil) {
+            self.delegate?.RequestManagerError(nil, withMessage: "A device UUID is required to post a sighting")
+            return
+        }
         
-        let concatStringUrl = BASE_URL + "/CaughtPokemon/\(pokemon.id)/\(coordinates.latitude)/\(coordinates.longitude)"
+        let concatStringUrl = BASE_URL + "/CaughtPokemon/\(uuid!)/\(pokemon.id)/\(coordinates.latitude)/\(coordinates.longitude)"
         let url = NSURL(string: concatStringUrl)!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
@@ -94,7 +101,7 @@ class RequestManager {
                     self.delegate?.RequestManagerCatchSubmitted()
                 })
             } else {
-                self.throwError(error, withMessage: "An error occured submitting your catch")
+                self.throwError(error, withMessage: "An error occured submitting your catch. Try again")
             }
             self.requestComplete()
         }

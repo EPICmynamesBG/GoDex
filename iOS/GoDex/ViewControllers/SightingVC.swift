@@ -126,7 +126,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func showInfoView() {
         self.embeddedInfoView.alpha = 0.0
         self.embeddedInfoView.hidden = false
-        UIView.animateWithDuration(0.4, animations: { 
+        UIView.animateWithDuration(0.7, animations: {
             self.embeddedInfoView.alpha = 1.0
             }) { (Bool) in
                 //nothing for now
@@ -134,7 +134,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func hideInfoView() {
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animateWithDuration(0.7, animations: {
             self.embeddedInfoView.alpha = 0.0
         }) { (Bool) in
             self.embeddedInfoView.hidden = true
@@ -267,7 +267,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
         self.scrollView.setContentOffset(CGPointZero, animated: true)
-        if (textField.text?.characters.count > 1) {
+        if (Pokemon.validate(textField.text)) {
+            self.userSelectedPokemon(Pokemon.byName(textField.text!)!)
             self.enableSubmitButton()
         } else {
             self.disableSubmitButton()

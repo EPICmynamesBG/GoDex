@@ -15,23 +15,19 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         
+        let itemWidth = self.tabBar.frame.width / 2.0
+        
         for item in self.tabBar.items! {
-            item.image = nil
-            item.setTitleTextAttributes([NSFontAttributeName: UIFont.boldSystemFontOfSize(24.0)], forState: .Normal)
-            item.titlePositionAdjustment = UIOffsetMake(0, -10)
+            let scaleFrame = CGRect(x: 0, y: 0, width: 24, height: 24)
+            let image = UIImage(named: "tabpokeball")?.scaleToFit(scaleFrame)
+            item.image = image?.clearImage(scaleFrame).imageWithRenderingMode(.AlwaysOriginal)
+            item.selectedImage = image?.imageWithRenderingMode(.AlwaysOriginal)
+            item.imageInsets = UIEdgeInsets(top: 5, left: -itemWidth / 3.0, bottom: -5, right: itemWidth / 3.0)
+            item.setTitleTextAttributes([NSFontAttributeName: UIFont.init(name: "Helvetica", size: 24.0)!], forState: .Normal)
+            item.titlePositionAdjustment = UIOffsetMake(20, -10)
         }
         
-//        self.tabBar.tintColor = ColorPalette.Black
-//        
-//        //dynamic resizing
-//        var backgroundImage = UIImage(named: "tab-bar-background")
-//        backgroundImage = backgroundImage?.resizeTo(CGSizeMake(self.tabBar.frame.size.width, self.tabBar.frame.size.height))
-//        self.tabBar.backgroundImage = backgroundImage
-//        
-//        //dynamic resizing
-//        var highlightImage = UIImage(named: "tab-bar-selected-background")
-//        highlightImage = highlightImage?.resizeTo(CGSizeMake(self.tabBar.frame.size.width / 2, self.tabBar.frame.size.height))
-//        self.tabBar.selectionIndicatorImage = highlightImage
+        self.tabBar.tintColor = ColorPalette.TabBarTextSelectedColor
     }
     
     
