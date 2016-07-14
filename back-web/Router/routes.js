@@ -108,6 +108,8 @@ module.exports = function(app, express) {
   router.route('/CaughtPokemon/:uuid/:pokemon_id/:geo_lat/:geo_long')
     //POST a captured pokemon
     .post(function(req, res) {
+      //Creating array for JSON to stay consitent with other return values
+      var caughtPokemonArr = [];
       Pokemon.findOne({'pid': req.params.pokemon_id}, function(err, foundPokemon) {
         if (err) {
           res.send(err);
@@ -125,7 +127,7 @@ module.exports = function(app, express) {
             var distanceLimit = 5;
 
             if (foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit && distance <= distanceLimit) {
-              res.json({error: "Repeat sighting. Please try again later!"});
+              res.json([{error: "Repeat sighting. Please try again later!"}]);
               return;
             }
           }
@@ -138,8 +140,6 @@ module.exports = function(app, express) {
             caughtPokemon.geo_long = req.params.geo_long;
             caughtPokemon.time = timeStamp;
 
-            //Creating array for JSON to stay consitent with other return values
-            var caughtPokemonArr = [];
             caughtPokemon.save(function(err, poke) {
               if (err) {
                 return console.log(err);
@@ -149,7 +149,7 @@ module.exports = function(app, express) {
               }
             });
           } else {
-            res.json({error: "Pokemon ID does not exist"})
+            res.json([{error: "Pokemon ID does not exist"}])
           }
         });
       });
