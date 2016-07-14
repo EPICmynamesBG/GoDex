@@ -32,6 +32,9 @@ struct Pokemon {
     
     static func filter(str: String) -> [Pokemon] {
         var pokeArr: [Pokemon] = [Pokemon]()
+        if (Pokedex == nil) {
+            return pokeArr
+        }
         for pokemon in Pokedex! {
             if (pokemon.name.lowercaseString.containsString(str.lowercaseString)){
                 pokeArr.append(pokemon)

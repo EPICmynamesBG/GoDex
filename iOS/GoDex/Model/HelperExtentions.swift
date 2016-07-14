@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import CoreLocation
 
 public extension UIColor {
     
@@ -119,6 +120,16 @@ public extension UIImage {
         let blank = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return blank
+    }
+    
+}
+
+public extension CLLocationCoordinate2D {
+    
+    func distanceTo(otherCoordinate: CLLocationCoordinate2D) -> CLLocationDistance {
+        let location1 = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        let location2 = CLLocation(latitude: otherCoordinate.latitude, longitude: otherCoordinate.longitude)
+        return location1.distanceFromLocation(location2)
     }
     
 }

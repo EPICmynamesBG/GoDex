@@ -54,15 +54,28 @@ class RequestManager {
      Send a GET request to get the array of all pokemon
      */
     func getPokemonList() {
-        let url = NSURL(string: BASE_URL + "/AllPokemon")!
+        let url = NSURL(string: BASE_URL + "/AllPokemon/Enabled")!
+        
         if self.currentDatatask != nil {
             self.currentDatatask?.cancel()
+            self.timeoutTimer?.invalidate()
+            self.timeoutTimer = nil
         }
         
         self.currentDatatask = session.dataTaskWithURL(url) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
                 let json = self.dataToJson(data)
+                
+                if json.count > 0 {
+                    if json[0]["error"] != nil {
+                        self.throwError(nil, withMessage: json[0]["error"] as? String)
+                        self.requestComplete()
+                        return
+                    }
+                }
+                
                 let pokeArr = Pokemon.arrayFromJsonData(json)
+                Pokemon.Pokedex = pokeArr
                 self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
             } else {
                 self.throwError(error, withMessage: "Unable to fetch the pokemon list")
@@ -85,21 +98,38 @@ class RequestManager {
         }
         
         let concatStringUrl = BASE_URL + "/CaughtPokemon/\(uuid!)/\(pokemon.id)/\(coordinates.latitude)/\(coordinates.longitude)"
+        
         let url = NSURL(string: concatStringUrl)!
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         
         if self.currentDatatask != nil {
             self.currentDatatask?.cancel()
+            self.timeoutTimer?.invalidate()
+            self.timeoutTimer = nil
         }
         self.currentDatatask = session.dataTaskWithRequest(request) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
                 //success
-//                let json = self.dataToJson(data)
+                let json = self.dataToJson(data)
                 
-                NSOperationQueue.mainQueue().addOperationWithBlock({ 
-                    self.delegate?.RequestManagerCatchSubmitted()
-                })
+                if json.count > 0 {
+                    if json[0]["error"] != nil {
+                        self.throwError(nil, withMessage: json[0]["error"] as? String)
+                    }
+                    else {
+                        NSOperationQueue.mainQueue().addOperationWithBlock({
+                            self.delegate?.RequestManagerCatchSubmitted()
+                        })
+                    }
+                    self.requestComplete()
+                    return
+                } else {
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        self.delegate?.RequestManagerCatchSubmitted()
+                    })
+                }
+                
             } else {
                 self.throwError(error, withMessage: "An error occured submitting your catch. Try again")
             }
@@ -116,21 +146,40 @@ class RequestManager {
     func pokemonPinsLookup(pokemon: Pokemon) {
         //GET
         let url = NSURL(string: BASE_URL + "/CaughtPokemon/\(pokemon.id)")!
+        
+        if self.currentDatatask != nil {
+            self.currentDatatask?.cancel()
+            self.timeoutTimer?.invalidate()
+            self.timeoutTimer = nil
+        }
         self.currentDatatask = session.dataTaskWithURL(url) { (data: NSData?, response:NSURLResponse?, error:NSError?) in
             if error == nil {
                 let json = self.dataToJson(data)
-                var coorArray = [CLLocationCoordinate2D]()
-
+                
+                if json.count > 0 {
+                    if json[0]["error"] != nil {
+                        self.throwError(nil, withMessage: json[0]["error"] as? String)
+                        self.requestComplete()
+                        return
+                    }
+                }
+                
+                var coorArray: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
                 for dict in json {
                     let lat = dict["geo_lat"] as! Double
                     let lon = dict["geo_long"] as! Double
                     let coor = CLLocationCoordinate2D(latitude: lat, longitude: lon)
                     coorArray.append(coor)
                 }
-                
-                NSOperationQueue.mainQueue().addOperationWithBlock({ 
-                    self.delegate?.RequestManagerLookupResults(coorArray)
-                })
+                if (coorArray.count == 0){
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        self.delegate?.RequestManagerLookupResults(nil)
+                    })
+                } else {
+                    NSOperationQueue.mainQueue().addOperationWithBlock({
+                        self.delegate?.RequestManagerLookupResults(coorArray)
+                    })
+                }
             } else {
                 self.throwError(error, withMessage: "An error occured fetching location results for \(pokemon.name)")
             }
@@ -145,7 +194,6 @@ class RequestManager {
     private func startTheRequest() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         if (self.timeoutTimer !== nil) {
-            self.timeoutTimer?.fire()
             self.timeoutTimer?.invalidate()
         }
         self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
@@ -158,6 +206,8 @@ class RequestManager {
     private func requestComplete() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.currentDatatask = nil
+        self.timeoutTimer?.invalidate()
+        self.timeoutTimer = nil
     }
     
     /**
