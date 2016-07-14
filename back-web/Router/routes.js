@@ -115,7 +115,9 @@ module.exports = function(app, express) {
         CaughtPokemon.findOne({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
           var timeLimit = 5000; //5 seconds, until the user can make another post
           var timeStamp = Date.now();
-          if (foundPost != null && timeStamp - foundPost.time <= timeLimit ) {
+          console.log(foundPost.pid);
+          console.log(req.params.pokemon_id);
+          if (foundPost != null && foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit ) {
             res.json({error: "Repeat sighting, please try again later!"});
           }
           else if (foundPokemon!= null) {
