@@ -4,7 +4,8 @@ module.exports = function(mongoose) {
   var PokemonSchema = new Schema({
     pid: Number,
     name: String,
-    image: String
+    image: String,
+    visible: Boolean
   });
 
   return mongoose.model('pokemon', PokemonSchema);
