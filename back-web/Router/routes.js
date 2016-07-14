@@ -114,7 +114,7 @@ module.exports = function(app, express) {
         }
 
         CaughtPokemon.findOne({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
-          var timeLimit = 5000; //5 seconds, until the user can make another post
+          var timeLimit = 30000; //5 seconds, until the user can make another post
           var timeStamp = Date.now();
 
           if (foundPost != null) {
