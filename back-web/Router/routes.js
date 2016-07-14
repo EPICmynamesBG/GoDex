@@ -108,6 +108,13 @@ module.exports = function(app, express) {
   router.route('/CaughtPokemon/:uuid/:pokemon_id/:geo_lat/:geo_long')
     //POST a captured pokemon
     .post(function(req, res) {
+      if (-180 > req.params.geo_lat ||
+        req.params.geo_lat > 180 ||
+        -180 > req.params.geo_long ||
+        req.params.geo_long > 180) {
+        res.json([{error: "Invalid Geolocation Values"}]);
+        return;
+      }
       //Creating array for JSON to stay consitent with other return values
       var caughtPokemonArr = [];
       Pokemon.findOne({'pid': req.params.pokemon_id}, function(err, foundPokemon) {
@@ -149,7 +156,7 @@ module.exports = function(app, express) {
               }
             });
           } else {
-            res.json([{error: "Pokemon ID does not exist"}])
+            res.json([{error: "Pokemon ID does not exist"}]);
           }
         });
       });
