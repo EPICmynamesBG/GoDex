@@ -5,7 +5,7 @@ module.exports = function(app, express) {
   var Pokemon = require('../Model/pokemon.js')(mongoose);
   var CaughtPokemon = require('../Model/caughtPokemon')(mongoose);
 
-  mongoose.connect('mongodb://52.7.61.252:27017/godex');
+  mongoose.connect('mongodb://127.0.0.1/godex');
 
   router.use(function(req, res, next) {
     next();
@@ -104,7 +104,7 @@ module.exports = function(app, express) {
       });
     });
 
-  router.route('/CaughtPokemon/:pokemon_id/:geo_lat/:geo_long')
+  router.route('/CaughtPokemon/:uuid/:pokemon_id/:geo_lat/:geo_long')
     //POST a captured pokemon
     .post(function(req, res) {
       Pokemon.findOne({'pid': req.params.pokemon_id}, function(err, foundPokemon) {
@@ -114,6 +114,7 @@ module.exports = function(app, express) {
 
         if (foundPokemon!= null) {
           var caughtPokemon = new CaughtPokemon();
+          caughtPokemon.uuid = req.params.uuid;
           caughtPokemon.pid = req.params.pokemon_id;
           caughtPokemon.geo_lat = req.params.geo_lat;
           caughtPokemon.geo_long = req.params.geo_long;
