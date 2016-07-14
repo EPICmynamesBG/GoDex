@@ -112,27 +112,34 @@ module.exports = function(app, express) {
           res.send(err);
         }
 
-        if (foundPokemon!= null) {
-          var caughtPokemon = new CaughtPokemon();
-          caughtPokemon.uuid = req.params.uuid;
-          caughtPokemon.pid = req.params.pokemon_id;
-          caughtPokemon.geo_lat = req.params.geo_lat;
-          caughtPokemon.geo_long = req.params.geo_long;
-          caughtPokemon.time = Date.now();
+        CaughtPokemon.findOne({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
+          var timeLimit = 5000; //5 seconds, until the user can make another post
+          var timeStamp = Date.now();
+          if (foundPost != null && timeStamp - foundPost.time <= timeLimit ) {
+            res.json({error: "Repeat sighting, please try again later!"});
+          }
+          else if (foundPokemon!= null) {
+            var caughtPokemon = new CaughtPokemon();
+            caughtPokemon.uuid = req.params.uuid;
+            caughtPokemon.pid = req.params.pokemon_id;
+            caughtPokemon.geo_lat = req.params.geo_lat;
+            caughtPokemon.geo_long = req.params.geo_long;
+            caughtPokemon.time = timeStamp;
 
-          //Creating array for JSON to stay consitent with other return values
-          var caughtPokemonArr = [];
-          caughtPokemon.save(function(err, poke) {
-            if (err) {
-              return console.log(err);
-            } else {
-              caughtPokemonArr.push(poke);
-              res.json(caughtPokemonArr);
-            }
-          });
-        } else {
-          res.json({error: "Pokemon ID does not exist"})
-        }
+            //Creating array for JSON to stay consitent with other return values
+            var caughtPokemonArr = [];
+            caughtPokemon.save(function(err, poke) {
+              if (err) {
+                return console.log(err);
+              } else {
+                caughtPokemonArr.push(poke);
+                res.json(caughtPokemonArr);
+              }
+            });
+          } else {
+            res.json({error: "Pokemon ID does not exist"})
+          }
+        });
       });
     });
 
