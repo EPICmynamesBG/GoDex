@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/custback"
-    tools:context="godex.godexapp.MainActivity$PlaceholderFragment">
+    tools:context="godex.godexapp.MainActivity$PlaceholderFragment"
+    android:id="@+id/frag_main">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -19,22 +20,9 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/imageButton" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_container"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/space" />
-
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
     <Space
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:id="@+id/space"
         android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentStart="true" />

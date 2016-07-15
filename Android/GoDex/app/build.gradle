@@ -25,11 +25,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.roughike:bottom-bar:1.4.0'
-    compile 'in.workarounds.typography:typography:0.0.8'
-    compile 'com.lapism:searchview:3.4'
-    compile 'com.miguelcatalan:materialsearchview:1.0.0'
+//    compile 'in.workarounds.typography:typography:0.0.8'
 
-
-    compile 'com.google.android.gms:play-services-maps:8.4.0+'
+    compile 'com.github.arimorty:floatingsearchview:2.0.1'
+    compile 'com.google.android.gms:play-services:8.4.0+'
 
 }
