@@ -84,7 +84,7 @@ module.exports = function(app, express) {
   router.route('/CaughtPokemon')
     //GETS all pokemon caught
     .get(function(req, res) {
-      CaughtPokemon.find(function(err, pokemon) {
+      CaughtPokemon.find({}, {'time': 1, 'geo_long': 1, 'geo_lat': 1, 'pid': 1}, function(err, pokemon) {
         if (err) {
           res.send(err);
         } else {
@@ -96,7 +96,7 @@ module.exports = function(app, express) {
   router.route('/CaughtPokemon/:pokemon_id')
     //GETS all the pokemon caught with an id
     .get(function(req, res) {
-      CaughtPokemon.find({'pid': req.params.pokemon_id}, function(err, foundPokemon) {
+      CaughtPokemon.find({'pid': req.params.pokemon_id}, {'time': 1, 'geo_long': 1, 'geo_lat': 1, 'pid': 1}, function(err, foundPokemon) {
         if (err) {
           res.send(err);
         } else {
