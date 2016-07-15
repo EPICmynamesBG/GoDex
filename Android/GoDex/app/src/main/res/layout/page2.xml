@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@drawable/custback">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -8,8 +16,8 @@
     android:background="@drawable/custback">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="1141dp"
+        android:layout_height="150dp"
         android:id="@+id/imageView4"
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/logo"
@@ -84,12 +92,6 @@
 
     </LinearLayout>
 
-    <WebView
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:id="@+id/webView"
-        android:layout_gravity="center_horizontal" />
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="60dp" />
@@ -102,4 +104,6 @@
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
 
+
 </LinearLayout>
+</ScrollView>

@@ -429,23 +429,26 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                 String str = "fuck this";
                 if(googleMap == null)
-                    str = "nulled"
+                    str = "nulled";
                 //Do some Map things
                 Log.i("MapLog","OnMapReady " + str);
 
                 googleMap.setMyLocationEnabled(true);
 
                 Location mloc = LocationServices.FusedLocationApi.getLastLocation(MainActivity.googleApiClient);
+                if(null == mloc)
+                    str = "nulled";
+
+                Log.i("MapLog","OnMapReady " + str);
+
                 current = mloc;
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(mloc.getLatitude(), mloc.getLongitude()))
-                        .title("Hello world")
-                        .icon(BitmapDescriptorFactory.fromBitmap(ImageTask.done)));
-//
-//                CameraPosition cameraPosition = new CameraPosition.Builder()
-//                        .target(new LatLng(mloc.getLatitude(), mloc.getLongitude())).zoom(17).build();
-//                googleMap.animateCamera(CameraUpdateFactory
-//                        .newCameraPosition(cameraPosition));
+                        .title("Hello world"));
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(mloc.getLatitude(), mloc.getLongitude())).zoom(17).build();
+                googleMap.animateCamera(CameraUpdateFactory
+                        .newCameraPosition(cameraPosition));
 
 
 
@@ -455,8 +458,8 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
                 Log.d("Error", "Frag made " + pageNum);
                 rootView = inflater.inflate(R.layout.page2, container, false);
 
-                WebView web = (WebView) rootView.findViewById(R.id.webView);
-                web.loadUrl("http://www.infendo.com/wp-content/uploads/2012/10/whos-that-pokemon.png");
+//                WebView web = (WebView) rootView.findViewById(R.id.webView);
+  //              web.loadUrl("http://www.infendo.com/wp-content/uploads/2012/10/whos-that-pokemon.png");
 
                 AutoCompleteTextView lists = (AutoCompleteTextView) rootView.findViewById(R.id.searchin);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_drop_down, DataHelper.key.toArray(new String[DataHelper.key.size()]));

@@ -34,6 +34,7 @@
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:singleLine="true"
+        android:textSize="10dp"
         android:background="@drawable/borders"
         android:layout_weight="0.80"
         android:layout_marginLeft="22dp"
