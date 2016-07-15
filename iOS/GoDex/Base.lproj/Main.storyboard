@@ -11,6 +11,7 @@
             <string>PokemonGB</string>
             <string>PokemonGB</string>
             <string>PokemonGB</string>
+            <string>PokemonGB</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -36,9 +37,9 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbB-En-g63" customClass="PokeLabel" customModule="GoDex" customModuleProvider="target">
-                                        <rect key="frame" x="28" y="88" width="544" height="50"/>
+                                        <rect key="frame" x="14" y="88" width="572" height="50"/>
                                         <string key="text">Oh my! You found a Pokemon!
-That’s wonderful news…
+That’s wonderful news!
 
 Record your findings here
 to inform other trainers!</string>
@@ -46,27 +47,27 @@ to inform other trainers!</string>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What Pokemon did you find?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkc-1Q-BRr" customClass="PaddedLabel" customModule="GoDex" customModuleProvider="target">
-                                        <rect key="frame" x="198" y="174" width="205" height="19"/>
-                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What Pokemon did you see?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkc-1Q-BRr" customClass="PaddedLabel" customModule="GoDex" customModuleProvider="target">
+                                        <rect key="frame" x="185" y="174" width="230" height="21"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q86-L5-SmN" userLabel="Pokemon Image">
-                                        <rect key="frame" x="200" y="259" width="200" height="200"/>
+                                        <rect key="frame" x="200" y="281" width="200" height="200"/>
                                         <constraints>
                                             <constraint firstAttribute="width" priority="250" constant="200" id="Zds-RE-8YS"/>
                                             <constraint firstAttribute="width" secondItem="q86-L5-SmN" secondAttribute="height" multiplier="1:1" id="fVH-5r-XWi"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zpb-h5-ek2">
-                                        <rect key="frame" x="195" y="475" width="211" height="54"/>
+                                        <rect key="frame" x="195" y="511" width="211" height="52"/>
                                         <color key="backgroundColor" red="0.20392156862745098" green="0.60784313725490191" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="veT-A1-Ydi"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="26"/>
-                                        <inset key="contentEdgeInsets" minX="14" minY="12" maxX="14" maxY="12"/>
+                                        <inset key="contentEdgeInsets" minX="14" minY="10" maxX="14" maxY="12"/>
                                         <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-5"/>
                                         <state key="normal" title="Submit Sighting">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -87,21 +88,21 @@ to inform other trainers!</string>
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="30" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3jf-V3-wkk">
-                                        <rect key="frame" x="28" y="237" width="544" height="0.0"/>
+                                        <rect key="frame" x="14" y="239" width="572" height="0.0"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="750" id="noZ-B3-x8t"/>
                                         </constraints>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonCell" textLabel="drt-sG-EKP" rowHeight="30" style="IBUITableViewCellStyleDefault" id="vJS-lG-P9l" customClass="PokemonTableViewCell" customModule="GoDex" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="544" height="30"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonCell" textLabel="drt-sG-EKP" rowHeight="35" style="IBUITableViewCellStyleDefault" id="vJS-lG-P9l" customClass="PokemonTableViewCell" customModule="GoDex" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="572" height="35"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vJS-lG-P9l" id="ugO-2F-a9X">
-                                                    <rect key="frame" x="0.0" y="0.0" width="544" height="30"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="572" height="35"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="drt-sG-EKP">
-                                                            <rect key="frame" x="15" y="0.0" width="514" height="30"/>
+                                                            <rect key="frame" x="15" y="0.0" width="542" height="35"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -121,12 +122,13 @@ to inform other trainers!</string>
                                             <outlet property="delegate" destination="9pv-A4-QxB" id="ktI-iv-1FN"/>
                                         </connections>
                                     </tableView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for Pokemon" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IN8-3h-wyL">
-                                        <rect key="frame" x="28" y="209" width="544" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type to Filter" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IN8-3h-wyL">
+                                        <rect key="frame" x="14" y="201" width="572" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="gRm-3Q-WHF"/>
+                                            <constraint firstAttribute="height" constant="40" id="kcx-Qn-57D"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="28"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
@@ -144,7 +146,7 @@ to inform other trainers!</string>
                                         </connections>
                                     </textField>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpM-wj-xPC" customClass="PokeLabel" customModule="GoDex" customModuleProvider="target">
-                                        <rect key="frame" x="28" y="505" width="544" height="11"/>
+                                        <rect key="frame" x="14" y="505" width="572" height="11"/>
                                         <fontDescription key="fontDescription" name="PokemonGB" family="Pokemon GB" pointSize="11"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -155,55 +157,41 @@ to inform other trainers!</string>
                                             <action selector="infoButtonTap:" destination="9pv-A4-QxB" eventType="touchUpInside" id="HPQ-Cu-ofV"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" translatesAutoresizingMaskIntoConstraints="NO" id="yzq-hZ-x3f">
-                                        <rect key="frame" x="542" y="212" width="25" height="25"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="25" id="Bp2-0d-IKn"/>
-                                            <constraint firstAttribute="height" constant="25" id="Dkc-wT-kDy"/>
-                                        </constraints>
-                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="rbB-En-g63" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="0O3-dJ-x6H"/>
                                     <constraint firstItem="3jf-V3-wkk" firstAttribute="width" secondItem="IN8-3h-wyL" secondAttribute="width" id="1e6-N9-nmL"/>
                                     <constraint firstItem="3jf-V3-wkk" firstAttribute="top" secondItem="IN8-3h-wyL" secondAttribute="bottom" constant="-2" id="1ku-0X-Bfs"/>
-                                    <constraint firstItem="yzq-hZ-x3f" firstAttribute="bottom" secondItem="IN8-3h-wyL" secondAttribute="bottom" id="7vg-fY-Tba"/>
-                                    <constraint firstItem="yzq-hZ-x3f" firstAttribute="leading" secondItem="IN8-3h-wyL" secondAttribute="leading" id="EUm-Mm-IST"/>
                                     <constraint firstItem="hkc-1Q-BRr" firstAttribute="top" secondItem="rbB-En-g63" secondAttribute="bottom" constant="36" id="GcD-Cq-nRV"/>
-                                    <constraint firstItem="IN8-3h-wyL" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" priority="750" constant="28" id="Geq-Lh-KwT"/>
+                                    <constraint firstItem="IN8-3h-wyL" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" priority="750" constant="14" id="Geq-Lh-KwT"/>
                                     <constraint firstItem="rbB-En-g63" firstAttribute="top" secondItem="WT3-oS-5v9" secondAttribute="bottom" constant="8" id="Gf6-xZ-yc6"/>
+                                    <constraint firstItem="hkc-1Q-BRr" firstAttribute="top" secondItem="WT3-oS-5v9" secondAttribute="bottom" priority="250" constant="36" id="HG1-BU-st6"/>
                                     <constraint firstItem="q86-L5-SmN" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="IUi-wO-gaA"/>
                                     <constraint firstItem="WT3-oS-5v9" firstAttribute="top" secondItem="gUU-CN-pWj" secondAttribute="top" constant="20" id="KaZ-A7-m2V"/>
-                                    <constraint firstItem="yzq-hZ-x3f" firstAttribute="leading" secondItem="IN8-3h-wyL" secondAttribute="trailing" constant="-30" id="KzZ-Av-DcF"/>
                                     <constraint firstItem="Zpb-h5-ek2" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="LPl-rX-QAO"/>
                                     <constraint firstItem="OVu-PJ-ts2" firstAttribute="trailing" secondItem="gUU-CN-pWj" secondAttribute="trailingMargin" id="Pab-H4-D3e"/>
                                     <constraint firstItem="WT3-oS-5v9" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="PwF-6I-HOG"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bpM-wj-xPC" secondAttribute="trailing" priority="750" constant="28" id="Qfp-H5-CdY"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bpM-wj-xPC" secondAttribute="trailing" priority="750" constant="14" id="Qfp-H5-CdY"/>
                                     <constraint firstItem="hkc-1Q-BRr" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="RwH-fv-Ihb"/>
                                     <constraint firstItem="OVu-PJ-ts2" firstAttribute="top" secondItem="WT3-oS-5v9" secondAttribute="top" id="UaH-6S-S4I"/>
                                     <constraint firstItem="IN8-3h-wyL" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="WHb-me-h15"/>
-                                    <constraint firstItem="Zpb-h5-ek2" firstAttribute="top" secondItem="q86-L5-SmN" secondAttribute="bottom" constant="16" id="Y1n-V3-gBw"/>
+                                    <constraint firstItem="Zpb-h5-ek2" firstAttribute="top" secondItem="q86-L5-SmN" secondAttribute="bottom" constant="30" id="Y1n-V3-gBw"/>
                                     <constraint firstItem="hkc-1Q-BRr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gUU-CN-pWj" secondAttribute="leading" constant="8" id="b20-jS-H6r"/>
                                     <constraint firstItem="bpM-wj-xPC" firstAttribute="top" secondItem="q86-L5-SmN" secondAttribute="bottom" constant="16" id="d8G-O7-nJW"/>
-                                    <constraint firstItem="yzq-hZ-x3f" firstAttribute="centerY" secondItem="IN8-3h-wyL" secondAttribute="centerY" id="ha1-Kn-Hl3"/>
                                     <constraint firstAttribute="bottom" secondItem="Zpb-h5-ek2" secondAttribute="bottom" constant="16" id="hx8-QR-x2h"/>
-                                    <constraint firstItem="rbB-En-g63" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" constant="28" id="iQ8-cu-1Yy"/>
-                                    <constraint firstItem="bpM-wj-xPC" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" constant="28" id="jA5-aY-NxX"/>
-                                    <constraint firstAttribute="trailing" secondItem="IN8-3h-wyL" secondAttribute="trailing" priority="750" constant="28" id="oeY-79-Rsj"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rbB-En-g63" secondAttribute="trailing" priority="250" constant="28" id="ooZ-k2-G79"/>
+                                    <constraint firstItem="rbB-En-g63" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" constant="14" id="iQ8-cu-1Yy"/>
+                                    <constraint firstItem="bpM-wj-xPC" firstAttribute="leading" secondItem="gUU-CN-pWj" secondAttribute="leading" constant="14" id="jA5-aY-NxX"/>
+                                    <constraint firstAttribute="trailing" secondItem="IN8-3h-wyL" secondAttribute="trailing" priority="750" constant="14" id="oeY-79-Rsj"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rbB-En-g63" secondAttribute="trailing" priority="250" constant="14" id="ooZ-k2-G79"/>
                                     <constraint firstItem="3jf-V3-wkk" firstAttribute="leading" secondItem="IN8-3h-wyL" secondAttribute="leading" id="q4z-LN-ciP"/>
-                                    <constraint firstItem="yzq-hZ-x3f" firstAttribute="trailing" secondItem="IN8-3h-wyL" secondAttribute="trailing" id="qYO-tD-Ds7"/>
                                     <constraint firstItem="rbB-En-g63" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="rAh-Bv-M8Y"/>
                                     <constraint firstItem="bpM-wj-xPC" firstAttribute="centerX" secondItem="gUU-CN-pWj" secondAttribute="centerX" id="rrd-Sw-tEn"/>
-                                    <constraint firstItem="q86-L5-SmN" firstAttribute="top" secondItem="IN8-3h-wyL" secondAttribute="bottom" constant="20" id="ukZ-gS-Dgk"/>
-                                    <constraint firstItem="IN8-3h-wyL" firstAttribute="top" secondItem="hkc-1Q-BRr" secondAttribute="bottom" constant="16" id="wku-NR-1uv"/>
+                                    <constraint firstItem="q86-L5-SmN" firstAttribute="top" secondItem="IN8-3h-wyL" secondAttribute="bottom" constant="40" id="ukZ-gS-Dgk"/>
+                                    <constraint firstItem="IN8-3h-wyL" firstAttribute="top" secondItem="hkc-1Q-BRr" secondAttribute="bottom" constant="6" id="wku-NR-1uv"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="d8G-O7-nJW"/>
-                                        <exclude reference="7vg-fY-Tba"/>
-                                        <exclude reference="EUm-Mm-IST"/>
-                                        <exclude reference="qYO-tD-Ds7"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -245,6 +233,7 @@ to inform other trainers!</string>
                         <outlet property="autoCompleteTableView" destination="3jf-V3-wkk" id="qxM-Ik-Jcq"/>
                         <outlet property="autoCompleteTableViewHeight" destination="noZ-B3-x8t" id="PfD-lq-OfO"/>
                         <outlet property="embeddedInfoView" destination="CMb-yR-tYE" id="g7d-OY-Uxh"/>
+                        <outlet property="headerTextBox" destination="rbB-En-g63" id="wex-hL-Q14"/>
                         <outlet property="infoButton" destination="OVu-PJ-ts2" id="4gr-m9-L1u"/>
                         <outlet property="notificationLabel" destination="bpM-wj-xPC" id="aPA-rg-aCh"/>
                         <outlet property="pokemonImageView" destination="q86-L5-SmN" id="Tnh-2K-gdp"/>
@@ -257,7 +246,7 @@ to inform other trainers!</string>
             </objects>
             <point key="canvasLocation" x="750" y="-312"/>
         </scene>
-        <!--Search-->
+        <!--Explore-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="SearchPokemonVC" customModule="GoDex" customModuleProvider="target" sceneMemberID="viewController">
@@ -269,34 +258,34 @@ to inform other trainers!</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fgT-Mi-f2v">
-                                <rect key="frame" x="0.0" y="213" width="600" height="330"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fgT-Mi-f2v">
+                                <rect key="frame" x="0.0" y="215" width="600" height="328"/>
                                 <connections>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="Bfx-Tl-5Vh"/>
                                 </connections>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What pokemon do you wish to find?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naD-BE-nfW">
-                                <rect key="frame" x="173" y="116" width="255" height="19"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What Pokemon are you looking for?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naD-BE-nfW">
+                                <rect key="frame" x="158" y="116" width="284" height="21"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="35" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kFi-pv-BxB">
-                                <rect key="frame" x="52" y="179" width="496" height="0.0"/>
+                                <rect key="frame" x="20" y="181" width="560" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="MAZ-sp-jQQ"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonCell" textLabel="sKv-16-Cai" rowHeight="35" style="IBUITableViewCellStyleDefault" id="v5W-PJ-fRk" customClass="PokemonTableViewCell" customModule="GoDex" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="496" height="35"/>
+                                        <rect key="frame" x="0.0" y="28" width="560" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v5W-PJ-fRk" id="IDV-e1-X1F">
-                                            <rect key="frame" x="0.0" y="0.0" width="496" height="35"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sKv-16-Cai">
-                                                    <rect key="frame" x="15" y="0.0" width="466" height="35"/>
+                                                    <rect key="frame" x="15" y="0.0" width="530" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -316,9 +305,12 @@ to inform other trainers!</string>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="vhj-BX-arh"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for Pokemon..." textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p9f-m5-uYy">
-                                <rect key="frame" x="52" y="151" width="496" height="30"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Find a Pokemon!" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p9f-m5-uYy">
+                                <rect key="frame" x="20" y="143" width="560" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="LN5-58-U1T"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="28"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="textDidChange:" destination="8rJ-Kc-sve" eventType="editingChanged" id="K8v-zc-WjS"/>
@@ -329,7 +321,7 @@ to inform other trainers!</string>
                                 <rect key="frame" x="0.0" y="0.0" width="30" height="34"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" translatesAutoresizingMaskIntoConstraints="NO" id="DuW-dS-Pxd">
-                                <rect key="frame" x="518" y="153" width="25" height="25"/>
+                                <rect key="frame" x="550" y="151" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="25" id="agW-ro-9RH"/>
                                     <constraint firstAttribute="height" constant="25" id="iAT-LA-rXT"/>
@@ -341,8 +333,8 @@ to inform other trainers!</string>
                                     <constraint firstAttribute="height" constant="60" id="IhF-Jm-gIx"/>
                                 </constraints>
                             </imageView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SfB-SN-pw3" customClass="PokeLabel" customModule="GoDex" customModuleProvider="target">
-                                <rect key="frame" x="48" y="529" width="504" height="14"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SfB-SN-pw3" customClass="PokeLabel" customModule="GoDex" customModuleProvider="target">
+                                <rect key="frame" x="20" y="529" width="560" height="14"/>
                                 <fontDescription key="fontDescription" name="PokemonGB" family="Pokemon GB" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -357,13 +349,13 @@ to inform other trainers!</string>
                             <constraint firstItem="GNm-5f-eGK" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="9RN-KQ-F4K"/>
                             <constraint firstItem="naD-BE-nfW" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="Bus-UI-FRV"/>
                             <constraint firstItem="DuW-dS-Pxd" firstAttribute="centerY" secondItem="p9f-m5-uYy" secondAttribute="centerY" id="Jqt-fs-UYm"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="p9f-m5-uYy" secondAttribute="trailing" constant="32" id="Lnl-a4-OHC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="p9f-m5-uYy" secondAttribute="trailing" id="Lnl-a4-OHC"/>
                             <constraint firstItem="kFi-pv-BxB" firstAttribute="leading" secondItem="p9f-m5-uYy" secondAttribute="leading" id="NMq-x9-seg"/>
                             <constraint firstItem="fgT-Mi-f2v" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-20" id="NPL-ii-sak"/>
-                            <constraint firstItem="SfB-SN-pw3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="28" id="QA7-gv-TMH"/>
+                            <constraint firstItem="SfB-SN-pw3" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="QA7-gv-TMH"/>
                             <constraint firstItem="kFi-pv-BxB" firstAttribute="width" secondItem="p9f-m5-uYy" secondAttribute="width" id="WTr-73-Knd"/>
-                            <constraint firstItem="p9f-m5-uYy" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="32" id="XRT-kj-Bz1"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="SfB-SN-pw3" secondAttribute="trailing" constant="28" id="Zjr-fV-NP8"/>
+                            <constraint firstItem="p9f-m5-uYy" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="XRT-kj-Bz1"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="SfB-SN-pw3" secondAttribute="trailing" id="Zjr-fV-NP8"/>
                             <constraint firstItem="fgT-Mi-f2v" firstAttribute="top" secondItem="p9f-m5-uYy" secondAttribute="bottom" constant="32" id="bmT-rE-zXx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fgT-Mi-f2v" secondAttribute="trailing" constant="-20" id="dPM-Ut-RJM"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="fgT-Mi-f2v" secondAttribute="bottom" constant="8" id="fY5-hB-AVc"/>
@@ -371,7 +363,7 @@ to inform other trainers!</string>
                             <constraint firstItem="fgT-Mi-f2v" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" constant="-20" id="jhu-Ss-ctq"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="SfB-SN-pw3" secondAttribute="bottom" constant="8" id="pgb-kC-cTM"/>
                             <constraint firstItem="naD-BE-nfW" firstAttribute="top" secondItem="GNm-5f-eGK" secondAttribute="bottom" constant="16" id="xFK-Bv-J6C"/>
-                            <constraint firstItem="p9f-m5-uYy" firstAttribute="top" secondItem="naD-BE-nfW" secondAttribute="bottom" constant="16" id="xFZ-UO-6ay"/>
+                            <constraint firstItem="p9f-m5-uYy" firstAttribute="top" secondItem="naD-BE-nfW" secondAttribute="bottom" constant="6" id="xFZ-UO-6ay"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="fgT-Mi-f2v" secondAttribute="bottom" constant="8" id="zst-rF-Kqp"/>
                         </constraints>
                         <variation key="default">
@@ -381,7 +373,7 @@ to inform other trainers!</string>
                             </mask>
                         </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="tabpokeball" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Explore" image="tabpokeball" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="autoCompleteTableView" destination="kFi-pv-BxB" id="X9M-Pz-6Ej"/>
                         <outlet property="autoCompleteTableViewHeight" destination="MAZ-sp-jQQ" id="bPa-L5-JUj"/>
@@ -427,16 +419,187 @@ to inform other trainers!</string>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeB-zI-dTK">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchText" translatesAutoresizingMaskIntoConstraints="NO" id="v6y-AL-PTD">
+                                        <rect key="frame" x="206" y="38" width="188" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="5Pd-LR-rTm"/>
+                                            <constraint firstAttribute="height" constant="60" id="KTl-Au-77s"/>
+                                            <constraint firstAttribute="width" secondItem="v6y-AL-PTD" secondAttribute="height" multiplier="47:15" id="ig1-Al-CO2"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlC-Z1-amE">
+                                        <rect key="frame" x="261" y="98" width="110" height="10"/>
+                                        <fontDescription key="fontDescription" name="PokemonGB" family="Pokemon GB" pointSize="10"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Fl-He-3Yh">
+                                        <rect key="frame" x="516" y="38" width="56" height="31"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="16"/>
+                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <state key="normal" title="Close">
+                                            <color key="titleColor" red="1" green="0.20784313979999999" blue="0.18823529780000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="closeTap:" destination="Y2F-4Q-pMe" eventType="touchUpInside" id="usw-2b-mSF"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hV4-3D-0k8">
+                                        <rect key="frame" x="268" y="124" width="64" height="26"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="22"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5b1-q6-5Sh">
+                                        <rect key="frame" x="28" y="158" width="544" height="83"/>
+                                        <string key="text">GoDex is a non-profit community and fan powered app/service that makes finding Pokemon easier! As Trainers post sightings, we crunch and validate data to let you know spawn hotspots for Pokemon. More sightings means greater accuracy, so chase away! </string>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anonymous Feedback" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PMz-V1-Tdq">
+                                        <rect key="frame" x="183" y="257" width="235" height="26"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="22"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="22u-O9-c0d">
+                                        <rect key="frame" x="28" y="291" width="544" height="65"/>
+                                        <string key="text">Tell us how it is! How'd we do? Do you have ideas for future updates? We want to know! We're always looking to make your experience better!</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72O-WM-cT0">
+                                        <rect key="frame" x="214" y="572" width="173" height="63"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                                        <inset key="contentEdgeInsets" minX="3" minY="0.0" maxX="3" maxY="0.0"/>
+                                        <state key="normal">
+                                            <string key="title">View the Disclaimer, 
+Terms of Use, 
+and Privacy Policy</string>
+                                            <color key="titleColor" red="1" green="0.82352941180000006" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="disclaimerTap:" destination="Y2F-4Q-pMe" eventType="touchUpInside" id="Cw2-Nm-DIT"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="tk6-4l-eYV">
+                                        <rect key="frame" x="28" y="364" width="544" height="125"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="125" id="q74-Ym-AKm"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="Y2F-4Q-pMe" id="b2S-wG-uuH"/>
+                                        </connections>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="©GoDex.io 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqz-vT-0wt">
+                                        <rect key="frame" x="237" y="651" width="127" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mQD-XY-UJV">
+                                        <rect key="frame" x="231" y="497" width="139" height="25"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                                        <inset key="contentEdgeInsets" minX="5" minY="2" maxX="5" maxY="2"/>
+                                        <state key="normal" title="Send Feedback">
+                                            <color key="titleColor" red="1" green="0.82352941176470584" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="6"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="1" green="0.82352941180000006" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="sendFeedbackTap:" destination="Y2F-4Q-pMe" eventType="touchUpInside" id="ur0-QI-L09"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Legal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2X-hM-QHM">
+                                        <rect key="frame" x="271" y="538" width="58" height="26"/>
+                                        <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="22"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="mQD-XY-UJV" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="0nr-YW-JmW"/>
+                                    <constraint firstItem="5b1-q6-5Sh" firstAttribute="top" secondItem="hV4-3D-0k8" secondAttribute="bottom" constant="8" id="56E-wT-fTh"/>
+                                    <constraint firstItem="72O-WM-cT0" firstAttribute="top" secondItem="G2X-hM-QHM" secondAttribute="bottom" constant="8" id="E53-Ml-GvR"/>
+                                    <constraint firstItem="22u-O9-c0d" firstAttribute="top" secondItem="PMz-V1-Tdq" secondAttribute="bottom" constant="8" id="ESU-7U-riM"/>
+                                    <constraint firstItem="PMz-V1-Tdq" firstAttribute="top" secondItem="5b1-q6-5Sh" secondAttribute="bottom" constant="16" id="GyB-AC-QYN"/>
+                                    <constraint firstItem="PMz-V1-Tdq" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="HDz-s6-x7h"/>
+                                    <constraint firstItem="hV4-3D-0k8" firstAttribute="top" secondItem="dlC-Z1-amE" secondAttribute="bottom" constant="16" id="KMO-Ea-hoa"/>
+                                    <constraint firstItem="mqz-vT-0wt" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="NHp-HY-Yjf"/>
+                                    <constraint firstItem="v6y-AL-PTD" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="NVa-pZ-PQP"/>
+                                    <constraint firstItem="72O-WM-cT0" firstAttribute="top" secondItem="mqz-vT-0wt" secondAttribute="bottom" constant="8" id="Ovq-rS-wJT"/>
+                                    <constraint firstItem="G2X-hM-QHM" firstAttribute="top" secondItem="mQD-XY-UJV" secondAttribute="bottom" constant="16" id="Pyr-Jw-zU5"/>
+                                    <constraint firstItem="mqz-vT-0wt" firstAttribute="top" secondItem="72O-WM-cT0" secondAttribute="bottom" constant="16" id="Smg-5w-pw5"/>
+                                    <constraint firstAttribute="bottom" secondItem="mqz-vT-0wt" secondAttribute="bottom" constant="16" id="YDg-fe-gLG"/>
+                                    <constraint firstItem="G2X-hM-QHM" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="ZvJ-Sm-9NF"/>
+                                    <constraint firstAttribute="bottom" secondItem="72O-WM-cT0" secondAttribute="bottom" constant="16" id="a1U-0c-YGK"/>
+                                    <constraint firstItem="tk6-4l-eYV" firstAttribute="top" secondItem="22u-O9-c0d" secondAttribute="bottom" constant="8" id="feY-sb-h9K"/>
+                                    <constraint firstAttribute="trailing" secondItem="tk6-4l-eYV" secondAttribute="trailing" constant="28" id="jgj-4e-74y"/>
+                                    <constraint firstItem="tk6-4l-eYV" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="kRa-be-wER"/>
+                                    <constraint firstItem="hV4-3D-0k8" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="lL2-5M-hYP"/>
+                                    <constraint firstItem="tk6-4l-eYV" firstAttribute="leading" secondItem="xeB-zI-dTK" secondAttribute="leading" priority="750" constant="28" id="nXM-jh-X7h"/>
+                                    <constraint firstItem="72O-WM-cT0" firstAttribute="top" secondItem="mqz-vT-0wt" secondAttribute="bottom" constant="8" id="nt4-kQ-ZTW"/>
+                                    <constraint firstItem="1Fl-He-3Yh" firstAttribute="top" secondItem="v6y-AL-PTD" secondAttribute="top" id="pNd-h6-729"/>
+                                    <constraint firstItem="72O-WM-cT0" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" id="qKU-z4-Zlv"/>
+                                    <constraint firstItem="dlC-Z1-amE" firstAttribute="centerX" secondItem="xeB-zI-dTK" secondAttribute="centerX" constant="16" id="rSg-4N-gt6"/>
+                                    <constraint firstItem="v6y-AL-PTD" firstAttribute="top" secondItem="xeB-zI-dTK" secondAttribute="top" constant="38" id="tZa-2Z-LeH"/>
+                                    <constraint firstItem="mQD-XY-UJV" firstAttribute="top" secondItem="tk6-4l-eYV" secondAttribute="bottom" constant="8" id="vkD-1d-KAi"/>
+                                    <constraint firstItem="dlC-Z1-amE" firstAttribute="top" secondItem="v6y-AL-PTD" secondAttribute="bottom" id="wz8-pM-HGS"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ovq-rS-wJT"/>
+                                        <exclude reference="a1U-0c-YGK"/>
+                                        <exclude reference="nt4-kQ-ZTW"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xeB-zI-dTK" firstAttribute="leading" secondItem="YlP-qf-dpi" secondAttribute="leading" id="1lb-XU-3cb"/>
+                            <constraint firstItem="xeB-zI-dTK" firstAttribute="width" secondItem="YlP-qf-dpi" secondAttribute="width" id="7xc-rA-I3q"/>
                             <constraint firstAttribute="trailing" secondItem="xeB-zI-dTK" secondAttribute="trailing" id="91B-ru-w2S"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5b1-q6-5Sh" secondAttribute="trailing" constant="8" id="GtX-EB-Geg"/>
+                            <constraint firstItem="22u-O9-c0d" firstAttribute="leading" secondItem="YlP-qf-dpi" secondAttribute="leadingMargin" constant="8" id="LlI-yV-fFu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="1Fl-He-3Yh" secondAttribute="trailing" constant="8" id="VsB-PI-Bcl"/>
+                            <constraint firstItem="5b1-q6-5Sh" firstAttribute="leading" secondItem="YlP-qf-dpi" secondAttribute="leadingMargin" constant="8" id="e1s-M7-0Wx"/>
                             <constraint firstAttribute="bottom" secondItem="xeB-zI-dTK" secondAttribute="bottom" id="eEo-Ni-72d"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="22u-O9-c0d" secondAttribute="trailing" constant="8" id="plj-6g-8dm"/>
                             <constraint firstItem="xeB-zI-dTK" firstAttribute="top" secondItem="YlP-qf-dpi" secondAttribute="top" id="qDh-SV-ys5"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="7xc-rA-I3q"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="disclaimerButton" destination="72O-WM-cT0" id="VtR-bq-nyy"/>
+                        <outlet property="feedbackTextView" destination="tk6-4l-eYV" id="9dD-we-RNc"/>
+                        <outlet property="scrollView" destination="xeB-zI-dTK" id="rZO-Pk-s8I"/>
+                        <outlet property="sendFeedbackButton" destination="mQD-XY-UJV" id="Cny-ea-Kv6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMH-f8-fOy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

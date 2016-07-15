@@ -27,7 +27,7 @@ class PokemonTableViewCell: UITableViewCell {
     private func setup() {
         self.backgroundColor = UIColor.clearColor()
         self.textLabel?.textColor = ColorPalette.DropdownTextColor
-        self.textLabel?.font = UIFont(name: "Helvetica", size: 16.0)
+        self.textLabel?.font = UIFont(name: "Helvetica", size: 22.0)
     }
     
 }

@@ -27,6 +27,7 @@
 		BCC392481D346AB300D889F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCC392461D346AB300D889F6 /* Main.storyboard */; };
 		BCC3924A1D346AB300D889F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC392491D346AB300D889F6 /* Assets.xcassets */; };
 		BCC3924D1D346AB300D889F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCC3924B1D346AB300D889F6 /* LaunchScreen.storyboard */; };
+		BCCE7B601D3844EA00F9F364 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE7B5F1D3844EA00F9F364 /* SettingsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		BCC392491D346AB300D889F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCC3924C1D346AB300D889F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCC3924E1D346AB300D889F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BCCE7B5F1D3844EA00F9F364 /* SettingsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				BCABC8271D349FDB0098D493 /* ColorPalette.swift */,
 				BCABC8281D349FDB0098D493 /* HelperExtentions.swift */,
 				BCABC8291D349FDB0098D493 /* Pokemon.swift */,
+				BCCE7B5F1D3844EA00F9F364 /* SettingsManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				BCC392411D346AB300D889F6 /* AppDelegate.swift in Sources */,
 				BC69412B1D370C680009CABC /* InfoViewController.swift in Sources */,
 				BCABC8381D34C7F70098D493 /* LocationManager.swift in Sources */,
+				BCCE7B601D3844EA00F9F364 /* SettingsManager.swift in Sources */,
 				BCABC83C1D34C8080098D493 /* PokemonTableViewCell.swift in Sources */,
 				BC6941291D370C580009CABC /* AsyncImageLoader.swift in Sources */,
 				BC69412D1D370C760009CABC /* PokeLabel.swift in Sources */,

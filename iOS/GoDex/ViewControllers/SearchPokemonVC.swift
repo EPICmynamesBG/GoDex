@@ -66,13 +66,28 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         self.mapView.showsUserLocation = true
         LocationManager.sharedInstance().delegate = self
         LocationManager.sharedInstance().getCurrentLocation()
+        
+        if (!SettingsManager.HasFirstSubmitBeenMade()){
+            self.showNotification("Help us be more accurate!\nPlease consider contributing a sighting.", onComplete: nil)
+            //stay visible for as long as possible, so disabling the timer
+            self.notificationTimer?.invalidate()
+            self.notificationTimer = nil
+        } else {
+            self.dismissNotification(nil)
+        }
+        
+        if (self.selectedPokemon != nil) {
+            self.networkRequest.pokemonPinsLookup(self.selectedPokemon!)
+        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        self.mapView.showsUserLocation = true
-        LocationManager.sharedInstance().delegate = self
-        LocationManager.sharedInstance().getCurrentLocation()
+//        self.mapView.showsUserLocation = true
+//        LocationManager.sharedInstance().delegate = self
+//        LocationManager.sharedInstance().getCurrentLocation()
+        LocationManager.sharedInstance().delegate = nil
+        self.dismissNotification(nil)
     }
     
     /**
@@ -222,6 +237,7 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     }
     
     private func userSelectedPokemon(pokemon: Pokemon) {
+        self.mapView.removeAnnotations(self.mapView.annotations)
         self.selectedPokemon = pokemon
         self.networkRequest.pokemonPinsLookup(self.selectedPokemon!)
     }
@@ -275,7 +291,9 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         if (sender.text?.characters.count >= 1){
             self.filteredArray = Pokemon.filter(sender.text!)
         } else {
-            self.filteredArray = Pokemon.Pokedex!
+            if (Pokemon.Pokedex != nil){
+                self.filteredArray = Pokemon.Pokedex!
+            }
         }
         self.autoCompleteTableView.reloadData()
     }
@@ -297,20 +315,21 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     }
     
     func locationManagerUpdateError(error: NSError?, message: String?) {
-        if (message != nil){
-            self.showNotification("Geolocation Error\n\(message!)", onComplete: nil)
-        } else {
-            self.showNotification("Geolocation Error", onComplete: nil)
-        }
+//        if (message != nil){
+//            self.showNotification("\(message!).\nAre location services enabled?", onComplete: nil)
+//        } else {
+//            self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
+//        }
+        self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
     }
     
     /* ----- Request Manager Delegate ---- */
     
     func RequestManagerError(error: NSError?, withMessage message: String?) {
         if (message != nil) {
-            self.showNotification("Network Error\n\(message!)", onComplete: nil)
+            self.showNotification("Whoops, did the Internet break?\n\(message!)", onComplete: nil)
         } else {
-            self.showNotification("Network Error", onComplete: nil)
+            self.showNotification("Whoops, did the Internet break?\nNothing was found...", onComplete: nil)
         }
     }
     
@@ -327,9 +346,9 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         if (results == nil ||
             results?.count == 0) {
             if (self.selectedPokemon != nil) {
-                self.showNotification("No data was found for \(self.selectedPokemon!.name)", onComplete: nil)
+                self.showNotification("Whoops, there weren't any locations found for \(self.selectedPokemon!.name).", onComplete: nil)
             } else {
-                self.showNotification("No data was found", onComplete: nil)
+                self.showNotification("Whoops, there weren't any locations found for this pokemon.", onComplete: nil)
             }
         } else {
             self.dropPinsOnLocations(results!)

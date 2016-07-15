@@ -23,6 +23,9 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var embeddedInfoView: UIView!
     
+    @IBOutlet weak var headerTextBox: PokeLabel!
+    
+    
     
     private var networkRequest: RequestManager!
     
@@ -33,6 +36,8 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     private var filteredArray:[Pokemon] = [Pokemon]()
     
     private var notificationTimer: NSTimer? = nil
+    
+    private var infoView: InfoViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +72,22 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.autoCompleteTableView.reloadData()
         }
         self.disableSubmitButton()
+        
+        if (SettingsManager.HasFirstSubmitBeenMade()){
+            //hide the top text field
+            self.headerTextBox.frame.size.height = 0
+            self.view.setNeedsDisplay()
+            self.headerTextBox.hidden = true
+            self.headerTextBox.removeFromSuperview()
+        } else {
+            self.headerTextBox.hidden = false
+        }
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.hideInfoView()
     }
     
     /**
@@ -131,6 +152,13 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.embeddedInfoView.alpha = 1.0
             }) { (Bool) in
                 //nothing for now
+                if (self.infoView != nil) {
+                    if (self.infoView!.feedbackTextView.text.characters.count > 0){
+                        self.infoView!.enableFeedbackButton()
+                    } else {
+                        self.infoView!.disableFeedbackButton()
+                    }
+                }
         }
     }
     
@@ -211,6 +239,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     private func enableSubmitButton() {
         UIView.animateWithDuration(0.2, animations: { 
             self.submitButton.backgroundColor = ColorPalette.SubmitBackground
+            self.submitButton.alpha = 1.0
             }) { (Bool) in
             self.submitButton.enabled = true
         }
@@ -224,6 +253,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.selectedPokemon = nil
         UIView.animateWithDuration(0.2) { 
             self.submitButton.backgroundColor = ColorPalette.LabelBorderGray
+            self.submitButton.alpha = 0.35
         }
     }
     
@@ -299,7 +329,9 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.filteredArray = Pokemon.filter(sender.text!)
             
         } else {
-            self.filteredArray = Pokemon.Pokedex!
+            if (Pokemon.Pokedex != nil){
+                self.filteredArray = Pokemon.Pokedex!
+            }
         }
         if (Pokemon.validate(sender.text)){
             self.selectedPokemon = Pokemon.byName(sender.text!)
@@ -339,32 +371,43 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     func locationManagerUpdateError(error: NSError?, message: String?) {
-        if (message != nil){
-            self.showNotification("Geolocation Error\n\(message!)", onComplete: nil)
-        } else {
-            self.showNotification("Geolocation Error", onComplete: nil)
-        }
+//        if (message != nil){
+//            self.showNotification("\(message!).\nAre location services enabled?", onComplete: nil)
+//        } else {
+//            self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
+//        }
+        self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
     }
     
     /* ----- Request Manager Delegate ---- */
     
     func RequestManagerError(error: NSError?, withMessage message: String?) {
         if (message != nil) {
-            self.showNotification("Network Error\n\(message!)", onComplete: nil)
+            self.showNotification("Whoops, did the Internet break?\n\(message!)", onComplete: nil)
         } else {
-            self.showNotification("Network Error", onComplete: nil)
+            self.showNotification("Whoops, did the Internet break?\nNothing was found...", onComplete: nil)
         }
         
     }
     
     func RequestManagerCatchSubmitted() {
-        self.showNotification("Pokemon successfully recorded! ", onComplete: nil)
+        self.showNotification("We caught it! Thanks for contributing!", onComplete: nil)
         self.selectedPokemon = nil
         self.searchTextField.text = ""
         self.pokemonImageView.image = self.defaultPokemonImage
         self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
         self.disableSubmitButton()
+        if (SettingsManager.HasFirstSubmitBeenMade() == false){
+            SettingsManager.FirstSubmissionMade()
+            UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseOut, animations: { 
+                self.headerTextBox.frame.size.height = 0
+                self.view.setNeedsDisplay()
+                }, completion: { (Bool) in
+                    self.headerTextBox.hidden = true
+                    self.headerTextBox.removeFromSuperview()
+            })
+        }
     }
     
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
@@ -381,6 +424,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if (segue.identifier == "embeddedInfoView") {
             let destVC = segue.destinationViewController as! InfoViewController
             destVC.parent = self
+            self.infoView = destVC
         }
     }
     
