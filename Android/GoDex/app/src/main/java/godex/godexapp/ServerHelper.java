@@ -145,12 +145,16 @@ public class ServerHelper {
         return statusCode;
     }
 
+    static long currID;
+    static int fin;
+
 
     static AsyncTask<Void, Void, Void> taskRequest = new AsyncTask<Void, Void, Void>() {
         @Override
         protected Void doInBackground(Void... params) {
 
-                int num = 1;
+            int num = 1;
+            fin = 0;
 
                 //TODO check how many pokemon are there
                 while(ServerHelper.getStatusCode() == 200 && num < 121) {
@@ -183,8 +187,34 @@ public class ServerHelper {
 
         @Override
         protected void onPostExecute(final Void token) {
-
+            fin = 1;
         }
     };
 
 }
+//TODO THIS NEED TO HAVE THE CORRECT CODE
+class LocTask extends AsyncTask<Void, Void, Void> {
+    int fin = 0;
+    @Override
+    protected Void doInBackground(Void... params) {
+        fin = 0;
+        long num = ServerHelper.currID;
+
+        String query = String.format("%03d", num);
+
+        String t = ServerHelper.getRequest("CaughtPokemon/"+query);
+
+        t=t.substring(1, t.length()-1);
+
+        //get the data
+        String[] spl = t.split("\\},\\{");
+        DataHelper.currLocSearch = spl;
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(final Void token) {
+        fin = 1;
+    }
+};

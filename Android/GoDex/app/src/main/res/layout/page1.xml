@@ -43,15 +43,17 @@
         android:layout_below="@+id/textView"
         android:layout_alignStart="@+id/textView"
         android:layout_toStartOf="@+id/imageView5" />
-    <ImageView
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/searchp"
         android:visibility="visible"
         android:clickable="true"
         android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:id="@+id/imageView5" />
+        android:id="@+id/imageView5"
+        android:background="#ffffff"
+        android:layout_alignBottom="@+id/searchBar"
+        android:layout_alignEnd="@+id/textView" />
 
 
 <com.google.android.gms.maps.MapView

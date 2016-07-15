@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Parcel;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -38,6 +39,8 @@ import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,6 +110,18 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
     public void populateDex() {
         ServerHelper.taskRequest.execute();
+        while(DataHelper.pokedex.size() != 119 && ServerHelper.taskRequest.getStatus() != AsyncTask.Status.FINISHED)
+        {
+            Log.d("AsyncRun", "Running...."+DataHelper.currLocSearch);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(ServerHelper.fin ==1)
+                break;
+        }
+
     }
 
 
@@ -370,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View rootView = null;
 
@@ -380,9 +395,71 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                 rootView = inflater.inflate(R.layout.page1, container, false);
 
+                final AutoCompleteTextView input = (AutoCompleteTextView) rootView.findViewById(R.id.searchBar);
+
+                //add the Button functions
+                final ImageView button = (ImageButton) rootView.findViewById(R.id.imageView5);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //disable the button
+                        button.setClickable(false);
+
+                        //get the ID for the Pokemon that is to be searched
+                        ServerHelper.currID = DataHelper.pokedex.get(input.getText().toString()).getId();
+                        Log.i("MapLogPoke","the val >>"+ServerHelper.currID);
+
+                        //get the location
+                        AsyncTask task = new LocTask().execute();
+                        //parse the data
+                        while(DataHelper.currLocSearch == null && task.getStatus() != AsyncTask.Status.FINISHED)
+                        {
+                            Log.d("AsyncRun", "Running...."+DataHelper.currLocSearch);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(ServerHelper.fin ==1)
+                                break;
+                        }
+
+                        String[] locations = new String[DataHelper.currLocSearch.length];
+                        String[] temp = DataHelper.currLocSearch;
+
+                        //get the location data
+                        if(temp.length != 0 && temp[0] != "") {
+                            int inde = 0;
+                            for (String i : temp) {
+                                //get Long
+                                int part = i.indexOf("_long");
+                                part = part + "_long".length() + 2;
+                                i = i.substring(part);
+                                String valLo = i.substring(0, i.indexOf(","));
+
+                                //get Lat
+                                part = i.indexOf("_lat");
+                                part = part + "_lat".length() + 2;
+                                i = i.substring(part);
+                                String valLat = i.substring(0, i.indexOf(","));
 
 
+                                locations[inde++] = valLat + " " + valLo;
+                                Log.i("MapLocations", valLat + " " + valLo);
+                            }
+                            DataHelper.currLocSearch = locations;
 
+                            //add the pokemon
+                            addPokemon(DataHelper.pokedex.get(input.getText().toString()));
+                            button.setClickable(true);
+                        }
+                        else {
+                            Toast.makeText(getActivity(),"Whoops, there weren't any loactoins found for "+input.getText().toString(), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
 
 
                 AutoCompleteTextView lists = (AutoCompleteTextView) rootView.findViewById(R.id.searchBar);
@@ -423,28 +500,17 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                     return null;
                 }
-                //test the ImageTask
-                ImageTask.Url = "http://i1.wp.com/nintendo-papercraft.com/wp-content/uploads/2014/04/pokeball.png?resize=512%2C376";
-                new ImageTask().execute();
 
                 String str = "fuck this";
-                if(googleMap == null)
-                    str = "nulled";
-                //Do some Map things
-                Log.i("MapLog","OnMapReady " + str);
 
                 googleMap.setMyLocationEnabled(true);
 
                 Location mloc = LocationServices.FusedLocationApi.getLastLocation(MainActivity.googleApiClient);
-                if(null == mloc)
-                    str = "nulled";
-
-                Log.i("MapLog","OnMapReady " + str);
 
                 current = mloc;
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(mloc.getLatitude(), mloc.getLongitude()))
-                        .title("Hello world"));
+                        .title("WHere you are"));
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(new LatLng(mloc.getLatitude(), mloc.getLongitude())).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory
@@ -457,9 +523,6 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
             else if (pageNum == 1) {
                 Log.d("Error", "Frag made " + pageNum);
                 rootView = inflater.inflate(R.layout.page2, container, false);
-
-//                WebView web = (WebView) rootView.findViewById(R.id.webView);
-  //              web.loadUrl("http://www.infendo.com/wp-content/uploads/2012/10/whos-that-pokemon.png");
 
                 AutoCompleteTextView lists = (AutoCompleteTextView) rootView.findViewById(R.id.searchin);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_drop_down, DataHelper.key.toArray(new String[DataHelper.key.size()]));
@@ -522,16 +585,34 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
         }
 
         public void addPokemon(Pokemon pokemon) {
+
+//            //test the ImageTask
+//            ImageTask.Url = "http://i1.wp.com/nintendo-papercraft.com/wp-content/uploads/2014/04/pokeball.png?resize=512%2C376";
+//            new ImageTask().execute();
+
             //Bitmap loaed
             ImageTask.Url = pokemon.getImageSource();
             new ImageTask().execute();
 
-            //place marked on locations
-            googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(loc.getLatitude(), loc.getLongitude()))
-                    .icon(BitmapDescriptorFactory.fromBitmap(ImageTask.done))
-                    .title("Pokemon"));
+            String[] locs = DataHelper.currLocSearch;
 
+            Log.d("MapLog",pokemon.getName()+" "+locs.length);
+            //place marked on locations
+            for(String ll: locs) {
+//                    googleMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(Double.parseDouble(ll.split(" ")[0]), Double.parseDouble(ll.split(" ")[1])))
+//                            .title("Pokemon"));
+                googleMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(current.getLatitude()+.000001, current.getLatitude()))
+                        .title("Pokemon Test"));
+
+
+            }
+            LatLng lat = new LatLng(current.getLatitude()+.000001, current.getLatitude());
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(lat).zoom(10).build();
+            googleMap.animateCamera(CameraUpdateFactory
+                    .newCameraPosition(cameraPosition));
 
         }
 
@@ -615,6 +696,7 @@ class ImageTask extends AsyncTask<Void, Void, Bitmap> {
             connection.connect();
             InputStream input = connection.getInputStream();
             overlay = BitmapFactory.decodeStream(input);
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;

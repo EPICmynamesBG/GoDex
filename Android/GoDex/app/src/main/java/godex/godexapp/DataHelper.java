@@ -19,6 +19,8 @@ public class DataHelper {
     static HashMap<String,Pokemon> pokedex = new HashMap<>();
     static Set<String> key = new TreeSet<>();
 
+    static String[] currLocSearch;
+
     public static void addValue( String thing) {
         JSONObject val = null;
         try {
