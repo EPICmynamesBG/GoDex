@@ -84,7 +84,7 @@ module.exports = function(app, express) {
   router.route('/CaughtPokemon')
     //GETS all pokemon caught
     .get(function(req, res) {
-      CaughtPokemon.find(function(err, pokemon) {
+      CaughtPokemon.find({}, {'time': 1, 'geo_long': 1, 'geo_lat': 1, 'pid': 1}, function(err, pokemon) {
         if (err) {
           res.send(err);
         } else {
