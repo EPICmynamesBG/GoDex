@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+html {
+  width: 100%;
+  height: 100%; }
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #555555;
+  width: 100%;
+  height: 100%; }
+  body .spacer {
+    width: auto;
+    height: 28%; }
+  body #nav-container {
+    position: fixed;
+    width: 100%;
+    height: auto;
+    z-index: 100; }
+    body #nav-container header {
+      width: 100%;
+      height: auto;
+      background: #DE4E4B; }
+      body #nav-container header ul {
+        list-style: none;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: 100%; }
+        body #nav-container header ul li {
+          padding: 0;
+          margin: 0; }
+          body #nav-container header ul li h1 {
+            font-size: 1.75em;
+            margin: 0;
+            padding: 7.5% 5%; }
+    body #nav-container nav ul {
+      list-style: none;
+      text-align: center;
+      margin: 0;
+      padding: 0; }
+      body #nav-container nav ul li {
+        padding: 2.5% 0;
+        background: rgba(85, 85, 85, 0.75); }
+        body #nav-container nav ul li a {
+          color: white;
+          text-decoration: none; }
+          body #nav-container nav ul li a:hover {
+            color: #DE4E4B;
+            text-decoration: inherit; }
+  body .contentContainers {
+    height: 100%;
+    padding: 2.5% 2.5%;
+    text-align: center; }
+  body #download-section {
+    background: rgba(85, 85, 85, 0.25);
+    height: auto; }
+    body #download-section ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      background: rgba(85, 85, 85, 0.5);
+      width: 50%;
+      margin: 0 auto;
+      border-radius: 15px;
+      padding: 3% 0;
+      color: white;
+      border: 1.5px rgba(85, 85, 85, 0.4) solid; }
+      body #download-section ul li h2 {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.75);
+        width: 50%;
+        margin: 10px auto;
+        font-size: 2.25vw;
+        padding-bottom: 15px; }
+      body #download-section ul li ol {
+        margin: 0;
+        padding: 0;
+        list-style: inherit; }
+        body #download-section ul li ol li {
+          text-align: center;
+          margin: 10px 0;
+          font-size: 1.5vw; }
+    body #download-section ol {
+      list-style: none;
+      padding: 0;
+      margin-top: 7.5%; }
+      body #download-section ol li .vendorContainer {
+        width: 50%;
+        display: block;
+        margin: 0 auto;
+        font-size: 1em;
+        background: #158EC2;
+        color: white;
+        padding: 3% 2%;
+        border-radius: 5px; }
+        body #download-section ol li .vendorContainer .emblem {
+          display: block;
+          width: 100%;
+          height: 25px; }
+        body #download-section ol li .vendorContainer #apple {
+          background-image: url("../../images/apple.png");
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat; }
+        body #download-section ol li .vendorContainer #google {
+          background-image: url("../../images/google.png");
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat; }
+        body #download-section ol li .vendorContainer h2 {
+          font-size: 1em; }
+
+/*# sourceMappingURL=style.css.map */

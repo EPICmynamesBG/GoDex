@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <in.workarounds.typography.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="What Pokemon do you wish to see?"
+        android:id="@+id/textView"
+        android:textAlignment="center"
+
+        app:font_name="Helvetica"
+        app:font_variant="Condensed"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView"
+        android:src="@mipmap/ic_temp"
+        android:adjustViewBounds="true"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true">
+
+       
+    </FrameLayout>
+    />
+
+</RelativeLayout>
