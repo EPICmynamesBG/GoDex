@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -408,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                         //get the ID for the Pokemon that is to be searched
                         ServerHelper.currID = DataHelper.pokedex.get(input.getText().toString()).getId();
-                        Log.i("MapLogPoke","the val >>"+ServerHelper.currID);
+                        Log.i("MapLogPoke","the val >> "+ServerHelper.currID);
 
                         //get the location
                         AsyncTask task = new LocTask().execute();
@@ -452,11 +453,14 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                             //add the pokemon
                             addPokemon(DataHelper.pokedex.get(input.getText().toString()));
-                            button.setClickable(true);
                         }
                         else {
-                            Toast.makeText(getActivity(),"Whoops, there weren't any loactoins found for "+input.getText().toString(), Toast.LENGTH_LONG).show();
+                            //Snackbar.make(getView(),"Whoops, there weren't any  found for "+input.getText().toString(), Snackbar.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"Whoops, there weren't any locations found for "+input.getText().toString(), Toast.LENGTH_LONG).show();
                         }
+                        button.setClickable(true);
+                        DataHelper.currLocSearch = null;
+
 
                     }
                 });
@@ -510,7 +514,7 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
                 current = mloc;
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(mloc.getLatitude(), mloc.getLongitude()))
-                        .title("WHere you are"));
+                        .title("You!"));
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(new LatLng(mloc.getLatitude(), mloc.getLongitude())).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory
@@ -526,6 +530,26 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
 
                 AutoCompleteTextView lists = (AutoCompleteTextView) rootView.findViewById(R.id.searchin);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.simple_drop_down, DataHelper.key.toArray(new String[DataHelper.key.size()]));
+
+                final Button imag = (Button) rootView.findViewById(R.id.buttonf);
+                final TextView input = (TextView) rootView.findViewById(R.id.searchin);
+
+                imag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //disable the button
+                        imag.setClickable(false);
+
+                        //get the ID for the Pokemon that is to be searched
+                        ServerHelper.currID = DataHelper.pokedex.get(input.getText().toString()).getId();
+                        Log.i("MapLogPoke","the val >> "+ServerHelper.currID);
+
+
+                    }
+                });
+
+
 
 
                 TextView tx = (TextView)rootView.findViewById(R.id.textView2);
@@ -595,20 +619,19 @@ public class MainActivity extends AppCompatActivity implements com.google.androi
             new ImageTask().execute();
 
             String[] locs = DataHelper.currLocSearch;
-
+            String[] temp = null;
             Log.d("MapLog",pokemon.getName()+" "+locs.length);
             //place marked on locations
             for(String ll: locs) {
-//                    googleMap.addMarker(new MarkerOptions()
-//                            .position(new LatLng(Double.parseDouble(ll.split(" ")[0]), Double.parseDouble(ll.split(" ")[1])))
-//                            .title("Pokemon"));
+
+                temp = ll.split(" ");
                 googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(current.getLatitude()+.000001, current.getLatitude()))
-                        .title("Pokemon Test"));
+                        .position(new LatLng(Double.parseDouble(temp[0]), Double.parseDouble(temp[1])))
+                        .title("Pokemon: "+pokemon.getName()));
 
 
             }
-            LatLng lat = new LatLng(current.getLatitude()+.000001, current.getLatitude());
+            LatLng lat = new LatLng(Double.parseDouble(temp[0]), Double.parseDouble(temp[1]));
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(lat).zoom(10).build();
             googleMap.animateCamera(CameraUpdateFactory

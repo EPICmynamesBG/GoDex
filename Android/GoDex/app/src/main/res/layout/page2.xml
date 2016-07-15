@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:text="Submit Your Find!"
         android:background="@drawable/buttoncust1"
-        android:id="@+id/button"
+        android:id="@+id/buttonf"
         android:layout_gravity="center_horizontal" />
 
 

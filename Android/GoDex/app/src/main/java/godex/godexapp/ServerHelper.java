@@ -157,7 +157,7 @@ public class ServerHelper {
             fin = 0;
 
                 //TODO check how many pokemon are there
-                while(ServerHelper.getStatusCode() == 200 && num < 121) {
+                while(ServerHelper.getStatusCode() == 200 && num < 144) {
 
                     String query = String.format("%03d", num);
            //         Log.d("Queries", "/AllPokemon/FindById/:"+query);
