@@ -9,12 +9,31 @@ body
   color: $grey
   width: 100%
   height: 100%
+  // background: url('../images/road.png')
+  // background-size: cover
+  // background-repeat: no-repeat
+  // background-position: center
+
+  #body-container
+    width: 100%
+    height: auto
+
+  a
+    color: $linkClr
+    text-decoration: inherit
 
 
+    &:hover
+      color: $hovScnd
+      text-decoration: inherit
+
+  .alignCenter
+    text-align: center
 
   .spacer
     width: auto
-    height: 28%
+    height: 32.5%
+    background: transparent
 
   #nav-container
     position: fixed
@@ -26,6 +45,7 @@ body
       width: 100%
       height: auto
       background: $red
+      color: white
 
 
       ul
@@ -39,10 +59,15 @@ body
           padding: 0
           margin: 0
 
+          #godex-logo
+            width: 15%
+            margin: 5px 0
+
           h1
             font-size: 1.75em
             margin: 0
-            padding: 7.5% 5%
+            padding: 2.5% 5%
+            line-height: 200%
 
     nav
 
@@ -69,4 +94,27 @@ body
     padding: 2.5% 2.5%
     text-align: center
 
+  .sectionSpacers
+    height: 15%
+    background: transparent
+    opacity: 0
+
   @import "./partials/appIndexStyle.sass"
+
+  footer
+    background: $addClr
+    height: auto
+
+    .footerLists
+        list-style: none
+        margin: 0
+        padding: 0
+        text-align: right
+        padding: 2.5%
+
+        li
+          padding-bottom: 5%
+
+        i
+          font-size: 2.5em
+          padding: 0 .5%
