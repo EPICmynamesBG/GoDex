@@ -57,7 +57,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is used submit where a Pokemon was caught and to find nearby Pokemon</string>
+	<string>Your location is used submit where a Pokemon was caught and to show relevent search results</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pokemon GB.ttf</string>

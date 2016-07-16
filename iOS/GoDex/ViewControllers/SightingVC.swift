@@ -71,7 +71,15 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.filteredArray = Pokemon.Pokedex!
             self.autoCompleteTableView.reloadData()
         }
-        self.disableSubmitButton()
+        if (self.searchTextField.text != nil){
+            if (Pokemon.validate(self.searchTextField.text!)){
+                self.enableSubmitButton()
+            } else {
+                self.disableSubmitButton()
+            }
+        } else {
+            self.disableSubmitButton()
+        }
         
         if (SettingsManager.HasFirstSubmitBeenMade()){
             //hide the top text field

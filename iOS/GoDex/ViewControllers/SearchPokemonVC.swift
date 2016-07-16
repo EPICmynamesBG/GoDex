@@ -310,8 +310,14 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     /* ---- Location Manager Delegate ---- */
     
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
+        self.mapView.showsUserLocation = true
         LocationManager.sharedInstance().delegate = nil
-        self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
+        if self.selectedPokemon == nil {
+            self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
+        } else {
+            self.userSelectedPokemon(self.selectedPokemon!)
+        }
+        
     }
     
     func locationManagerUpdateError(error: NSError?, message: String?) {

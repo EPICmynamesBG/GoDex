@@ -64,7 +64,7 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
 //    }
     
     @IBAction func disclaimerTap(sender: UIButton) {
-//        UIApplication.sharedApplication().openURL(NSURL(string: ""))
+        UIApplication.sharedApplication().openURL(NSURL(string: "http://godex.io/policy")!)
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {

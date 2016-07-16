@@ -128,8 +128,8 @@ to inform other trainers!</string>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="gRm-3Q-WHF"/>
                                             <constraint firstAttribute="height" constant="40" id="kcx-Qn-57D"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="28"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="26"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="0.0"/>
@@ -310,8 +310,8 @@ to inform other trainers!</string>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="LN5-58-U1T"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="28"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="26"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="textDidChange:" destination="8rJ-Kc-sve" eventType="editingChanged" id="K8v-zc-WjS"/>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="jKv-QQ-OuN"/>
