@@ -78,6 +78,9 @@ body {
     background: #eeeeee;
     height: auto;
     padding-top: 5%; }
+    body #download-section .divider {
+      border-top: solid 1.5px rgba(85, 85, 85, 0.5);
+      width: 50%; }
     body #download-section ul {
       margin: 0;
       padding: 0;
