@@ -8,9 +8,21 @@ body {
   color: #555555;
   width: 100%;
   height: 100%; }
+  body #body-container {
+    width: 100%;
+    height: auto; }
+  body a {
+    color: #349b93;
+    text-decoration: inherit; }
+    body a:hover {
+      color: #AAE0EB;
+      text-decoration: inherit; }
+  body .alignCenter {
+    text-align: center; }
   body .spacer {
     width: auto;
-    height: 28%; }
+    height: 32.5%;
+    background: transparent; }
   body #nav-container {
     position: fixed;
     width: 100%;
@@ -19,7 +31,8 @@ body {
     body #nav-container header {
       width: 100%;
       height: auto;
-      background: #DE4E4B; }
+      background: #DE4E4B;
+      color: white; }
       body #nav-container header ul {
         list-style: none;
         text-align: center;
@@ -29,10 +42,14 @@ body {
         body #nav-container header ul li {
           padding: 0;
           margin: 0; }
+          body #nav-container header ul li #godex-logo {
+            width: 15%;
+            margin: 5px 0; }
           body #nav-container header ul li h1 {
             font-size: 1.75em;
             margin: 0;
-            padding: 7.5% 5%; }
+            padding: 2.5% 5%;
+            line-height: 200%; }
     body #nav-container nav ul {
       list-style: none;
       text-align: center;
@@ -51,9 +68,14 @@ body {
     height: 100%;
     padding: 2.5% 2.5%;
     text-align: center; }
+  body .sectionSpacers {
+    height: 15%;
+    background: transparent;
+    opacity: 0; }
   body #download-section {
-    background: rgba(85, 85, 85, 0.25);
-    height: auto; }
+    background: #eeeeee;
+    height: auto;
+    padding-top: 5%; }
     body #download-section ul {
       margin: 0;
       padding: 0;
@@ -64,7 +86,7 @@ body {
       border-radius: 15px;
       padding: 3% 0;
       color: white;
-      border: 1.5px rgba(85, 85, 85, 0.4) solid; }
+      border: 2px rgba(255, 255, 255, 0.8) solid; }
       body #download-section ul li h2 {
         border-bottom: 1px solid rgba(255, 255, 255, 0.75);
         width: 50%;
@@ -82,31 +104,78 @@ body {
     body #download-section ol {
       list-style: none;
       padding: 0;
-      margin-top: 7.5%; }
+      margin-top: 5%; }
       body #download-section ol li .vendorContainer {
         width: 50%;
+        height: 10%;
         display: block;
         margin: 0 auto;
-        font-size: 1em;
-        background: #158EC2;
-        color: white;
-        padding: 3% 2%;
-        border-radius: 5px; }
+        color: white; }
         body #download-section ol li .vendorContainer .emblem {
           display: block;
           width: 100%;
-          height: 25px; }
+          height: 75px;
+          background-position: center;
+          background-size: 80%;
+          background-repeat: no-repeat; }
         body #download-section ol li .vendorContainer #apple {
-          background-image: url("../../images/apple.png");
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat; }
+          background-image: url("../../images/apple-store-badge.png"); }
         body #download-section ol li .vendorContainer #google {
-          background-image: url("../../images/google.png");
-          background-position: center;
-          background-size: contain;
-          background-repeat: no-repeat; }
+          background-image: url("../../images/google-play-badge.png");
+          background-size: 92.5%; }
         body #download-section ol li .vendorContainer h2 {
           font-size: 1em; }
+  body #about {
+    height: 25%; }
+  body #about-section {
+    padding: 0 0 5%;
+    height: auto; }
+    body #about-section ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      padding-top: 5%;
+      height: auto; }
+      body #about-section ol li {
+        background: #d8eee2;
+        border: white solid 5px;
+        padding: 2.5%;
+        min-height: 400px;
+        border-radius: 10px; }
+    body #about-section hr {
+      width: 75%; }
+    body #about-section .aboutImgs {
+      width: 175px;
+      display: block;
+      margin: 15px auto; }
+  body #contact {
+    height: 12.5%; }
+  body #contact-section {
+    height: 50%;
+    padding-top: 10%;
+    background: white; }
+    body #contact-section ol {
+      list-style: none;
+      margin: 0;
+      padding: 0; }
+      body #contact-section ol li h4 {
+        margin: 0; }
+      body #contact-section ol li small {
+        color: #DE4E4B;
+        margin-top: 10px; }
+  body footer {
+    background: #D8EEE2;
+    height: auto; }
+    body footer .footerLists {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: right;
+      padding: 2.5%; }
+      body footer .footerLists li {
+        padding-bottom: 5%; }
+      body footer .footerLists i {
+        font-size: 2.5em;
+        padding: 0 .5%; }
 
 /*# sourceMappingURL=style.css.map */

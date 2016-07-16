@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="@drawable/custback"
-    >
+    android:background="@drawable/custback">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@drawable/custback">
+
+    <ImageView
+        android:layout_width="1141dp"
+        android:layout_height="150dp"
+        android:id="@+id/imageView4"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/logo"
+        android:background="#ffffff"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="133dp"
+        android:layout_height="79dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textView2"
         android:text="Oh my! You found a Pokemon! That's wonderful new...\n\n Record you findings here to info other trainers!"
@@ -17,7 +36,11 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_marginBottom="15dp"
-        android:paddingTop="6dp" />
+        android:paddingTop="6dp"
+        android:textSize="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,23 +51,59 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp" />
 
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="35dp" />
+    <!--<com.arlib.floatingsearchview.FloatingSearchView-->
+        <!--android:id="@+id/searchin"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="171dp"-->
+
+        <!--app:floatingSearch_searchHint="Search..."-->
+        <!--app:floatingSearch_suggestionsListAnimDuration="250"-->
+        <!--app:floatingSearch_showSearchKey="false"-->
+        <!--app:floatingSearch_leftActionMode="showHamburger"-->
+        <!--android:layout_marginBottom="20dp" />-->
 
 
-    <ImageView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:src="@mipmap/ic_baa" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <AutoCompleteTextView
+            android:layout_width="229dp"
+            android:layout_height="match_parent"
+            android:id="@+id/searchin"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="2dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/searchp"
+            android:visibility="visible"
+            android:layout_marginRight="50dp"
+            android:clickable="true"
+            style="?android:attr/borderlessButtonStyle"/>
+
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="Submit Your Find!"
         android:background="@drawable/buttoncust1"
-        android:id="@+id/button"
+        android:id="@+id/buttonf"
         android:layout_gravity="center_horizontal" />
 
+
 </LinearLayout>
+</ScrollView>

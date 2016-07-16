@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@drawable/custback">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="133dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView2"
+        android:text="Oh my! You found a Pokemon! That's wonderful new...\n\n Record you findings here to info other trainers!"
+        android:layout_gravity="right"
+        android:background="@drawable/borders"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:paddingTop="6dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="What pokemon did you find?"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp" />
+
+    <!--<com.arlib.floatingsearchview.FloatingSearchView-->
+    <!--android:id="@+id/searchin"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="171dp"-->
+
+    <!--app:floatingSearch_searchHint="Search..."-->
+    <!--app:floatingSearch_suggestionsListAnimDuration="250"-->
+    <!--app:floatingSearch_showSearchKey="false"-->
+    <!--app:floatingSearch_leftActionMode="showHamburger"-->
+    <!--android:layout_marginBottom="20dp" />-->
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <AutoCompleteTextView
+            android:layout_width="235dp"
+            android:layout_height="match_parent"
+            android:id="@+id/searchin"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_weight="0.80"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="8dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/searchp"
+            android:visibility="visible"
+            android:layout_marginRight="50dp"
+            android:clickable="true" />
+
+
+    </LinearLayout>
+
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:id="@+id/webView"
+        android:layout_gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Your Find!"
+        android:background="@drawable/buttoncust1"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
