@@ -3,7 +3,8 @@ module.exports = function(app, express) {
   var http = require('http');
   var mongoose = require('mongoose');
   var Pokemon = require('../Model/pokemon.js')(mongoose);
-  var CaughtPokemon = require('../Model/caughtPokemon')(mongoose);
+  var CaughtPokemon = require('../Model/caughtPokemon.js')(mongoose);
+  var Feedback = require('../Model/feedback.js')(mongoose);
   var geolib = require('geolib');
 
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
@@ -160,6 +161,32 @@ module.exports = function(app, express) {
           }
         });
       });
+    });
+
+  router.route('/Feedback')
+    .post(function(req, res) {
+      var newFeedback = new Feedback();
+      newFeedback.feedback = req.body.feedback;
+      console.log(newFeedback.feedback);
+      newFeedback.save(function(err, newFeedbackCreated) {
+        if (err) {
+          return console.log(err);
+        } else {
+          console.log(newFeedbackCreated)
+          res.json([newFeedbackCreated]);
+        }
+      });
+    });
+
+  router.route('/Feedback/All')
+    .get(function(req, res) {
+      Feedback.find({}, function(err, allFeedback) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.json(allFeedback);
+        }
+      })
     });
 
   var port = 8080;
