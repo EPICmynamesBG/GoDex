@@ -163,6 +163,15 @@ body {
       body #contact-section ol li small {
         color: #DE4E4B;
         margin-top: 10px; }
+  body #policy {
+    padding: 20px; }
+    body #policy ol {
+      counter-reset: item; }
+      body #policy ol li {
+        display: block; }
+      body #policy ol li:before {
+        content: counters(item, ".") ") ";
+        counter-increment: item; }
   body footer {
     background: #D8EEE2;
     height: auto; }
