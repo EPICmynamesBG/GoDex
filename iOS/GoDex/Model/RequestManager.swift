@@ -78,7 +78,7 @@ class RequestManager {
                 Pokemon.Pokedex = pokeArr
                 self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
             } else {
-                self.throwError(error, withMessage: "Unable to fetch the pokemon list")
+                self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
             }
             self.requestComplete()
         }
@@ -93,7 +93,7 @@ class RequestManager {
      */
     func submitACatch(pokemon: Pokemon, coordinates: CLLocationCoordinate2D) {
         if (uuid == nil) {
-            self.delegate?.RequestManagerError(nil, withMessage: "A device UUID is required to post a sighting")
+            self.delegate?.RequestManagerError(nil, withMessage: "")
             return
         }
         
@@ -181,11 +181,57 @@ class RequestManager {
                     })
                 }
             } else {
-                self.throwError(error, withMessage: "An error occured fetching location results for \(pokemon.name)")
+                self.throwError(error, withMessage: "Uh-oh, something went wrong trying to find \(pokemon.name)")
             }
             self.requestComplete()
         }
         self.startTheRequest()
+    }
+    
+    /**
+     send Anonymous Feedback
+     
+     - parameter feedback:  the feedback text
+     - parameter onSuccess: function to run on success
+     - parameter onError:   function to run on error
+     */
+    func sendFeedback(feedback: String, onSuccess: ((Array<Dictionary<String, AnyObject>>) -> Void)?, onError: ((NSError?, String?) -> Void)?) {
+        
+        let stringUrl = BASE_URL + "/Feedback"
+        
+        let url = NSURL(string: stringUrl)!
+        let request = NSMutableURLRequest(URL: url)
+        let bodyJson = [
+            "feedback": feedback
+        ]
+        do {
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(bodyJson, options: .PrettyPrinted)
+            request.HTTPBody = jsonData
+        } catch {
+            onError?(nil, "Looks lke your feedback got lost in transit. Try submitting your feedback again later, we'd really like to hear it!")
+            return
+        }
+        request.HTTPMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if self.currentDatatask != nil {
+            self.currentDatatask?.cancel()
+            self.timeoutTimer?.invalidate()
+            self.timeoutTimer = nil
+        }
+        self.currentDatatask = session.dataTaskWithRequest(request) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
+            if error == nil {
+                //success
+                let json = self.dataToJson(data)
+                onSuccess?(json)
+            } else {
+                onError?(error, "Looks lke your feedback got lost in transit. Try submitting your feedback again later, we'd really like to hear it!")
+            }
+            self.requestComplete()
+        }
+        self.startTheRequest()
+        
+        
     }
     
     /**
@@ -237,7 +283,7 @@ class RequestManager {
         do {
             json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as! Array<Dictionary<String, AnyObject>>
         } catch {
-            self.throwError(nil, withMessage: "Error parsing data to JSON")
+            self.throwError(nil, withMessage: "Darn server, we've got some bad data here")
         }
         return json
     }

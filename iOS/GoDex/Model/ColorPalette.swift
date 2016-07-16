@@ -20,9 +20,15 @@ struct ColorPalette {
     
     static let DropdownTextColor: UIColor = UIColor(hex: "#7c7a7c")
     
+    static let GoDexYellow: UIColor = UIColor(hex: "#ffd200")
+    
     static let DropdownBackground: UIColor = UIColor.whiteColor().colorWithAlphaComponent(0.7)
     
     static let TabBarTextSelectedColor: UIColor = UIColor(hex: "#474747")
+    
+    static let BackgroundGradientDarkGray: UIColor = UIColor(hex: "#43474A")
+    
+    static let BackgroundGradientGray: UIColor = UIColor(hex: "#8C9191")
     
     static func CreateGradient(viewFrame: CGRect, fromColor from: UIColor, toColor to: UIColor) -> CAGradientLayer {
         let gradient: CAGradientLayer = CAGradientLayer()

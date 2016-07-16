@@ -21,7 +21,7 @@ struct AsyncImageLoader {
                 })
             } else {
                 NSOperationQueue.mainQueue().addOperationWithBlock({ 
-                    onError(error, "Image load failed")
+                    onError(error, "We couldn't find the image. Are you online?")
                 })
             }
         }
