@@ -39,17 +39,19 @@ body {
         margin: 0;
         padding: 0;
         height: 100%; }
+        body #nav-container header ul #logo-li {
+          padding: 20px 0; }
         body #nav-container header ul li {
           padding: 0;
           margin: 0; }
           body #nav-container header ul li #godex-logo {
-            width: 15%;
+            width: 25%;
             margin: 5px 0; }
           body #nav-container header ul li h1 {
             font-size: 1.75em;
             margin: 0;
             padding: 2.5% 5%;
-            line-height: 200%; }
+            line-height: 300%; }
     body #nav-container nav ul {
       list-style: none;
       text-align: center;
@@ -76,6 +78,9 @@ body {
     background: #eeeeee;
     height: auto;
     padding-top: 5%; }
+    body #download-section .divider {
+      border-top: solid 1.5px rgba(85, 85, 85, 0.5);
+      width: 50%; }
     body #download-section ul {
       margin: 0;
       padding: 0;
@@ -86,7 +91,7 @@ body {
       border-radius: 15px;
       padding: 3% 0;
       color: white;
-      border: 2px rgba(255, 255, 255, 0.8) solid; }
+      border: 2px rgba(255, 255, 255, 0.95) solid; }
       body #download-section ul li h2 {
         border-bottom: 1px solid rgba(255, 255, 255, 0.75);
         width: 50%;
@@ -147,7 +152,8 @@ body {
     body #about-section .aboutImgs {
       width: 175px;
       display: block;
-      margin: 15px auto; }
+      margin: 15px auto;
+      border-radius: 37.5px; }
   body #contact {
     height: 12.5%; }
   body #contact-section {
