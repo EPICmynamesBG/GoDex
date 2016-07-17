@@ -22,8 +22,7 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     static let DEFAULT_ZOOM = 0.05
     static let MAX_ZOOM = 0.0005
     static let FULL_ZOOM_OUT = 16.0
-    //Nintendo HQ, USA
-    static let DEFAULT_COORDINATE = CLLocationCoordinate2D(latitude: 47.6513757, longitude: -122.141262)
+    
     
     private var filteredArray:[Pokemon] = [Pokemon]()
     
@@ -154,7 +153,7 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
             let zoom = self.calculateZoomRadius(LocationManager.sharedInstance().lastRecievedCoordinates!, coordinateArray: coorArr)
             self.zoomOnLocation(zoom.CenterPoint, withCoorSpan: zoom.ZoomSpan)
         } else {
-            let zoom = self.calculateZoomRadius(SearchPokemonVC.DEFAULT_COORDINATE, coordinateArray: coorArr)
+            let zoom = self.calculateZoomRadius(LocationManager.DEFAULT_COORDINATE, coordinateArray: coorArr)
             self.zoomOnLocation(zoom.NearestPin, withCoorSpan: zoom.ZoomSpan)
         }
     }

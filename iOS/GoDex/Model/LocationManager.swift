@@ -18,6 +18,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     private var clLocationManger: CLLocationManager
     
+    //Nintendo HQ, USA
+    static let DEFAULT_COORDINATE = CLLocationCoordinate2D(latitude: 47.6513757, longitude: -122.141262)
+    
     var delegate: LocationManagerDelegate?
     
     private(set) var lastRecievedLocation: CLLocation? = nil
@@ -44,6 +47,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if (CLLocationManager.locationServicesEnabled()) {
             self.clLocationManger.startUpdatingLocation()
         } else {
+            self.lastRecievedCoordinates = LocationManager.DEFAULT_COORDINATE
             self.delegate?.locationManagerUpdateError(nil, message: "Location services are disabled. Please enable them in your settings")
         }
     }
@@ -62,6 +66,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if error.code == CLError.Denied.rawValue {
             self.delegate?.locationManagerUpdateError(nil, message: "Location services are disabled. Please enable them in your settings")
         } else {
+            self.lastRecievedCoordinates = LocationManager.DEFAULT_COORDINATE
             self.delegate?.locationManagerUpdateError(error, message: "Unable to acquire current location")
         }
         self.clLocationManger.stopUpdatingLocation()
