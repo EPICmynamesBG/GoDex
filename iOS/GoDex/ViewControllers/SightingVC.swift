@@ -423,7 +423,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.autoCompleteTableView.reloadData()
     }
     
-    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
+    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?, pokeArr: [Pokemon]?) {
         //Not applicable in this view
     }
     

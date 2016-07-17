@@ -311,7 +311,7 @@ to inform other trainers!</string>
                                     <constraint firstAttribute="height" constant="40" id="LN5-58-U1T"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="26"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <action selector="textDidChange:" destination="8rJ-Kc-sve" eventType="editingChanged" id="K8v-zc-WjS"/>
                                     <outlet property="delegate" destination="8rJ-Kc-sve" id="jKv-QQ-OuN"/>

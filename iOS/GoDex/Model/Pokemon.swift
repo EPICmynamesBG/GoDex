@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 struct Pokemon {
     
@@ -17,14 +18,34 @@ struct Pokemon {
     
     var imageUrl:String
     
+    var coordinate: CLLocationCoordinate2D?
+    
     static var Pokedex: Array<Pokemon>? = nil
     
     static func arrayFromJsonData(json: Array<Dictionary<String, AnyObject>>) -> [Pokemon] {
         var pokeArr: [Pokemon] = [Pokemon]()
         for obj in json {
-            let pokemon = Pokemon(id: obj["pid"] as! Int,
-                                  name: obj["name"] as! String,
-                                  imageUrl: obj["image"] as! String)
+            var coordinates: CLLocationCoordinate2D? = nil
+            if (obj["geo_lat"] != nil){
+                let lat = obj["geo_lat"] as! Double
+                let lon = obj["geo_long"] as! Double
+                coordinates = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            }
+            let id:Int = obj["pid"] as! Int
+            var name: String
+            var image: String
+            if (obj["name"] == nil || obj["image"] == nil) {
+                let pkmn = Pokemon.byId(id)
+                name = pkmn.name
+                image = pkmn.imageUrl
+            } else {
+                name = obj["name"] as! String
+                image = obj["image"] as! String
+            }
+            let pokemon = Pokemon(id: id,
+                                  name: name,
+                                  imageUrl: image,
+                                  coordinate: coordinates)
             pokeArr.append(pokemon)
         }
         return pokeArr
@@ -64,6 +85,15 @@ struct Pokemon {
             }
         }
         return nil
+    }
+    
+    static func byId(id: Int) -> Pokemon {
+        for pokemon in Pokedex! {
+            if (pokemon.id == id){
+                return pokemon
+            }
+        }
+        return Pokemon(id: -1, name: "", imageUrl: "", coordinate: nil)
     }
     
 }

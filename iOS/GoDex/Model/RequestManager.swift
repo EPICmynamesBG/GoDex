@@ -13,7 +13,7 @@ protocol RequestManagerDelegate {
     func RequestManagerError(error: NSError?, withMessage message: String?)
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>)
     func RequestManagerCatchSubmitted()
-    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?)
+    func RequestManagerLookupResults(results: [CLLocationCoordinate2D]?, pokeArr: Array<Pokemon>?)
 }
 
 /// A class for simple API network requests
@@ -143,9 +143,13 @@ class RequestManager {
      
      - parameter pokemon: the query pokemon
      */
-    func pokemonPinsLookup(pokemon: Pokemon) {
+    func pokemonPinsLookup(pokemon: Pokemon?) {
         //GET
-        let url = NSURL(string: BASE_URL + "/CaughtPokemon/\(pokemon.id)")!
+        var url = NSURL(string: BASE_URL + "/CaughtPokemon")!
+        if (pokemon != nil){
+            url = NSURL(string: BASE_URL + "/CaughtPokemon/\(pokemon!.id)")!
+        }
+        
         
         if self.currentDatatask != nil {
             self.currentDatatask?.cancel()
@@ -164,6 +168,7 @@ class RequestManager {
                     }
                 }
                 
+                let pokeArr = Pokemon.arrayFromJsonData(json)
                 var coorArray: [CLLocationCoordinate2D] = [CLLocationCoordinate2D]()
                 for dict in json {
                     let lat = dict["geo_lat"] as! Double
@@ -173,15 +178,21 @@ class RequestManager {
                 }
                 if (coorArray.count == 0){
                     NSOperationQueue.mainQueue().addOperationWithBlock({
-                        self.delegate?.RequestManagerLookupResults(nil)
+                        self.delegate?.RequestManagerLookupResults(nil, pokeArr: nil)
                     })
                 } else {
                     NSOperationQueue.mainQueue().addOperationWithBlock({
-                        self.delegate?.RequestManagerLookupResults(coorArray)
+                        self.delegate?.RequestManagerLookupResults(coorArray, pokeArr: pokeArr)
                     })
                 }
             } else {
-                self.throwError(error, withMessage: "Uh-oh, something went wrong trying to find \(pokemon.name)")
+                if (pokemon != nil){
+                    self.throwError(error, withMessage: "Uh-oh, something went wrong trying to find \(pokemon!.name)")
+
+                } else {
+                    self.throwError(error, withMessage: "Uh-oh, something went wrong")
+
+                }
             }
             self.requestComplete()
         }
@@ -242,8 +253,36 @@ class RequestManager {
         if (self.timeoutTimer !== nil) {
             self.timeoutTimer?.invalidate()
         }
-        self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
-        self.currentDatatask?.resume()
+        
+        if (Pokemon.Pokedex == nil) {
+            let url = NSURL(string: BASE_URL + "/AllPokemon/Enabled")!
+            let temp = session.dataTaskWithURL(url) { (data:NSData?, response:NSURLResponse?, error:NSError?) in
+                if error == nil {
+                    let json = self.dataToJson(data)
+                    
+                    if json.count > 0 {
+                        if json[0]["error"] != nil {
+                            self.throwError(nil, withMessage: json[0]["error"] as? String)
+                            self.requestComplete()
+                            return
+                        }
+                    }
+                    
+                    let pokeArr = Pokemon.arrayFromJsonData(json)
+                    Pokemon.Pokedex = pokeArr
+                    self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(self.DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
+                    self.currentDatatask?.resume()
+                } else {
+                    self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
+                }
+                self.requestComplete()
+            }
+            temp.resume()
+        } else {
+            self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
+            self.currentDatatask?.resume()
+        }
+        
     }
     
     /**

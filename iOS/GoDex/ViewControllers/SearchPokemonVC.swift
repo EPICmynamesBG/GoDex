@@ -138,14 +138,16 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         self.mapView.addAnnotation(pin)
     }
     
-    private func dropPinsOnLocations(coorArr: [CLLocationCoordinate2D]) {
+    private func dropPinsOnLocations(coorArr: [CLLocationCoordinate2D], pokeArr: [Pokemon]) {
         //clear old set first
         self.mapView.removeAnnotations(self.mapView.annotations)
         var pinArr = [MKPointAnnotation]()
-        for coor in coorArr {
-            let pin: PokePin = PokePin(pokemon: self.selectedPokemon!)
-            pin.coordinate = coor
-            pinArr.append(pin)
+        for pokemon in pokeArr {
+            if (pokemon.coordinate != nil){
+                let pin: PokePin = PokePin(pokemon: pokemon)
+                pin.coordinate = pokemon.coordinate!
+                pinArr.append(pin)
+            }
         }
         self.mapView.addAnnotations(pinArr)
         
@@ -235,10 +237,10 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         //start the search!
     }
     
-    private func userSelectedPokemon(pokemon: Pokemon) {
+    private func userSelectedPokemon(pokemon: Pokemon?) {
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.selectedPokemon = pokemon
-        self.networkRequest.pokemonPinsLookup(self.selectedPokemon!)
+        self.networkRequest.pokemonPinsLookup(self.selectedPokemon)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -270,6 +272,8 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (Pokemon.validate(self.searchTextField.text)){
             self.userSelectedPokemon(Pokemon.byName(self.searchTextField.text!)!)
+        } else {
+            self.userSelectedPokemon(nil)
         }
         textField.resignFirstResponder()
         return true
@@ -312,7 +316,8 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         self.mapView.showsUserLocation = true
         LocationManager.sharedInstance().delegate = nil
         if self.selectedPokemon == nil {
-            self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
+//            self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
+            self.userSelectedPokemon(nil)
         } else {
             self.userSelectedPokemon(self.selectedPokemon!)
         }
@@ -347,16 +352,16 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         self.autoCompleteTableView.reloadData()
     }
     
-    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
+    func RequestManagerLookupResults(results: [CLLocationCoordinate2D]?, pokeArr: Array<Pokemon>?) {
         if (results == nil ||
-            results?.count == 0) {
+            pokeArr == nil) {
             if (self.selectedPokemon != nil) {
                 self.showNotification("Whoops, there weren't any locations found for \(self.selectedPokemon!.name).", onComplete: nil)
             } else {
-                self.showNotification("Whoops, there weren't any locations found for this pokemon.", onComplete: nil)
+                self.showNotification("Whoops, there weren't any locations found.", onComplete: nil)
             }
         } else {
-            self.dropPinsOnLocations(results!)
+            self.dropPinsOnLocations(results!, pokeArr: pokeArr!)
         }
     }
     
