@@ -8,7 +8,7 @@ module.exports = function(app, express) {
   var geolib = require('geolib');
 
   var spammers = [];
-  
+
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
@@ -131,10 +131,8 @@ module.exports = function(app, express) {
           var indexOfUUID = spammers.indexOf(req.params.uuid);
           var enoughPosts = foundPost[4] != null;
 
-          console.log("Enought Posts: " + enoughPosts);
           if (enoughPosts && indexOfUUID == -1) {
             if (timeStamp - foundPost[4].time <= 60000) {
-              console.log("Too Many!");
               spammers.push(req.params.uuid);
               res.json([{error: "Something looks fishy. Your device has been blocked temporarily for spam. Try again later!"}]);
               return;
@@ -142,7 +140,6 @@ module.exports = function(app, express) {
           }
           else if (enoughPosts && indexOfUUID !== -1) {
             if (timeStamp - foundPost[4].time >= 600000) {
-              console.log("OK, now!");
               spammers.splice(indexOfUUID, 1);
             } else {
               res.json([{error: "Something looks fishy. Your device has been blocked temporarily for spam. Try again later!"}]);
