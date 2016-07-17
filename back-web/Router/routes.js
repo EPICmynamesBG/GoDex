@@ -7,6 +7,8 @@ module.exports = function(app, express) {
   var Feedback = require('../Model/feedback.js')(mongoose);
   var geolib = require('geolib');
 
+  var spammers = [];
+
   mongoose.connect('mongodb://52.7.61.252:27017/godex');
 
   router.use(function(req, res, next) {
@@ -123,18 +125,36 @@ module.exports = function(app, express) {
           res.send(err);
         }
 
-        CaughtPokemon.findOne({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
+        CaughtPokemon.find({'uuid': req.params.uuid }, {}, {sort: {'time': -1}}, function(err, foundPost) {
           var timeLimit = 30000; //30 seconds, until the user can make another post
           var timeStamp = Date.now();
+          var indexOfUUID = spammers.indexOf(req.params.uuid);
+          var enoughPosts = foundPost[4] != null;
 
-          if (foundPost != null) {
+          if (enoughPosts && indexOfUUID == -1) {
+            if (timeStamp - foundPost[4].time <= 60000) {
+              spammers.push(req.params.uuid);
+              res.json([{error: "Something looks fishy. Your device has been blocked temporarily for spam. Try again later!"}]);
+              return;
+            }
+          }
+          else if (enoughPosts && indexOfUUID !== -1) {
+            if (timeStamp - foundPost[4].time >= 600000) {
+              spammers.splice(indexOfUUID, 1);
+            } else {
+              res.json([{error: "Something looks fishy. Your device has been blocked temporarily for spam. Try again later!"}]);
+              return;
+            }
+          }
+
+          if (foundPost[0] != null) {
             //Distance is represented in meters
             var distance = geolib.getDistance(
-              {'latitude': foundPost.geo_lat, 'longitude': foundPost.geo_long},
+              {'latitude': foundPost[0].geo_lat, 'longitude': foundPost[0].geo_long},
               {'latitude': req.params.geo_lat, 'longitude': req.params.geo_long});
             var distanceLimit = 63.6; //Equivalent to 1 acre
 
-            if (foundPost.pid == req.params.pokemon_id && timeStamp - foundPost.time <= timeLimit && distance <= distanceLimit) {
+            if (foundPost[0].pid == req.params.pokemon_id && timeStamp - foundPost[0].time <= timeLimit && distance <= distanceLimit) {
               res.json([{error: "Repeat sighting. Please try again later!"}]);
               return;
             }
@@ -159,7 +179,7 @@ module.exports = function(app, express) {
           } else {
             res.json([{error: "Pokemon ID does not exist"}]);
           }
-        });
+        }).limit(5);
       });
     });
 
