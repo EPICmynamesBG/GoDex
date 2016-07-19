@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
+/// A Custom Pokemon label to be used with the Pokemon font
 class PokeLabel: UILabel {
     
+    /**
+     *  The default values for a PokeLabel
+     */
     private struct Defaults {
         private static let BorderRadius: CGFloat = 6.0
         private static let BorderWidth: CGFloat = 0.9
@@ -29,6 +33,9 @@ class PokeLabel: UILabel {
         self.setup()
     }
     
+    /**
+     Configure the label's border, corner radius
+     */
     private func setup() {
         self.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.57)
         self.borderWidth = Defaults.BorderWidth
@@ -37,10 +44,12 @@ class PokeLabel: UILabel {
         self.numberOfLines = 0
     }
     
+    // Forces label to calculate size with the insets (aka padding)
     override func drawTextInRect(rect: CGRect) {
         super.drawTextInRect(UIEdgeInsetsInsetRect(rect, Defaults.Insets))
     }
     
+    // Helper in forcing label size to include insets (aka padding)
     override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         var currentRect = super.textRectForBounds(UIEdgeInsetsInsetRect(bounds, Defaults.Insets), limitedToNumberOfLines: 0)
         currentRect.origin.x -= Defaults.Insets.left

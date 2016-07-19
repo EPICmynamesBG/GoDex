@@ -12,12 +12,16 @@ import CoreLocation
 
 class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
     
+    /// The controller this view is embedded in
     var parent: SightingVC?
+    
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var disclaimerButton: UIButton!
     @IBOutlet weak var feedbackTextView: UITextView!
     @IBOutlet weak var sendFeedbackButton: UIButton!
     
+    /// The network call manager
     private var networker: RequestManager!
     
     override func viewDidLoad() {
@@ -49,6 +53,8 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
         self.feedbackTextView.resignFirstResponder()
     }
     
+    /* ---- Button tap actions ---- */
+    
     @IBAction func closeTap(sender: UIButton) {
         self.parent?.hideInfoView()
     }
@@ -58,14 +64,11 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
         self.submitFeedback()
     }
     
-    
-//    @IBAction func donationTap(sender: UIButton) {
-//        UIApplication.sharedApplication().openURL(NSURL(string: ""))
-//    }
-    
     @IBAction func disclaimerTap(sender: UIButton) {
         UIApplication.sharedApplication().openURL(NSURL(string: "http://godex.io/policy")!)
     }
+    
+    /* --- Text View Delegate funcs ---- */
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         let bottom = CGPoint(x: 0, y: self.feedbackTextView.frame.origin.y - 60.0)
@@ -87,6 +90,11 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
         }
     }
     
+    /* --- Custom funcs ---- */
+    
+    /**
+     Submit feedback, display UIAlertController appropriately on success/failure
+     */
     private func submitFeedback() {
         if (self.feedbackTextView.text != nil &&
             self.feedbackTextView.text?.characters.count > 0){
@@ -115,14 +123,20 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
         }
     }
     
-    func disableFeedbackButton() {
+    /**
+     Disables the Feedback button, Animated
+     */
+    private func disableFeedbackButton() {
         self.sendFeedbackButton.enabled = false
         UIView.animateWithDuration(0.3) { 
             self.sendFeedbackButton.alpha = 0.3
         }
     }
     
-    func enableFeedbackButton() {
+    /**
+     Enable the feedback button, Animated
+     */
+    private func enableFeedbackButton() {
         UIView.animateWithDuration(0.3, animations: { 
             self.sendFeedbackButton.alpha = 1.0
             }) { (Bool) in
