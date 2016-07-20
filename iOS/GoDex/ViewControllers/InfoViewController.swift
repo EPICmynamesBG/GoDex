@@ -126,7 +126,7 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
     /**
      Disables the Feedback button, Animated
      */
-    private func disableFeedbackButton() {
+    func disableFeedbackButton() {
         self.sendFeedbackButton.enabled = false
         UIView.animateWithDuration(0.3) { 
             self.sendFeedbackButton.alpha = 0.3
@@ -136,7 +136,7 @@ class InfoViewController: UIViewController, UITextViewDelegate, UIGestureRecogni
     /**
      Enable the feedback button, Animated
      */
-    private func enableFeedbackButton() {
+    func enableFeedbackButton() {
         UIView.animateWithDuration(0.3, animations: { 
             self.sendFeedbackButton.alpha = 1.0
             }) { (Bool) in
