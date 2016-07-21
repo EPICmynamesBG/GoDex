@@ -88,7 +88,7 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     /**
      Inherited function.
      
-     - parameter animated: <#animated description#>
+     - parameter animated: inherited
      */
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
@@ -266,7 +266,8 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     }
     
     /**
-     Should always be called when auser indicates/selects a Pokemon to view
+     Should always be called when auser indicates/selects a Pokemon to view.
+     Sets the self.selectedPokemon value, starts the pin drop process
      
      - parameter pokemon: a Pokemon
      */
@@ -348,6 +349,12 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         textField.resignFirstResponder()
     }
     
+    /**
+     Called by textField eveytime the inner text changes.
+     This causes the filter function to run
+     
+     - parameter sender: the search textField
+     */
     @IBAction func textDidChange(sender: UITextField) {
         //TODO: Filter results here
         if (sender.text?.characters.count >= 1){

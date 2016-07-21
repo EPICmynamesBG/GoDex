@@ -88,35 +88,37 @@ class RequestManager {
      */
     func getPokemonList() {
         let url = BASE_URL + "/AllPokemon/Enabled"
-        
+        print("HERE")
         self.sendRequestWithOptions(.GET, withURL: url, withBodyData: nil, onSuccess: { (json) in
+            print("HERE2")
             let pokeArr = Pokemon.arrayFromJsonData(json)
             Pokemon.Pokedex = pokeArr
             NSOperationQueue.mainQueue().addOperationWithBlock({ 
                 self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
             })
         }) { (error:NSError?) in
+            print(error?.code, error?.domain)
             self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
         }
     }
     
-    /**
-     Send a GET request to get the array of all pokemon
-     */
-    func getPokemonListThenPerformAction(action: () -> Void) {
-        let url = BASE_URL + "/AllPokemon/Enabled"
-        
-        self.sendRequestWithOptions(.GET, withURL: url, withBodyData: nil, onSuccess: { (json) in
-            let pokeArr = Pokemon.arrayFromJsonData(json)
-            Pokemon.Pokedex = pokeArr
-            action()
-            NSOperationQueue.mainQueue().addOperationWithBlock({
-                self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
-            })
-        }) { (error:NSError?) in
-            self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
-        }
-    }
+//    /**
+//     Send a GET request to get the array of all pokemon
+//     */
+//    func getPokemonListThenPerformAction(action: () -> Void) {
+//        let url = BASE_URL + "/AllPokemon/Enabled"
+//        
+//        self.sendRequestWithOptions(.GET, withURL: url, withBodyData: nil, onSuccess: { (json) in
+//            let pokeArr = Pokemon.arrayFromJsonData(json)
+//            Pokemon.Pokedex = pokeArr
+//            action()
+//            NSOperationQueue.mainQueue().addOperationWithBlock({
+//                self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
+//            })
+//        }) { (error:NSError?) in
+//            self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
+//        }
+//    }
     
    
     
@@ -230,7 +232,7 @@ class RequestManager {
                 let jsonData = try NSJSONSerialization.dataWithJSONObject(body!, options: .PrettyPrinted)
                 request.HTTPBody = jsonData
             } catch {
-                onError?(NSError(domain: NSParseErrorException, code: 0, userInfo: nil))
+                onError?(nil)
                 return
             }
         }
@@ -275,18 +277,8 @@ class RequestManager {
             self.timeoutTimer?.invalidate()
         }
         
-        if (Pokemon.Pokedex == nil) {
-            let cachedRequest = self.currentDatatask
-            self.getPokemonListThenPerformAction({ 
-                self.currentDatatask = cachedRequest
-                self.startTheRequest()
-            })
-            
-        } else {
-            self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
-            self.currentDatatask?.resume()
-        }
-        
+        self.timeoutTimer = NSTimer.scheduledTimerWithTimeInterval(DEFAULT_TIMEOUT, target: self, selector: #selector(self.requestTimeout), userInfo: nil, repeats: false)
+        self.currentDatatask?.resume()
     }
     
     /**
