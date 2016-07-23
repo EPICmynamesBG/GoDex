@@ -60,10 +60,6 @@ class RequestManager {
         case POST = "POST"
         case PUT = "PUT"
         case DELETE = "DELETE"
-        
-        static func ToString() -> String {
-            return self.RawValue() 
-        }
     }
     
     
@@ -87,10 +83,8 @@ class RequestManager {
      Send a GET request to get the array of all pokemon
      */
     func getPokemonList() {
-        let url = BASE_URL + "/AllPokemon/Enabled"
-        print("HERE")
+        let url = BASE_URL + "/AllPokemon"
         self.sendRequestWithOptions(.GET, withURL: url, withBodyData: nil, onSuccess: { (json) in
-            print("HERE2")
             let pokeArr = Pokemon.arrayFromJsonData(json)
             Pokemon.Pokedex = pokeArr
             NSOperationQueue.mainQueue().addOperationWithBlock({ 
@@ -101,26 +95,6 @@ class RequestManager {
             self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
         }
     }
-    
-//    /**
-//     Send a GET request to get the array of all pokemon
-//     */
-//    func getPokemonListThenPerformAction(action: () -> Void) {
-//        let url = BASE_URL + "/AllPokemon/Enabled"
-//        
-//        self.sendRequestWithOptions(.GET, withURL: url, withBodyData: nil, onSuccess: { (json) in
-//            let pokeArr = Pokemon.arrayFromJsonData(json)
-//            Pokemon.Pokedex = pokeArr
-//            action()
-//            NSOperationQueue.mainQueue().addOperationWithBlock({
-//                self.delegate?.RequestManagerPokemonListRecieved(pokeArr)
-//            })
-//        }) { (error:NSError?) in
-//            self.throwError(error, withMessage: "We weren't able to load the Pokemon list")
-//        }
-//    }
-    
-   
     
     /**
      Send a POST request to the database submitting catch data
@@ -224,7 +198,7 @@ class RequestManager {
         
         let nsurl = NSURL(string: url)!
         let request = NSMutableURLRequest(URL: nsurl)
-        request.HTTPMethod = RequestType.ToString()
+        request.HTTPMethod = requestType.rawValue
         //if body data to send, add it
         if body != nil {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
