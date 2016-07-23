@@ -3,7 +3,14 @@ a companion to PokemonGO that allows players to see where certain Pokemon can be
 
 ## Website ##
 
-[GoDex.io][http://godex.io]
+[GoDex.io](http://godex.io)
+
+## Demo/Examples ##
+
+![GoDex1](https://github.com/EPICmynamesBG/GoDex/blob/master/demo/GoDex1.png)
+![GoDex2](https://github.com/EPICmynamesBG/GoDex/blob/master/demo/GoDex2.png)
+![GoDex3](https://github.com/EPICmynamesBG/GoDex/blob/master/demo/GoDex3.png)
+![GoDex0](https://github.com/EPICmynamesBG/GoDex/blob/master/demo/GoDex0.png)
 
 ## Developed By ##
 
