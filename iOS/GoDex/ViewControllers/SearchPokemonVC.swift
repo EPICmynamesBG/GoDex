@@ -19,20 +19,18 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var notificationLabel: UILabel!
     
-    static let DEFAULT_ZOOM = 0.05
-    static let MAX_ZOOM = 0.0005
-    static let FULL_ZOOM_OUT = 16.0
-    //Nintendo HQ, USA
-    static let DEFAULT_COORDINATE = CLLocationCoordinate2D(latitude: 47.6513757, longitude: -122.141262)
-    
+    /// the filtered Pokedex used for the search/filter bar
     private var filteredArray:[Pokemon] = [Pokemon]()
     
+    /// the user's selected Pokemon
     private var selectedPokemon: Pokemon?
     
+    /// the API request object
     private var networkRequest: RequestManager!
-    
+    /// the timer for hiding the notification toast
     private var notificationTimer: NSTimer? = nil
     
+    // Inherited override - sets the background and other basic setup
     override func viewDidLoad() {
         super.viewDidLoad()
         // set the background
@@ -55,6 +53,12 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     Inherited function. Handles making sure Pokedex is populated,
+     showing the user on the map, and showing the `no contribution` banner
+     
+     - parameter animated: inherited
+     */
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if (Pokemon.Pokedex == nil){
@@ -81,17 +85,19 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         }
     }
     
+    /**
+     Inherited function.
+     
+     - parameter animated: inherited
+     */
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-//        self.mapView.showsUserLocation = true
-//        LocationManager.sharedInstance().delegate = self
-//        LocationManager.sharedInstance().getCurrentLocation()
         LocationManager.sharedInstance().delegate = nil
         self.dismissNotification(nil)
     }
     
     /**
-     Hides the keyboard when tapped outside
+     Hides the keyboard when background tapped
      */
     @objc func backgroundTap() {
         self.searchTextField.resignFirstResponder()
@@ -131,22 +137,22 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     
     /* ---- Map Handling --- */
     
-    
-    private func dropPinOnLocation(coordinates: CLLocationCoordinate2D) {
-        let pin: PokePin = PokePin(pokemon: self.selectedPokemon!)
-        pin.coordinate = coordinates
-        self.mapView.removeAnnotation(pin)
-        self.mapView.addAnnotation(pin)
-    }
-    
-    private func dropPinsOnLocations(coorArr: [CLLocationCoordinate2D]) {
+    /**
+     Drop Pokemon pins on the map
+     
+     - parameter coorArr: the array of coordinates that corresponds with the Pokemon Array
+     - parameter pokeArr: the array of Pokemon to show
+     */
+    private func dropPinsOnLocations(coorArr: [CLLocationCoordinate2D], pokeArr: [Pokemon]) {
         //clear old set first
         self.mapView.removeAnnotations(self.mapView.annotations)
         var pinArr = [MKPointAnnotation]()
-        for coor in coorArr {
-            let pin: PokePin = PokePin(pokemon: self.selectedPokemon!)
-            pin.coordinate = coor
-            pinArr.append(pin)
+        for pokemon in pokeArr {
+            if (pokemon.coordinate != nil){
+                let pin: PokePin = PokePin(pokemon: pokemon)
+                pin.coordinate = pokemon.coordinate!
+                pinArr.append(pin)
+            }
         }
         self.mapView.addAnnotations(pinArr)
         
@@ -154,11 +160,19 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
             let zoom = self.calculateZoomRadius(LocationManager.sharedInstance().lastRecievedCoordinates!, coordinateArray: coorArr)
             self.zoomOnLocation(zoom.CenterPoint, withCoorSpan: zoom.ZoomSpan)
         } else {
-            let zoom = self.calculateZoomRadius(SearchPokemonVC.DEFAULT_COORDINATE, coordinateArray: coorArr)
+            let zoom = self.calculateZoomRadius(LocationManager.DEFAULT_COORDINATE, coordinateArray: coorArr)
             self.zoomOnLocation(zoom.NearestPin, withCoorSpan: zoom.ZoomSpan)
         }
     }
     
+    /**
+     Calculates the zoom radius between the user and the nearest coordinate in the array
+     
+     - parameter userCoor:        the user's coordinate
+     - parameter coordinateArray: the array of Pokemon coordinates
+     
+     - returns: the calculated CenterPoint, span of zoom, and the nearest found Pokemon  pin (coordinate)
+     */
     private func calculateZoomRadius(userCoor: CLLocationCoordinate2D, coordinateArray: [CLLocationCoordinate2D]) -> (CenterPoint: CLLocationCoordinate2D, ZoomSpan: MKCoordinateSpan, NearestPin: CLLocationCoordinate2D) {
         var nearestCoor: CLLocationCoordinate2D? = nil
         
@@ -183,17 +197,25 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         return (center, span, nearestCoor!)
     }
     
-    func zoomOnLocation(coordinates: CLLocationCoordinate2D, withZoomRadius radius: Double) {
-        let span = MKCoordinateSpan(latitudeDelta: radius, longitudeDelta: radius)
-        let region: MKCoordinateRegion = MKCoordinateRegion(center: coordinates, span: span)
-        self.mapView.setRegion(region, animated: true)
-    }
-    
+    /**
+     Perform a map zoom on a coordinate given a coordinate span
+     
+     - parameter coordinates: the coordinate to center the map on
+     - parameter span:        the span/region to show
+     */
     func zoomOnLocation(coordinates: CLLocationCoordinate2D, withCoorSpan span: MKCoordinateSpan) {
         let region: MKCoordinateRegion = MKCoordinateRegion(center: coordinates, span: span)
         self.mapView.setRegion(region, animated: true)
     }
     
+    /**
+     Inheritance function override. Used to give PokePins their custom Pokemon images
+     
+     - parameter mapView:    the view's mapView
+     - parameter annotation: the annotation (aka pin)
+     
+     - returns: an annotationView
+     */
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if  annotation as? PokePin == nil{
             return nil
@@ -225,6 +247,13 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     
     /* ---- Table View Delegate ---- */
     
+    /**
+     Used to handle cell taps. On tap, will call userSelectedPokemon with
+     the cell (aka pokemon) that was tapped
+     
+     - parameter tableView: the affected tableView
+     - parameter indexPath: the indexPath to the tapped cell
+     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let tappedCell = tableView.cellForRowAtIndexPath(indexPath)
         if (tappedCell != nil) {
@@ -236,16 +265,24 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         //start the search!
     }
     
-    private func userSelectedPokemon(pokemon: Pokemon) {
+    /**
+     Should always be called when auser indicates/selects a Pokemon to view.
+     Sets the self.selectedPokemon value, starts the pin drop process
+     
+     - parameter pokemon: a Pokemon
+     */
+    private func userSelectedPokemon(pokemon: Pokemon?) {
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.selectedPokemon = pokemon
-        self.networkRequest.pokemonPinsLookup(self.selectedPokemon!)
+        self.networkRequest.pokemonPinsLookup(self.selectedPokemon)
     }
     
+    // TableView delegate function
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.filteredArray.count
     }
     
+    // Table view delegate function - sets the data for each tableView cell
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: indexPath) as! PokemonTableViewCell
         
@@ -259,6 +296,12 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     
     /* ---- Text Field Delegate ---- */
     
+    /**
+     Delegate function. Sets up the dropdown and shows it when 
+     textField is selected
+     
+     - parameter textField: the search textField
+     */
     func textFieldDidBeginEditing(textField: UITextField) {
         self.selectedPokemon = nil
         if (Pokemon.Pokedex != nil){
@@ -268,24 +311,50 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         self.showDropdown()
     }
     
+    /**
+     textField delegate func. Called on `Return` keyboard tap.
+     Runs the same commands as a table cell tap, calling userSelectedPokemon
+     if the text in the field is a validated Pokemon
+     
+     - parameter textField: the search field
+     
+     - returns: true
+     */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if (Pokemon.validate(self.searchTextField.text)){
             self.userSelectedPokemon(Pokemon.byName(self.searchTextField.text!)!)
+        } else {
+            self.userSelectedPokemon(nil)
         }
         textField.resignFirstResponder()
         return true
     }
     
+    /**
+     textField delegate function. Hides the dropdown and tells the textField
+     to hide the keyboard
+     
+     - parameter textField: the search textField
+     
+     - returns: true
+     */
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
         textField.resignFirstResponder()
         return true
     }
     
+    // textField delegate function. Ensures the textField gives up the keyboard
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
     }
     
+    /**
+     Called by textField eveytime the inner text changes.
+     This causes the filter function to run
+     
+     - parameter sender: the search textField
+     */
     @IBAction func textDidChange(sender: UITextField) {
         //TODO: Filter results here
         if (sender.text?.characters.count >= 1){
@@ -309,28 +378,43 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
     
     /* ---- Location Manager Delegate ---- */
     
+    /**
+     Delegate func. Called by LocationManager when the user's location is recieved.
+     Handles calling userSelectedPokemon if self.selectedPokemon is set
+     
+     - parameter location:    the user's current location
+     - parameter coordinates: the user's location coordinates
+     */
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
         self.mapView.showsUserLocation = true
         LocationManager.sharedInstance().delegate = nil
         if self.selectedPokemon == nil {
-            self.zoomOnLocation(coordinates, withZoomRadius: SearchPokemonVC.DEFAULT_ZOOM)
+            self.userSelectedPokemon(nil)
         } else {
             self.userSelectedPokemon(self.selectedPokemon!)
         }
         
     }
     
+    /**
+     Delegate func. Called by LocationManager when an error getting the user's location occurs.
+     Displays a meaningful message
+     
+     - parameter error:   optional error object
+     - parameter message: optional human discernable message
+     */
     func locationManagerUpdateError(error: NSError?, message: String?) {
-//        if (message != nil){
-//            self.showNotification("\(message!).\nAre location services enabled?", onComplete: nil)
-//        } else {
-//            self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
-//        }
         self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
     }
     
     /* ----- Request Manager Delegate ---- */
     
+    /**
+     Called by RequestManager when an error occurs. Shows a notification
+     
+     - parameter error:   optional error object
+     - parameter message: optional human discernable message
+     */
     func RequestManagerError(error: NSError?, withMessage message: String?) {
         if (message != nil) {
             self.showNotification("Whoops, did the Internet break?\n\(message!)", onComplete: nil)
@@ -339,25 +423,38 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         }
     }
     
+    // Delegate function - not implemented in this view
     func RequestManagerCatchSubmitted() {
         //Not applicable in this view
     }
     
+    /**
+     Called by Reqeust Manager when the Pokedex is recieved
+     
+     - parameter pokemonArray: the Pokedex
+     */
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
         self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
     }
     
-    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
+    /**
+     Called by Request Manager when Pokemon location lookup data is
+     recieved and processed.
+     
+     - parameter results: the array of Pokemon coordinates, corresponding to the Pokemon array
+     - parameter pokeArr: the array of Pokemon
+     */
+    func RequestManagerLookupResults(results: [CLLocationCoordinate2D]?, pokeArr: Array<Pokemon>?) {
         if (results == nil ||
-            results?.count == 0) {
+            pokeArr == nil) {
             if (self.selectedPokemon != nil) {
                 self.showNotification("Whoops, there weren't any locations found for \(self.selectedPokemon!.name).", onComplete: nil)
             } else {
-                self.showNotification("Whoops, there weren't any locations found for this pokemon.", onComplete: nil)
+                self.showNotification("Whoops, there weren't any locations found.", onComplete: nil)
             }
         } else {
-            self.dropPinsOnLocations(results!)
+            self.dropPinsOnLocations(results!, pokeArr: pokeArr!)
         }
     }
     

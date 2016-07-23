@@ -10,7 +10,7 @@ import UIKit
 
 class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
     
-    
+    // Customize the appearance of the tab bar
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -28,9 +28,7 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.tintColor = ColorPalette.TabBarTextSelectedColor
     }
     
-    
-    
-    
+    // Built in function, manipulated to provide the left/right slide effect on tab change
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         
         

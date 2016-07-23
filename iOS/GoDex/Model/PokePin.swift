@@ -12,6 +12,7 @@ import MapKit
 /// Implementation of MKPointAnnotation
 class PokePin: MKPointAnnotation {
     
+    /// The Pokemon this pin represents
     var pokemon: Pokemon? = nil
     
     convenience init(pokemon: Pokemon) {

@@ -24,6 +24,9 @@ class PokemonTableViewCell: UITableViewCell {
         self.setup()
     }
     
+    /**
+     Configure some default settings, including background color, text color, and font
+     */
     private func setup() {
         self.backgroundColor = UIColor.clearColor()
         self.textLabel?.textColor = ColorPalette.DropdownTextColor

@@ -101,8 +101,16 @@ public extension UIView {
     
 }
 
+// MARK: - Add scaling and clear image creation
 public extension UIImage {
     
+    /**
+     Scale an image to a selected frame
+     
+     - parameter frame: the final image frame/size
+     
+     - returns: the scaled image
+     */
     func scaleToFit(frame: CGRect) -> UIImage {
         
         let scale = frame.width / self.size.width
@@ -115,6 +123,13 @@ public extension UIImage {
         return newImage
     }
     
+    /**
+     Creates a clear/transparent (placeholder) image
+     
+     - parameter frame: size of the clear image
+     
+     - returns: the clear image
+     */
     func clearImage(frame: CGRect) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 0)
         let blank = UIGraphicsGetImageFromCurrentImageContext()

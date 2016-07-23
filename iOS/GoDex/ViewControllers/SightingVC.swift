@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, LocationManagerDelegate, RequestManagerDelegate {
+class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate, LocationManagerDelegate, RequestManagerDelegate {
 
     
     /* Storyboard linked items */
@@ -22,23 +22,22 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBOutlet weak var notificationLabel: PokeLabel!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var embeddedInfoView: UIView!
-    
     @IBOutlet weak var headerTextBox: PokeLabel!
     
-    
-    
+    /// the API request object
     private var networkRequest: RequestManager!
-    
+    /// the user's selected Pokemon
     private var selectedPokemon: Pokemon?
-    
+    /// the default image below the seach bar, a Pokeball
     private var defaultPokemonImage: UIImage!
-    
+    /// the filtered Pokedex used for the search/filter bar
     private var filteredArray:[Pokemon] = [Pokemon]()
-    
+    /// the timer for hiding the notification toast
     private var notificationTimer: NSTimer? = nil
-    
+    /// the info screen overlay's container view
     private var infoView: InfoViewController? = nil
     
+    // Inherited override - sets background and other basic setup
     override func viewDidLoad() {
         super.viewDidLoad()
         //set the background
@@ -63,6 +62,12 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     Inherited function. Handles making sure Pokedex is populated,
+     and settings the initial button state
+     
+     - parameter animated: inherited
+     */
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if (Pokemon.Pokedex == nil){
@@ -93,13 +98,18 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
+    /**
+     Inherited function.
+     
+     - parameter animated: inherited
+     */
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         self.hideInfoView()
     }
     
     /**
-     Hides the keyboard when tapped outside
+     Hides the keyboard when background tapped
      */
     @objc func backgroundTap() {
         self.searchTextField.resignFirstResponder()
@@ -149,10 +159,19 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.showNotification("Submitting...", onComplete: nil)
     }
     
+    /**
+     Action event fired by the info button. Fires the 
+     showInfoView function
+     
+     - parameter sender: event sender, info button
+     */
     @IBAction func infoButtonTap(sender: UIButton) {
         self.showInfoView()
     }
     
+    /**
+     Show the info overlay with a fade animation
+     */
     func showInfoView() {
         self.embeddedInfoView.alpha = 0.0
         self.embeddedInfoView.hidden = false
@@ -170,6 +189,9 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    /**
+     Hide the info view with a fade out animation
+     */
     func hideInfoView() {
         UIView.animateWithDuration(0.7, animations: {
             self.embeddedInfoView.alpha = 0.0
@@ -232,6 +254,12 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.dismissNotification(nil)
     }
     
+    /**
+     Should always be called when auser indicates/selects a Pokemon to view.
+     Sets the self.selectedPokemon value, loads the pokemonImageView image
+     
+     - parameter pokemon: a Pokemon
+     */
     private func userSelectedPokemon(pokemon: Pokemon) {
         self.selectedPokemon = pokemon
         AsyncImageLoader.LoadImage(self.selectedPokemon!.imageUrl, onComplete: { (image:UIImage) in
@@ -268,6 +296,13 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     /* ---- Table View Delegate ---- */
     
+    /**
+     Used to handle cell taps. On tap, will call userSelectedPokemon with
+     the cell (aka pokemon) that was tapped
+     
+     - parameter tableView: the affected tableView
+     - parameter indexPath: the indexPath to the tapped cell
+     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let tappedCell = tableView.cellForRowAtIndexPath(indexPath)
@@ -279,10 +314,12 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.searchTextField.resignFirstResponder()
     }
     
+    // TableView delegate function
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.filteredArray.count
     }
     
+    // Table view delegate function - sets the data for each tableView cell
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: indexPath) as! PokemonTableViewCell
 
@@ -296,6 +333,12 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     /* ---- Text Field Delegate ---- */
     
+    /**
+     Delegate function. Sets up the dropdown and shows it when
+     textField is selected
+     
+     - parameter textField: the search textField
+     */
     func textFieldDidBeginEditing(textField: UITextField) {
         let bottom = CGPoint(x: 0, y: self.searchTextField.frame.origin.y - 40.0)
         self.scrollView.setContentOffset(bottom, animated: true)
@@ -305,11 +348,28 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.disableSubmitButton()
     }
     
+    /**
+     textField delegate func. Called on `Return` keyboard tap.
+     Runs the same commands as a table cell tap, calling userSelectedPokemon
+     if the text in the field is a validated Pokemon
+     
+     - parameter textField: the search field
+     
+     - returns: true
+     */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
+    /**
+     textField delegate function. Hides the dropdown and tells the textField
+     to hide the keyboard
+     
+     - parameter textField: the search textField
+     
+     - returns: true
+     */
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
         self.scrollView.setContentOffset(CGPointZero, animated: true)
@@ -323,6 +383,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         return true
     }
     
+    // textField delegate function. Ensures the textField gives up the keyboard
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
         if (self.searchTextField.text == "" &&
@@ -332,6 +393,12 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    /**
+     Called by textField eveytime the inner text changes.
+     This causes the filter function to run
+     
+     - parameter sender: the search textField
+     */
     @IBAction func textDidChange(sender: UITextField) {
         if (sender.text?.characters.count >= 1){
             self.filteredArray = Pokemon.filter(sender.text!)
@@ -353,12 +420,6 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         self.autoCompleteTableView.reloadData()
     }
     
-    /* ---- Scroll View Delegate ---- */
-    
-//    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-//        self.searchTextField.resignFirstResponder()
-//    }
-    
     /* ---- Gesture Recognizer Delegate - user to ensure the tableview recieves it's taps */
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
@@ -372,23 +433,38 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     /* ---- Location Manager Delegate ---- */
     
+    /**
+     Delegate func. Called by LocationManager when the user's location is recieved.
+     Handles calling userSelectedPokemon if self.selectedPokemon is set
+     
+     - parameter location:    the user's current location
+     - parameter coordinates: the user's location coordinates
+     */
     func locationManagerCurrentLocationRecieved(location: CLLocation, coordinates: CLLocationCoordinate2D) {
         LocationManager.sharedInstance().delegate = nil
         //continue with the request submission
         self.networkRequest.submitACatch(self.selectedPokemon!, coordinates: coordinates)
     }
     
+    /**
+     Delegate func. Called by LocationManager when an error getting the user's location occurs.
+     Displays a meaningful message
+     
+     - parameter error:   optional error object
+     - parameter message: optional human discernable message
+     */
     func locationManagerUpdateError(error: NSError?, message: String?) {
-//        if (message != nil){
-//            self.showNotification("\(message!).\nAre location services enabled?", onComplete: nil)
-//        } else {
-//            self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
-//        }
         self.showNotification("Hmm, we couldn't get your location.\nAre location services enabled?", onComplete: nil)
     }
     
     /* ----- Request Manager Delegate ---- */
     
+    /**
+     Called by RequestManager when an error occurs. Shows a notification
+     
+     - parameter error:   optional error object
+     - parameter message: optional human discernable message
+     */
     func RequestManagerError(error: NSError?, withMessage message: String?) {
         if (message != nil) {
             self.showNotification("Whoops, did the Internet break?\n\(message!)", onComplete: nil)
@@ -398,6 +474,9 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
+    /**
+     The RequestManager delegate callback for a catch/sighting submission success
+     */
     func RequestManagerCatchSubmitted() {
         self.showNotification("We caught it! Thanks for contributing!", onComplete: nil)
         self.selectedPokemon = nil
@@ -418,16 +497,27 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
+    /**
+     Called by Reqeust Manager when the Pokedex is recieved
+     
+     - parameter pokemonArray: the Pokedex
+     */
     func RequestManagerPokemonListRecieved(pokemonArray: Array<Pokemon>) {
         self.filteredArray = Pokemon.Pokedex!
         self.autoCompleteTableView.reloadData()
     }
     
-    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?) {
+    // Delegate funciton - not implemented in this view
+    func RequestManagerLookupResults(results: Array<CLLocationCoordinate2D>?, pokeArr: [Pokemon]?) {
         //Not applicable in this view
     }
     
-    
+    /**
+     Inherited override - sets the parent property on the embedded InfoView
+     
+     - parameter segue:  inherited
+     - parameter sender: inherited
+     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "embeddedInfoView") {
             let destVC = segue.destinationViewController as! InfoViewController
