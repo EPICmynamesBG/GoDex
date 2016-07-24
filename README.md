@@ -26,6 +26,8 @@ a companion to PokemonGO that allows players to see where certain Pokemon can be
 
 [Amy Street](http://amymstreet.com/) - Design
 
+[Luke Hochgesang](https://www.linkedin.com/in/lukehochgesang) - Legal
+
 ### iOS Info ###
 
 Developed using XCode 7.3.1, Swift 2.0
