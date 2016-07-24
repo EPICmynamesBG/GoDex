@@ -13,6 +13,7 @@ class SettingsManager {
     
     private struct Defaults {
         static let FIRST_SUBMIT: String = "FIRST_SUBMIT"
+        static let DATA_SAVER: String = "DATA_SAVER"
     }
     
     /**
@@ -34,7 +35,7 @@ class SettingsManager {
      - author: io.godex
      - date: 16-07-18 09:07
      
-     - returns: <#return value description#>
+     - returns: Bool
      */
     class func HasFirstSubmitBeenMade() -> Bool {
         let defaults = NSUserDefaults.standardUserDefaults()

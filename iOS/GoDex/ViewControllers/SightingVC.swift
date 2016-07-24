@@ -262,11 +262,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      */
     private func userSelectedPokemon(pokemon: Pokemon) {
         self.selectedPokemon = pokemon
-        AsyncImageLoader.LoadImage(self.selectedPokemon!.imageUrl, onComplete: { (image:UIImage) in
-            self.pokemonImageView.image = image.scaleToFit(self.pokemonImageView.frame)
-        }) { (error:NSError?, message:String?) in
-            self.showNotification(message!, onComplete: nil)
-        }
+        self.pokemonImageView.image = self.selectedPokemon!.image
     }
     
     /**
@@ -372,7 +368,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
      */
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         self.hideDropdown()
-        self.scrollView.setContentOffset(CGPointZero, animated: true)
+        self.scrollView.setContentOffset(CGPointZero, animated: false)
         if (Pokemon.validate(textField.text)) {
             self.userSelectedPokemon(Pokemon.byName(textField.text!)!)
             self.enableSubmitButton()
@@ -380,6 +376,7 @@ class SightingVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             self.disableSubmitButton()
         }
         textField.resignFirstResponder()
+        
         return true
     }
     

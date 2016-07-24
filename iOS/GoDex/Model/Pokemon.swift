@@ -21,6 +21,13 @@ struct Pokemon {
     var name: String
     /// the url for the Pokemon's image
     var imageUrl:String
+    /// the locally saved image for the Pokemon
+    var image: UIImage? {
+        get {
+            let temp = String(format: "%03d", self.id)
+            return UIImage(named: temp)
+        }
+    }
     
     /// Optional: When mapping, the coordinate this Pokemon was sighted at
     var coordinate: CLLocationCoordinate2D?

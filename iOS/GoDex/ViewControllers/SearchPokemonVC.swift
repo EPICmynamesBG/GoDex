@@ -236,11 +236,8 @@ class SearchPokemonVC: UIViewController, MKMapViewDelegate, UITextFieldDelegate,
         //the view is dequeued or created...
         
         let cpa = annotation as! PokePin
-        AsyncImageLoader.LoadImage(cpa.pokemon!.imageUrl, onComplete: { (image: UIImage) in
-            anView?.image = image.scaleToFit(CGRect(x: 0, y: 0, width: 32, height: 32))
-        }) { (error:NSError?, message:String?) in
-                //stuff
-        }
+        anView?.image = cpa.pokemon!.image!.scaleToFit(CGRect(x: 0, y: 0, width: 32, height: 32))
+        
         
         return anView
     }

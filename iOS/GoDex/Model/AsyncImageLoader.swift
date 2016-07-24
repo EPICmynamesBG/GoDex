@@ -12,7 +12,7 @@ import UIKit
 /**
  *  @author io.godex, 16-07-18 09:07
  *
- *  Simple struct for Async Image loading
+ *  *Depracated* Simple struct for Async Image loading
  */
 struct AsyncImageLoader {
     
